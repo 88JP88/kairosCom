@@ -84,10 +84,15 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
            
-            $query= mysqli_query($conectar,"INSERT INTO generalProducts (productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct) VALUES ('$productId','$clientId','$productName','$description','$ean1','$ean2','$sku','$productType','$inPrice','$providerId','$imgUrl','$techSpef')");
-            echo "true|¡Producto creado con exito!";
-     
+            $query = mysqli_query($conectar, "INSERT INTO generalProducts (productId, clientId, productName, description, ean1, ean2, sku, productType, inPrice, providerId, imgProduct, spcProduct) VALUES ('$productId', '$clientId', '$productName', '$description', '$ean1', '$ean2', '$sku', '$productType', '$inPrice', '$providerId', '$imgUrl', '$techSpef')");
 
+            if ($query) {
+                echo "true|¡Producto creado con éxito!";
+            } else {
+                // Si hay un error, imprime el mensaje de error
+                echo "false|" . mysqli_error($conectar);
+            }
+            
            
      
 
