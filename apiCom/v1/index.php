@@ -24,7 +24,7 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
 
         $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->dom();
+        $sub_domain=$sub_domaincon->domKairos();
         $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
       
         $data = array(
@@ -110,9 +110,6 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-Flight::route('POST /postProduct1/@apk/@xapk', function ($apk,$xapk) {
-  echo "hello";
-});
 
 
 
