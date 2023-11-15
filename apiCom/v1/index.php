@@ -425,7 +425,7 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
     $headers = getallheaders();
     
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (isset($headers['Api-Key']) && isset($headers['x-api-Key'])) {
+    if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
        
         // Acceder a los encabezados
