@@ -100,7 +100,7 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
         
            // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            echo 'false|¡Autenticación fallida!'.$response11;
            // echo json_encode($data);
         }
     } else {
