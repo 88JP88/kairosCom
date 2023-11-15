@@ -419,7 +419,7 @@ Flight::route('POST /postCategorie/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-Flight::route('GET /getCalendarTime/@filter/@param', function ($filter,$param) {
+Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -471,40 +471,45 @@ Flight::route('GET /getCalendarTime/@filter/@param', function ($filter,$param) {
            
             $conectar=conn();
             
-          if($param=="all"){
+          if($filter=="all"){
 
           
            
-                $query= mysqli_query($conectar,"SELECT registId,calendarTime,clientId,status,isActive,notApply,userApply,timeId FROM calendarTime where registId='$filter'");
+                $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,an2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive FROM generalProducts where clientId='$clientId'");
         }
          
-        if($param=="admin"){
+     
+if($filter!="all"){
 
           
            
-            $query= mysqli_query($conectar,"SELECT registId,calendarTime,clientId,status,isActive,notApply,userApply,timeId FROM calendarTime where registId='$filter' and status= 1 and isActive=1");
-    }
+    $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,an2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive FROM generalProducts where clientId='$clientId' and $param='$value'");
+
+
+}
+
+
+
                 $values=[];
           
                 while($row = $query->fetch_assoc())
                 {
-                    $cid=$row['clientId'];
-                    $calid=$row['timeId'];
-                    $query1= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId NOT IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$calid') and r.clientId='$cid' and r.status=1 and r.isActive=1");
-                    $row1 = mysqli_fetch_assoc($query1);
-                    $counterId = $row1['counterId'];
-
+                   
                         $value=[
-                            'registId' => $row['registId'],
-                            'userApply' => $row['userApply'],
+                            'productId' => $row['productId'],
                             'clientId' => $row['clientId'],
-                            'status' => $row['status'],
-                            'isActive' => $row['isActive'],
-                            'calendarTime' => $row['calendarTime'],
-                            'notApply' => $row['notApply'],
+                            'productName' => $row['productName'],
+                            'description' => $row['description'],
+                            'ean1' => $row['ean1'],
+                            'ean2' => $row['ean2'],
+                            'sku' => $row['sku'],
                             
-                            'timeId' => $row['timeId'],
-                            'counterId' => $counterId
+                            'productType' => $row['productType'],
+                            'inPrice' => $row['inPrice'],
+                            'providerId' => $row['providerId'],
+                            'imgProduct' => $row['imgProduct'],
+                            'spcProduct' => $row['spcProduct'],
+                            'isActive' => $row['isActive']
                         ];
                         
                         array_push($values,$value);
@@ -512,7 +517,7 @@ Flight::route('GET /getCalendarTime/@filter/@param', function ($filter,$param) {
                 }
                 $row=$query->fetch_assoc();
                 //echo json_encode($students) ;
-                echo json_encode(['calendarTime'=>$values]);
+                echo json_encode(['products'=>$values]);
           
                
            
