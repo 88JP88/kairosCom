@@ -110,6 +110,10 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
 
 
+Flight::route('POST /postProduct1/@apk/@xapk', function ($apk,$xapk) {
+  echo "hello";
+});
+
 
 
 Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
