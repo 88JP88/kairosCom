@@ -391,7 +391,7 @@ Flight::route('POST /postCategorie/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
            
-            $query = mysqli_query($conectar, "INSERT INTO generalCategories (catId, clientId, catName, comments, parentId) VALUES ('$categoryId', '$clientId', '$categoryName', '$comments', '$parentId','$categoryType')");
+            $query = mysqli_query($conectar, "INSERT INTO generalCategories (catId, clientId, catName, comments, parentId,catType) VALUES ('$categoryId', '$clientId', '$categoryName', '$comments', '$parentId','$categoryType')");
 
             if ($query) {
                 echo "true|¡Categoria creada con éxito!";
