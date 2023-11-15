@@ -475,7 +475,7 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
 
           
            
-                $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,an2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive FROM generalProducts where clientId='$clientId'");
+                $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive FROM generalProducts where clientId='$clientId'");
         }
          
      
@@ -483,7 +483,7 @@ if($filter!="all"){
 
           
            
-    $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,an2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive FROM generalProducts where clientId='$clientId' and $param='$value'");
+    $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive FROM generalProducts where clientId='$clientId' and $param='$value'");
 
 
 }
