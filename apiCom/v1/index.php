@@ -119,7 +119,7 @@ Flight::route('POST /postProduct1/@apk/@xapk', function ($apk,$xapk) {
 Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
   
     header("Access-Control-Allow-Origin: *");
-    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    // Verificar si los e ncabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
         // Leer los datos de la solicitud
        
