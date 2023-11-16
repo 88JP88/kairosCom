@@ -733,7 +733,7 @@ if($filter=="all"){
 
           
            
-    $query= mysqli_query($conectar,"SELECT storeId,storeName,comments,isActive,storeType FROM generalStores where clientId='$clientId'");
+    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType FROM generalStores where clientId='$clientId'");
 
 
 }
