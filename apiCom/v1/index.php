@@ -649,7 +649,7 @@ if ($query) {
                             'unitQty' => $row['unitQty'],
                             'unitUnit' => $row['unitUnit'],
                             'storeName' => $row['storeName'],
-                            'categoryName' => $row['categoryName'],
+                            'categoryName' => $row['vatName'],
                             'description' => $row['description'],
                             'imgProduct' => $row['imgProduct'],
                             'spcProduct' => $row['spcProduct']
