@@ -533,6 +533,140 @@ if($filter!="all"){
 
 
 
+Flight::route('GET /getCatalogs/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+    header("Access-Control-Allow-Origin: *");
+    // Leer los encabezados
+    $headers = getallheaders();
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (isset($headers['Api-Key']) ) {
+        // Leer los datos de la solicitud
+       
+        // Acceder a los encabezados
+        $apiKey = $headers['Api-Key'];
+        $xApiKey = $headers['x-api-Key'];
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
+      
+        $data = array(
+          'apiKey' =>$apiKey, 
+          'xApiKey' => $xApiKey
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 == 'true' ) {
+           
+
+
+
+           
+            $conectar=conn();
+            
+        
+         
+     
+if($filter=="all"){
+
+          
+           
+    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId  where ca.clientId='$clientId'");
+
+
+}
+if($filter!="all"){
+
+          
+           
+    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId  where ca.clientId='$clientId' and ca.$param='$value'");
+
+
+}
+
+
+                $values=[];
+          
+                while($row = $query->fetch_assoc())
+                {
+                   
+                        $value=[
+                            'productId' => $row['productId'],
+                            'clientId' => $row['clientId'],
+                            'productName' => $row['productName'],
+                            'catalogId' => $row['catalogId'],
+                            'categoryId' => $row['categoryId'],
+                            'stock' => $row['stock'],
+                            'secStock' => $row['secStock'],
+                            
+                            'minQty' => $row['minQty'],
+                            'maxQty' => $row['maxQty'],
+                            'storeId' => $row['storeId'],
+                            'outPrice' => $row['outPrice'],
+                            'promoId' => $row['promoId'],
+                            'isActive' => $row['isActive'],
+                            'discount' => $row['discount'],
+                            'isPromo' => $row['isPromo'],
+                            'isDiscount' => $row['isDiscount'],
+                            'isEcommerce' => $row['isEcommerce'],
+                            'isPos' => $row['isPos'],
+                            'isInternal' => $row['isInternal'],
+                            'isStocked' => $row['isStocked'],
+                            'unit' => $row['unit'],
+                            'readUnit' => $row['readUnit'],
+                            'unitQty' => $row['unitQty'],
+                            'unitUnit' => $row['unitUnit'],
+                            'storeName' => $row['storeName'],
+                            'categoryName' => $row['categoryName'],
+                            'productName' => $row['productName'],
+                            'description' => $row['description'],
+                            'imgProduct' => $row['imgProduct'],
+                            'spcProduct' => $row['spcProduct']
+
+                        ];
+                        
+                        array_push($values,$value);
+                        
+                }
+                $row=$query->fetch_assoc();
+                //echo json_encode($students) ;
+                echo json_encode(['catalogs'=>$values]);
+          
+               
+           
+
+        } else {
+            echo 'Error: Autenticación fallida';
+             //echo json_encode($response1);
+        }
+    } else {
+        echo 'Error: Encabezados faltantes';
+    }
+});
+
+
+
 
 Flight::route('GET /getClientRooms/@filter/@timeid', function ($filter,$timeid) {
     header("Access-Control-Allow-Origin: *");
