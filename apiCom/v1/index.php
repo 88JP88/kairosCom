@@ -1001,15 +1001,15 @@ Flight::route('POST /putProduct/@apk/@xapk', function ($apk,$xapk) {
          
             $conectar=conn();
 
-           if($param="isEcommerce" && $value="1" || $param="isPos" && $value="1"){
+           if($param=="isEcommerce" && $value=="1" || $param=="isPos" && $value=="1"){
             $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isStocked=0,isInternal=0 where clientId='$clientId' and productId='$productId'");
 
            }
-           if($param="isStocked" && $value="1"){
+           if($param=="isStocked" && $value=="1"){
             $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isEcommerce=0,isPos=0,isInternal=0 where clientId='$clientId' and productId='$productId'");
 
            }
-           if($param="isInternal" && $value="1"){
+           if($param=="isInternal" && $value=="1"){
             $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isEcommerce=0,isPos=0,isStocked=0 where clientId='$clientId' and productId='$productId'");
 
            }else{
