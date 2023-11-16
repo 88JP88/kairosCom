@@ -622,7 +622,7 @@ if ($query) {
                 while($row = $query->fetch_assoc())
                 {
                    
-                      /*  $value=[
+                        $value=[
                             'productId' => $row['productId'],
                             'clientId' => $row['clientId'],
                             'productName' => $row['productName'],
@@ -654,35 +654,8 @@ if ($query) {
                             'imgProduct' => $row['imgProduct'],
                             'spcProduct' => $row['spcProduct']
 
-                        ];*/
-                        $value=[
-                            'productId' => $row['productId'],
-                            'clientId' => $row['clientId'],
-                            
-                            'catalogId' => $row['catalogId'],
-                            'categoryId' => $row['categoryId'],
-                            'stock' => $row['stock'],
-                            'secStock' => $row['secStock'],
-                            
-                            'minQty' => $row['minQty'],
-                            'maxQty' => $row['maxQty'],
-                            'storeId' => $row['storeId'],
-                            'outPrice' => $row['outPrice'],
-                            'promoId' => $row['promoId'],
-                            'isActive' => $row['isActive'],
-                            'discount' => $row['discount'],
-                            'isPromo' => $row['isPromo'],
-                            'isDiscount' => $row['isDiscount'],
-                            'isEcommerce' => $row['isEcommerce'],
-                            'isPos' => $row['isPos'],
-                            'isInternal' => $row['isInternal'],
-                            'isStocked' => $row['isStocked'],
-                            'unit' => $row['unit'],
-                            'readUnit' => $row['readUnit'],
-                            'unitQty' => $row['unitQty'],
-                            'unitUnit' => $row['unitUnit']
-
                         ];
+                        
                         array_push($values,$value);
                         
                 }
