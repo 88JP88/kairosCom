@@ -653,8 +653,8 @@ if ($query) {
                 }
                 $row=$query->fetch_assoc();
                 //echo json_encode($students) ;
-                echo json_encode(['catalogs'=>$values]);
-          
+               // echo json_encode(['catalogs'=>$values]);
+          echo "hh";
                
                 
                 } else {
