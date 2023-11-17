@@ -803,14 +803,19 @@ if($filter=="all"){
 
 }
 
-if($filter!="all"){
+if($filter=="browser"){
+
+          
+    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and keyWords LIKE('%$value%')");
+
+}
+
+else{
 
           
     $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and $param='$value'");
 
 }
-
-
 
 if ($query) {
 
