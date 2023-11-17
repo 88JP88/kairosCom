@@ -921,7 +921,7 @@ if($filter=="all"){
 if($filter=="browser"){
 
           
-    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE (%'$value'%)");
+    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE (%$value%)");
 
 }
 else{
