@@ -810,7 +810,7 @@ if($filter=="browser"){
 
 }
 
-else{
+if($filter=!"all" && $filter!= "browser"){
 
           
     $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and $param='$value'");
