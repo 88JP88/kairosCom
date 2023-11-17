@@ -486,7 +486,7 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
         
         
         }
-else{
+if($filter=="filter"){
 
           
            
