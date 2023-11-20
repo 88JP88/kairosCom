@@ -605,7 +605,7 @@ if($filter=="all"){
 
 }
 
-if($filter!="all"){
+
 
           
   
@@ -668,7 +668,7 @@ else{
 
 
 }
-}
+
 
 
 
