@@ -660,7 +660,7 @@ if($filter=="browser"){
 
 }
 
-else{
+if($filter=="filter"){
 
           
            
