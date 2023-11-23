@@ -197,7 +197,7 @@ Flight::route('POST /postCatalog/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
            
-            $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount, isPromo,isDiscount,isEcommerce,isPos,isInternal,isStocked,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,$isPromo,$isDiscount,$isEcommerce,$isPos,$isInternal,$isStocked,'$unit','$readUnit',$unitQty,'$unitUnit')");
+            $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,$isPromo,$isDiscount,$isEcommerce,$isPos,$isInternal,$isStocked,'$unit','$readUnit',$unitQty,'$unitUnit')");
 
             if ($query) {
                 echo "true|¡Catalogo creado con éxito!";
