@@ -1160,6 +1160,10 @@ Flight::route('POST /putCatalog/@apk/@xapk', function ($apk,$xapk) {
             $query = mysqli_query($conectar, "UPDATE generalCatalogs SET clientId='$clientId' where clientId='$clientId' and catalogId='$catalogId'");
 
            }
+           if($param=="del"){
+            $query = mysqli_query($conectar, "UPDATE generalCatalogs SET status=0 where clientId='$clientId' and catalogId='$catalogId'");
+
+           }
            else{
             $query = mysqli_query($conectar, "UPDATE generalCatalogs SET $param='$value' where clientId='$clientId' and catalogId='$catalogId'");
 
