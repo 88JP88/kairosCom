@@ -931,7 +931,8 @@ if($filter=="all"){
 
           
            
-    $query= mysqli_query($conectar,"SELECT c.catId,c.clientId,c.catName,c.comments,c.isActive,c.parentId,c.catType,c.keyWords,c2.catName as cName FROM generalCategories c JOIN generalCategories c2 ON c.catId=c2.catId  where c.clientId='$clientId'");
+    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
+   
 
 
 }
@@ -956,7 +957,15 @@ if ($query) {
           
                 while($row = $query->fetch_assoc())
                 {
-                   
+                    $cid=$row['parentId'];
+                    $query2= mysqli_query($conectar,"SELECT catName FROM generalCategories where catId ='$cid'");
+                    while($row1 = $query2->fetch_assoc())
+                    {
+                        $_SESSION['catName']=$row1['catName'];
+                       
+                            
+                    }
+                    $row=$query->fetch_assoc();
                         $value=[
                             'categoryId' => $row['catId'],
                             'categoryName' => $row['catName'],
@@ -966,7 +975,7 @@ if ($query) {
                             'clientId' => $row['clientId'],
                             'parentId' => $row['parentId'],
                             'keyWords' => $row['keyWords'],
-                            'parentName' => $row['cName']
+                            'parentName' => $_SESSION['catName']
                         ];
                         
                         array_push($values,$value);
