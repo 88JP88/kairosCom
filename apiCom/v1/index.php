@@ -931,7 +931,7 @@ if($filter=="all"){
 
           
            
-    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
+    $query= mysqli_query($conectar,"SELECT c.catId,c.clientId,c.catName,c.comments,c.isActive,c.parentId,c.catType,c.keyWords,c2.catName as cName FROM generalCategories c JOIN generalCategories c2 ON c.catId=c2.parentId  where clientId='$clientId'");
 
 
 }
@@ -965,7 +965,8 @@ if ($query) {
                             'categoryType' => $row['catType'],
                             'clientId' => $row['clientId'],
                             'parentId' => $row['parentId'],
-                            'keyWords' => $row['keyWords']
+                            'keyWords' => $row['keyWords'],
+                            'parentName' => $row['cName']
                         ];
                         
                         array_push($values,$value);
