@@ -965,7 +965,7 @@ if ($query) {
                        
                             
                     }
-                    //$row=$query->fetch_assoc();
+                    $row1=$query2->fetch_assoc();
                         $value=[
                             'categoryId' => $row['catId'],
                             'categoryName' => $row['catName'],
