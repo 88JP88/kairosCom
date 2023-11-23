@@ -959,8 +959,12 @@ if ($query) {
         // Obtenemos el nombre de la categoría una vez
         $cid = $row['parentId'];
         $query2 = mysqli_query($conectar, "SELECT catName FROM generalCategories where catId ='$cid'");
-        $row1 = $query2->fetch_assoc();
-        $_SESSION['catName'] = $row1['catName'];
+        if ($row1 = $query2->fetch_assoc()) {
+            // Guardar el valor en una variable de sesión
+            $_SESSION['catName'] = $row1['catName'];
+        }else{
+            $_SESSION['catName'] = "na";
+        }
     
         // Creamos el arreglo $value con todos los datos necesarios
         $value = [
