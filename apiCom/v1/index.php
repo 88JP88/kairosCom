@@ -171,12 +171,7 @@ Flight::route('POST /postCatalog/@apk/@xapk', function ($apk,$xapk) {
             $outPrice= Flight::request()->data->outPrice;
             $promoId= Flight::request()->data->promoId;
             $discount= Flight::request()->data->discount;
-            $isPromo= Flight::request()->data->isPromo;
-            $isDiscount= Flight::request()->data->isDiscount;
-            $isEcommerce= Flight::request()->data->isEcommerce;
-            $isPos= Flight::request()->data->isPos;
-            $isInternal= Flight::request()->data->isInternal;
-            $isStocked= Flight::request()->data->isStocked;
+          
             $unit= Flight::request()->data->unit;
             $readUnit= Flight::request()->data->readUnit;
             $unitQty= Flight::request()->data->unitQty;
@@ -197,7 +192,7 @@ Flight::route('POST /postCatalog/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
            
-            $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,$isPromo,$isDiscount,$isEcommerce,$isPos,$isInternal,$isStocked,'$unit','$readUnit',$unitQty,'$unitUnit')");
+            $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',$unitQty,'$unitUnit')");
 
             if ($query) {
                 echo "true|¡Catalogo creado con éxito!";
