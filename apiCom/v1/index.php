@@ -953,38 +953,33 @@ if($filter=="filter"){
 
 if ($query) {
 
-                $values=[];
-          
-                while($row = $query->fetch_assoc())
-                {
-                    $cid=$row['parentId'];
-                    $query2= mysqli_query($conectar,"SELECT catName FROM generalCategories where catId ='$cid'");
-                    while($row1 = $query2->fetch_assoc())
-                    {
-                        $_SESSION['catName']=$row1['catName'];
-                       
-                            
-                    }
-                    $row1=$query2->fetch_assoc();
-                        $value=[
-                            'categoryId' => $row['catId'],
-                            'categoryName' => $row['catName'],
-                            'comments' => $row['comments'],
-                            'isActive' => $row['isActive'],
-                            'categoryType' => $row['catType'],
-                            'clientId' => $row['clientId'],
-                            'parentId' => $row['parentId'],
-                            'keyWords' => $row['keyWords'],
-                            'parentName' => $_SESSION['catName']
-                        ];
-                        
-                        array_push($values,$value);
-                        
-                }
-                $row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-                echo json_encode(['categories'=>$values]);
-          
+    $values = [];
+
+    while ($row = $query->fetch_assoc()) {
+        // Obtenemos el nombre de la categoría una vez
+        $cid = $row['parentId'];
+        $query2 = mysqli_query($conectar, "SELECT catName FROM generalCategories where catId ='$cid'");
+        $row1 = $query2->fetch_assoc();
+        $_SESSION['catName'] = $row1['catName'];
+    
+        // Creamos el arreglo $value con todos los datos necesarios
+        $value = [
+            'categoryId' => $row['catId'],
+            'categoryName' => $row['catName'],
+            'comments' => $row['comments'],
+            'isActive' => $row['isActive'],
+            'categoryType' => $row['catType'],
+            'clientId' => $row['clientId'],
+            'parentId' => $row['parentId'],
+            'keyWords' => $row['keyWords'],
+            'parentName' => $_SESSION['catName']
+        ];
+    
+        array_push($values, $value);
+    }
+    
+    echo json_encode(['categories' => $values]);
+    
                
                 
                 } else {
