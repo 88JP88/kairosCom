@@ -661,10 +661,10 @@ if($filter=="internal"){
 if($filter=="browser"){
 
           
-    if($param=="productName" || $param=="productCaracts" || $param=="productType"){
+    if($param=="productName" || $param=="description"){
 $pefix="p";
     }
-    if($param=="catalogStock" || $param=="catalogValue" || $param=="catalogDiscount"){
+    if($param=="stock" || $param=="outPrice" || $param=="discount"){
         $pefix="ca";
             }
     if($st=="ecm" || $st=="ECM"){
