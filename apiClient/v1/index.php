@@ -1522,4 +1522,139 @@ Flight::route('POST /putCatalog/@apk/@xapk', function ($apk,$xapk) {
 
 
 
+Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+
+            $clientId= Flight::request()->data->clientId;
+            $cart= Flight::request()->data->cart;
+            $userId= Flight::request()->data->userId;
+            $fromIp= Flight::request()->data->fromIp;
+            $fromBrowser= Flight::request()->data->fromBrowser;
+         
+         
+            $gen_uuid = new generateUuid();
+            $myuuid = $gen_uuid->guidv4();
+         
+
+            $cartId = substr($myuuid, 0, 8);
+
+            $conectar=conn();
+            $data = json_decode($cart, true);
+            date_default_timezone_set('America/Bogota');
+$hora_actual_bogota = date('H:i:s');
+$fechaActual = gmdate('Y-m-d'); // Esto devuelve la fecha actual en formato 'YYYY-MM-DD'
+
+// Crea un objeto DateTime con la fecha actual en UTC
+$dateTimeUtc = new DateTime($fechaActual, new DateTimeZone('UTC'));
+
+// Establece la zona horaria a Bogotá
+$dateTimeUtc->setTimezone(new DateTimeZone('America/Bogota'));
+
+// Obtiene la fecha en la zona horaria de Bogotá
+$fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual en Bogotá
+
+            foreach ($data as $element) {
+                if (isset($element['item'])) {
+                    $item = $element['item'];
+            
+                                        
+                        $uniqueId= $item['uniqueId'];
+                        $productId= $item['productId'];
+                        $catalogId= $item['catalogId'];
+                        $outPrice= $item['outPrice'];
+                        $productQty= $item['productQty'];
+                        $discount= $item['discount'];
+                        $promotion= $item['promoId'];
+                        $salePrice= $item['productPrice'];
+                        $storeId= $item['storeId'];
+                        $categoryId= $item['categoryId'];
+                        $storeName= $item['storeName'];
+                        $categoryName= $item['categoryName'];
+                        $saver= $item['subTotalShopping']-$item['totalShopping'];
+
+                    $query = mysqli_query($conectar, "INSERT INTO posCar 
+                    (carId,clientId,uniqueId,productId,catalogId,outPrice,productQty,discount,promotion,salePrice,inDate,inTime,storeId,categoryId,storeName,categoryName,saver,userId,fromStore,fromIp,fromBrowser)
+                     VALUES
+                      ('$cartId','$clientId','$uniqueId','$productId','$catalogId',$salePrice,$productQty,$discount,'$promotion',$outPrice,'$hora_actual_bogota','$fechaBogota','$storeId','$categoryId','$storeName','$categoryName',$saver,'$userId','$storeName','$fromIp','$fromBrowser')");
+
+                }
+            }
+          
+               
+          
+           
+           
+          
+           
+            if ($query) {
+                echo "true|¡Orden creada con éxito!";
+            } else {
+                // Si hay un error, imprime el mensaje de error
+                echo "false|" . mysqli_error($conectar);
+            }
+            
+           
+     
+
+       
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
 Flight::start();
