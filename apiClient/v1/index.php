@@ -1613,7 +1613,7 @@ $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual e
                  
             
                                         
-                        $uniqueId= $item['item']['uniqueId'];
+                        $uniqueId= $item['uniqueId'];
                         $productId= $item['item']['productId'];
                         $catalogId= $item['item']['catalogId'];
                         $outPrice= $item['item']['outPrice'];
