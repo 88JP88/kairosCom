@@ -1593,7 +1593,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $decodedData = urldecode($cart);
 
             // Decodificar la cadena JSON a un array asociativo
-            $data = json_decode($decodedData, true);
+            $arrayData = json_decode($decodedData, true);
 
             date_default_timezone_set('America/Bogota');
 $hora_actual_bogota = date('H:i:s');
@@ -1608,12 +1608,12 @@ $dateTimeUtc->setTimezone(new DateTimeZone('America/Bogota'));
 // Obtiene la fecha en la zona horaria de Bogotá
 $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual en Bogotá
 
-            foreach ($data as $item) {
+            foreach ($arrayData as $item) {
                
                  
             
                                         
-                        $uniqueId= $item['uniqueId'];
+                        $uniqueId= $item['item']['uniqueId'];
                         $productId= $item['item']['productId'];
                         $catalogId= $item['item']['catalogId'];
                         $outPrice= $item['item']['outPrice'];
