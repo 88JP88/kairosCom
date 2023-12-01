@@ -1614,18 +1614,18 @@ $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual e
             
                                         
                         $uniqueId= $item['item']['uniqueId'];
-                        $productId= $item['productId'];
-                        $catalogId= $item['catalogId'];
-                        $outPrice= $item['outPrice'];
-                        $productQty= $item['productQty'];
-                        $discount= $item['discount'];
-                        $promotion= $item['promoId'];
-                        $salePrice= $item['productPrice'];
-                        $storeId= $item['storeId'];
-                        $categoryId= $item['categoryId'];
-                        $storeName= $item['storeName'];
-                        $categoryName= $item['categoryName'];
-                        $saver= $item['subTotalShopping']-$item['totalShopping'];
+                        $productId= $item['item']['productId'];
+                        $catalogId= $item['item']['catalogId'];
+                        $outPrice= $item['item']['outPrice'];
+                        $productQty= $item['item']['productQty'];
+                        $discount= $item['item']['discount'];
+                        $promotion= $item['item']['promoId'];
+                        $salePrice= $item['item']['productPrice'];
+                        $storeId= $item['item']['storeId'];
+                        $categoryId= $item['item']['categoryId'];
+                        $storeName= $item['item']['storeName'];
+                        $categoryName= $item['item']['categoryName'];
+                        $saver= $item['item']['subTotalShopping']-$item['item']['totalShopping'];
 
                     $query = mysqli_query($conectar, "INSERT INTO posCar (carId,clientId,uniqueId,productId,catalogId,outPrice,productQty,discount,promotion,salePrice,inDate,inTime,storeId,categoryId,storeName,categoryName,saver,userId,fromStore,fromIp,fromBrowser) VALUES ('$cartId','$clientId','$uniqueId','$productId','$catalogId',$salePrice,$productQty,$discount,'$promotion',$outPrice,'$hora_actual_bogota','$fechaBogota','$storeId','$categoryId','$storeName','$categoryName',$saver,'$userId','$storeName','$fromIp','$fromBrowser')");
 
