@@ -1648,13 +1648,13 @@ foreach ($arrayData as $item) {
             $saverTotal= $_SESSION['saverTotal'];
             $jsonData = json_encode($arrayData);
           //  $productName = $arrayData[0]['payment']['total'];
-          $query = mysqli_query($conectar, "INSERT INTO
-           generalOrders 
-           (orderId, carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus) 
-           VALUES
-            ('$orderId', '$cartId', '$clientId', '$userId', '$storeName', $storeId,$totalAmount,$subtotalAmount, 'CREATED', $saverTotal, '$fromIp', '$storeName', '$fromBrowser', '$jsonData','CASH',0,'PENDING')");
-      
-            echo "true|¡Orden creada con éxito!";
+          $query2 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId, carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus) VALUES ('$orderId', '$cartId', '$clientId', '$userId', '$storeName', $storeId,$totalAmount,$subtotalAmount, 'CREATED', $saverTotal, '$fromIp', '$storeName', '$fromBrowser', '$jsonData','CASH',0,'PENDING')");
+          if ($query2) {
+            echo "true|¡Orden creada con éxito!";}
+            else {
+                // Si hay un error, imprime el mensaje de error
+                echo "false|" . mysqli_error($conectar);
+            }
         } else {
             // Si hay un error, imprime el mensaje de error
             echo "false|" . mysqli_error($conectar);
