@@ -1634,18 +1634,18 @@ foreach ($arrayData as $item) {
             echo "Error al insertar datos: " . mysqli_error($conectar);
         }
     } else {
-        echo "No se encontró la clave 'item' en el elemento actual.";
+        if ($query) {
+            echo "true|¡Orden creada con éxito!";
+        } else {
+            // Si hay un error, imprime el mensaje de error
+            echo "false|" . mysqli_error($conectar);
+        }
     }
 }
 
            
            
-            if ($query) {
-                echo "true|¡Orden creada con éxito!";
-            } else {
-                // Si hay un error, imprime el mensaje de error
-                echo "false|" . mysqli_error($conectar);
-            }
+            
             
            
      
