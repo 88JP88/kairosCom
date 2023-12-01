@@ -1636,7 +1636,7 @@ foreach ($arrayData as $item) {
         }
     } else {
         if ($query) {
-            $productName = $arrayData[0]['payment']['total'];
+          //  $productName = $arrayData[0]['payment']['total'];
             echo "true|¡Orden creada con éxito !". $productName;
         } else {
             // Si hay un error, imprime el mensaje de error
