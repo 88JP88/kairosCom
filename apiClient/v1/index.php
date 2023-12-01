@@ -1605,31 +1605,37 @@ $dateTimeUtc->setTimezone(new DateTimeZone('America/Bogota'));
 $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual en Bogotá
 
 
-$decodedData = urldecode($cart);
 
-// Decodificar la cadena JSON a un array asociativo
+$decodedData = urldecode($cart);
 $arrayData = json_decode($decodedData, true);
 
-
 foreach ($arrayData as $item) {
-   
-    $uniqueId= $item['uniqueId'];
-    $productId= $item['item']['productId'];
-    $catalogId= $item['item']['catalogId'];
-    $outPrice= $item['item']['outPrice'];
-    $productQty= $item['item']['productQty'];
-    $discount= $item['item']['discount'];
-    $promotion= $item['item']['promoId'];
-    $salePrice= $item['item']['productPrice'];
-    $storeId= $item['item']['storeId'];
-    $categoryId= $item['item']['categoryId'];
-    $storeName= $item['item']['storeName'];
-    $categoryName= $item['item']['categoryName'];
-    $saver= $item['item']['subTotalShopping']-$item['item']['totalShopping'];
+    if (isset($item['item'])) {
+        $uniqueId= $item['item']['uniqueId'];
+        $productId= $item['item']['productId'];
+        $catalogId= $item['item']['catalogId'];
+        $outPrice= $item['item']['outPrice'];
+        $productQty= $item['item']['productQty'];
+        $discount= $item['item']['discount'];
+        $promotion= $item['item']['promoId'];
+        $salePrice= $item['item']['productPrice'];
+        $storeId= $item['item']['storeId'];
+        $categoryId= $item['item']['categoryId'];
+        $storeName= $item['item']['storeName'];
+        $categoryName= $item['item']['categoryName'];
+        $saver= $item['item']['subTotalShopping']-$item['item']['totalShopping'];
+        // Resto de tus variables aquí...
 
-$query = mysqli_query($conectar, "INSERT INTO posCar (carId,clientId,uniqueId,productId,catalogId,outPrice,productQty,discount,promotion,salePrice,inDate,inTime,storeId,categoryId,storeName,categoryName,saver,userId,fromStore,fromIp,fromBrowser) VALUES ('$cartId','$clientId','$uniqueId','$productId','$catalogId',$salePrice,$productQty,$discount,'$promotion',$outPrice,'$hora_actual_bogota','$fechaBogota','$storeId','$categoryId','$storeName','$categoryName',$saver,'$userId','$storeName','$fromIp','$fromBrowser')");
-
-   
+        // Tu consulta SQL aquí...
+        $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$hora_actual_bogota', '$fechaBogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
+        
+        // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
+        if (!$query) {
+            echo "Error al insertar datos: " . mysqli_error($conectar);
+        }
+    } else {
+        echo "No se encontró la clave 'item' en el elemento actual.";
+    }
 }
 
            
