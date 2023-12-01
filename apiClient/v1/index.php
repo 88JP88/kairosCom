@@ -1613,7 +1613,7 @@ $arrayData = json_decode($decodedData, true);
 
 foreach ($arrayData as $item) {
    
-    $uniqueId= $item['item']['uniqueId'];
+    $uniqueId= $item['uniqueId'];
     $productId= $item['item']['productId'];
     $catalogId= $item['item']['catalogId'];
     $outPrice= $item['item']['outPrice'];
