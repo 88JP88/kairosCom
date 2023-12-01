@@ -1604,7 +1604,7 @@ $dateTimeUtc->setTimezone(new DateTimeZone('America/Bogota'));
 // Obtiene la fecha en la zona horaria de Bogotá
 $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual en Bogotá
 
-            foreach ($cart as $element) {
+            foreach ($data as $element) {
                
                     $item = $element['item'];
             
