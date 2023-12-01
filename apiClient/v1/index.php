@@ -1636,7 +1636,6 @@ foreach ($arrayData as $item) {
         if (!$query) {
             echo "Error al insertar datos: " . mysqli_error($conectar);
         }
-    } else {
         if ($query) {
             
 
@@ -1674,6 +1673,8 @@ foreach ($arrayData as $item) {
             // Si hay un error, imprime el mensaje de error
             echo "false|" . mysqli_error($conectar);
         }
+    } else {
+       
     }
 }
 
