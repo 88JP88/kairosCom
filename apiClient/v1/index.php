@@ -1590,7 +1590,11 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $cartId = substr($myuuid, 0, 8);
 
             $conectar=conn();
-            $data = json_decode($cart, true);
+            $decodedData = urldecode($cart);
+
+            // Decodificar la cadena JSON a un array asociativo
+            $data = json_decode($decodedData, true);
+
             date_default_timezone_set('America/Bogota');
 $hora_actual_bogota = date('H:i:s');
 $fechaActual = gmdate('Y-m-d'); // Esto devuelve la fecha actual en formato 'YYYY-MM-DD'
