@@ -1579,6 +1579,9 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $fromIp= Flight::request()->data->fromIp;
             $fromBrowser= Flight::request()->data->fromBrowser;
          
+
+            require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
+           
          
             $gen_uuid = new generateUuid();
             $myuuid = $gen_uuid->guidv4();
