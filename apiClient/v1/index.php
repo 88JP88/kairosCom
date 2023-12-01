@@ -1590,11 +1590,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $cartId = substr($myuuid, 0, 8);
 
             $conectar=conn();
-            $decodedData = urldecode($cart);
-
-            // Decodificar la cadena JSON a un array asociativo
-            $arrayData = json_decode($decodedData, true);
-
+           
             date_default_timezone_set('America/Bogota');
 $hora_actual_bogota = date('H:i:s');
 $fechaActual = gmdate('Y-m-d'); // Esto devuelve la fecha actual en formato 'YYYY-MM-DD'
@@ -1608,35 +1604,35 @@ $dateTimeUtc->setTimezone(new DateTimeZone('America/Bogota'));
 // Obtiene la fecha en la zona horaria de Bogotá
 $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual en Bogotá
 
-            foreach ($arrayData as $item) {
-               
-                 
-            
-                                        
-                        $uniqueId= $item['item']['uniqueId'];
-                        $productId= $item['item']['productId'];
-                        $catalogId= $item['item']['catalogId'];
-                        $outPrice= $item['item']['outPrice'];
-                        $productQty= $item['item']['productQty'];
-                        $discount= $item['item']['discount'];
-                        $promotion= $item['item']['promoId'];
-                        $salePrice= $item['item']['productPrice'];
-                        $storeId= $item['item']['storeId'];
-                        $categoryId= $item['item']['categoryId'];
-                        $storeName= $item['item']['storeName'];
-                        $categoryName= $item['item']['categoryName'];
-                        $saver= $item['item']['subTotalShopping']-$item['item']['totalShopping'];
 
-                    $query = mysqli_query($conectar, "INSERT INTO posCar (carId,clientId,uniqueId,productId,catalogId,outPrice,productQty,discount,promotion,salePrice,inDate,inTime,storeId,categoryId,storeName,categoryName,saver,userId,fromStore,fromIp,fromBrowser) VALUES ('$cartId','$clientId','$uniqueId','$productId','$catalogId',$salePrice,$productQty,$discount,'$promotion',$outPrice,'$hora_actual_bogota','$fechaBogota','$storeId','$categoryId','$storeName','$categoryName',$saver,'$userId','$storeName','$fromIp','$fromBrowser')");
+$decodedData = urldecode($cart);
 
-                
-            }
-          
-               
-          
+// Decodificar la cadena JSON a un array asociativo
+$arrayData = json_decode($decodedData, true);
+
+
+foreach ($arrayData as $item) {
+   
+    $uniqueId= $item['item']['uniqueId'];
+    $productId= $item['item']['productId'];
+    $catalogId= $item['item']['catalogId'];
+    $outPrice= $item['item']['outPrice'];
+    $productQty= $item['item']['productQty'];
+    $discount= $item['item']['discount'];
+    $promotion= $item['item']['promoId'];
+    $salePrice= $item['item']['productPrice'];
+    $storeId= $item['item']['storeId'];
+    $categoryId= $item['item']['categoryId'];
+    $storeName= $item['item']['storeName'];
+    $categoryName= $item['item']['categoryName'];
+    $saver= $item['item']['subTotalShopping']-$item['item']['totalShopping'];
+
+$query = mysqli_query($conectar, "INSERT INTO posCar (carId,clientId,uniqueId,productId,catalogId,outPrice,productQty,discount,promotion,salePrice,inDate,inTime,storeId,categoryId,storeName,categoryName,saver,userId,fromStore,fromIp,fromBrowser) VALUES ('$cartId','$clientId','$uniqueId','$productId','$catalogId',$salePrice,$productQty,$discount,'$promotion',$outPrice,'$hora_actual_bogota','$fechaBogota','$storeId','$categoryId','$storeName','$categoryName',$saver,'$userId','$storeName','$fromIp','$fromBrowser')");
+
+   
+}
+
            
-           
-          
            
             if ($query) {
                 echo "true|¡Orden creada con éxito!";
