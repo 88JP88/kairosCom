@@ -1637,7 +1637,7 @@ foreach ($arrayData as $item) {
     } else {
         if ($query) {
           //  $productName = $arrayData[0]['payment']['total'];
-            echo "true|¡Orden creada con éxito !". $productName;
+            echo "true|¡Orden creada con éxito!";
         } else {
             // Si hay un error, imprime el mensaje de error
             echo "false|" . mysqli_error($conectar);
