@@ -1585,9 +1585,11 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
          
             $gen_uuid = new generateUuid();
             $myuuid = $gen_uuid->guidv4();
+            $myuuid1 = $gen_uuid->guidv4();
          
 
             $cartId = substr($myuuid, 0, 8);
+            $orderId = substr($myuuid1, 0, 8);
 
             $conectar=conn();
            
@@ -1608,7 +1610,9 @@ $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual e
 
 $decodedData = urldecode($cart);
 $arrayData = json_decode($decodedData, true);
-
+$_SESSION['totatlity']=0;
+$_SESSION['subtotatlity']=0;
+$_SESSION['saverTotal']=0;
 foreach ($arrayData as $item) {
     if (isset($item['item'])) {
         $uniqueId= $item['item']['uniqueId'];
@@ -1629,14 +1633,27 @@ foreach ($arrayData as $item) {
         // Tu consulta SQL aquí...
         $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$hora_actual_bogota', '$fechaBogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
         $query = mysqli_query($conectar, "UPDATE generalCatalogs SET stock= (SELECT stock FROM generalCatalogs where catalogId='$catalogId')-$productQty WHERE catalogId='$catalogId' and clientId='$clientId'");
-        
+        $_SESSION['totatlity']=$_SESSION['totatlity']+$outPrice;
+        $_SESSION['subtotatlity']=$_SESSION['subtotatlity']+$salePrice;
+        $_SESSION['saverTotal']=$saverTotal+ ($_SESSION['totatlity']-$_SESSION['subtotatlity']);
+
         // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
         if (!$query) {
             echo "Error al insertar datos: " . mysqli_error($conectar);
         }
     } else {
         if ($query) {
+            $totalAmount= $_SESSION['totatlity'];
+            $subtotalAmount= $_SESSION['subtotatlity'];
+            $saverTotal= $_SESSION['saverTotal'];
+            $jsonData = json_encode($arrayData);
           //  $productName = $arrayData[0]['payment']['total'];
+          $query = mysqli_query($conectar, "INSERT INTO
+           generalOrders 
+           (orderId, carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus) 
+           VALUES
+            ('$orderId', '$cartId', '$clientId', '$userId', '$storeName', $storeId,$totalAmount,$subtotalAmount, 'CREATED', $saverTotal, '$fromIp', '$storeName', '$fromBrowser', '$jsonData','CASH',0,'PENDING')");
+      
             echo "true|¡Orden creada con éxito!";
         } else {
             // Si hay un error, imprime el mensaje de error
