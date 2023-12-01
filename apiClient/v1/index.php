@@ -1640,18 +1640,7 @@ foreach ($arrayData as $item) {
         if ($query) {
             
 
-            $jsonData = json_encode($arrayData);
-            foreach ($arrayData as $item) {
-                if (isset($item['payment'])) {
-                    $total = $item['payment']['total'];
-                    $subTotal = $item['payment']['subTotal'];
-                    $saver = $item['payment']['saver'];
-                    // Resto de tus variables aquí...
-            
-                    // Tu consulta SQL aquí...
-                    $query = mysqli_query($conectar, "INSERT INTO generalOrders (orderId, carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus) VALUES ('$orderId', '$cartId', '$clientId', '$userId', '$userId', $storeName, $storeId, $total, '$subTotal','CREATED', '$saver', '$fromIp', '$fromStore', '$fromBrowser', '$jsonData', 'CASH',0, 'PENDING')");
-                    //$query = mysqli_query($conectar, "UPDATE generalCatalogs SET stock= (SELECT stock FROM generalCatalogs where catalogId='$catalogId')-$productQty WHERE catalogId='$catalogId' and clientId='$clientId'");
-                }}            
+                     
 
 
 
