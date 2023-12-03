@@ -1613,6 +1613,9 @@ $arrayData = json_decode($decodedData, true);
 $_SESSION['fTotal']=0;
 $_SESSION['fsTotal']=0;
 $_SESSION['fSaver']=0;
+$_SESSION['nProducts']=0;
+$_SESSION['nPacks']=0;
+$np=0;
 foreach ($arrayData as $item) {
     if (isset($item['item'])) {
         $uniqueId= $item['item']['uniqueId'];
@@ -1636,6 +1639,8 @@ foreach ($arrayData as $item) {
         $_SESSION['fTotal']=$_SESSION['fTotal']+$outPrice;
 $_SESSION['fsTotal']=$_SESSION['fsTotal']+$salePrice;
 $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
+$_SESSION['nPacks']=$_SESSION['nPacks']+$np++;
+$_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
         // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
         if (!$query) {
             echo "Error al insertar datos: " . mysqli_error($conectar);
@@ -1646,11 +1651,13 @@ $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
           $fTotal=  $_SESSION['fTotal'];
             $fsTotal=$_SESSION['fsTotal'];
             $fSaver=$_SESSION['fSaver'];
+            $npro=$_SESSION['nProducts'];
+            $npa=$_SESSION['nPacks'];
           //  $productName = $arrayData[0]['payment']['total'];
           $query1 = mysqli_query($conectar, "INSERT INTO generalOrders 
-          (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus)
+          (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks)
           VALUES 
-          ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fsTotal','$fTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
+          ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fsTotal','$fTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING','$npro','$npa')");
       if($query1){
         echo "true|¡Orden creada con éxito !";
       } else {
