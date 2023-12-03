@@ -1610,7 +1610,9 @@ $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual e
 
 $decodedData = urldecode($cart);
 $arrayData = json_decode($decodedData, true);
-
+$_SESSION['fTotal']=0;
+$_SESSION['fsTotal']=0;
+$_SESSION['fSaver']=0;
 foreach ($arrayData as $item) {
     if (isset($item['item'])) {
         $uniqueId= $item['item']['uniqueId'];
@@ -1631,18 +1633,21 @@ foreach ($arrayData as $item) {
         // Tu consulta SQL aquí...
         $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$hora_actual_bogota', '$fechaBogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
         $query = mysqli_query($conectar, "UPDATE generalCatalogs SET stock= (SELECT stock FROM generalCatalogs where catalogId='$catalogId')-$productQty WHERE catalogId='$catalogId' and clientId='$clientId'");
-        
+        $_SESSION['fTotal']=$_SESSION['fTotal']+$outPrice;
+$_SESSION['fsTotal']=$_SESSION['fsTotal']+$salePrice;
+$_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
         // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
         if (!$query) {
             echo "Error al insertar datos: " . mysqli_error($conectar);
         }
     } else {
         if ($query) {
+
+          $fTotal=  $_SESSION['fTotal'];
+            $fsTotal=$_SESSION['fsTotal'];
+            $fSaver=$_SESSION['fSaver'];
           //  $productName = $arrayData[0]['payment']['total'];
-          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders
-           (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus)
-           VALUES
-            ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId',12345, 12356, 'PENDING', 12345, '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
+          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders VALUES ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId',$fTotal, $fsTotal, 'PENDING',$fSaver, '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
       if($query1){
         echo "true|¡Orden creada con éxito !";
       } else {
