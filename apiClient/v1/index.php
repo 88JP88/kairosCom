@@ -1642,7 +1642,7 @@ foreach ($arrayData as $item) {
           $query1 = mysqli_query($conectar, "INSERT INTO generalOrders
            (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus)
            VALUES
-            ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId',12345, 12356, 'PENDING', 12345, '$fromIp', '$storeId', '$fromBrowser', '123', 'CASH', 0, 'PENDING')");
+            ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId',12345, 12356, 'PENDING', 12345, '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
       if($query1){
         echo "true|¡Orden creada con éxito !";
       } else {
