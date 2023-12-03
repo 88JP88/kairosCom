@@ -1650,7 +1650,7 @@ $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
           $query1 = mysqli_query($conectar, "INSERT INTO generalOrders 
           (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus)
           VALUES 
-          ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fTotal','$fsTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
+          ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fsTotal','$fTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
       if($query1){
         echo "true|¡Orden creada con éxito !";
       } else {
