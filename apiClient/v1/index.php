@@ -1639,7 +1639,7 @@ foreach ($arrayData as $item) {
         $_SESSION['fTotal']=$_SESSION['fTotal']+$outPrice;
 $_SESSION['fsTotal']=$_SESSION['fsTotal']+$salePrice;
 $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
-$_SESSION['nPacks']=$_SESSION['nPacks']+$np++;
+$_SESSION['nPacks']=$_SESSION['nPacks']+1;
 $_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
         // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
         if (!$query) {
