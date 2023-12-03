@@ -1585,9 +1585,11 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
          
             $gen_uuid = new generateUuid();
             $myuuid = $gen_uuid->guidv4();
+            $myuuid1 = $gen_uuid->guidv4();
          
 
             $cartId = substr($myuuid, 0, 8);
+            $orderId = substr($myuuid1, 0, 8);
 
             $conectar=conn();
            
@@ -1637,7 +1639,17 @@ foreach ($arrayData as $item) {
     } else {
         if ($query) {
           //  $productName = $arrayData[0]['payment']['total'];
-            echo "true|¡Orden creada con éxito !";
+          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders
+           (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus)
+           VALUES
+            ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId',12345, 12356, 'PENDING', 12345, '$fromIp', '$storeId', '$fromBrowser', '123', 'CASH', 0, 'PENDING')");
+      if($query1){
+        echo "true|¡Orden creada con éxito !";
+      } else {
+        // Si hay un error, imprime el mensaje de error
+        echo "false|" . mysqli_error($conectar);
+    }
+           
         } else {
             // Si hay un error, imprime el mensaje de error
             echo "false|" . mysqli_error($conectar);
