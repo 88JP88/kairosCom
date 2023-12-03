@@ -1647,7 +1647,7 @@ $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
             $fsTotal=$_SESSION['fsTotal'];
             $fSaver=$_SESSION['fSaver'];
           //  $productName = $arrayData[0]['payment']['total'];
-          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders VALUES ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId',$fTotal, $fsTotal, 'PENDING',$fSaver, '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
+          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders VALUES ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fTotal','$fsTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING')");
       if($query1){
         echo "true|¡Orden creada con éxito !";
       } else {
