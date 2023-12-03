@@ -1657,7 +1657,7 @@ $_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
           $query1 = mysqli_query($conectar, "INSERT INTO generalOrders 
           (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks)
           VALUES 
-          ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fsTotal','$fTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING','$npro','$npa')");
+          ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fTotal','$fsTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING','$npro','$npa')");
       if($query1){
         echo "true|¡Orden creada con éxito !";
       } else {
