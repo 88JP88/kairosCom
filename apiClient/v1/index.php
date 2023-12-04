@@ -1659,7 +1659,7 @@ $_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
           VALUES 
           ('$orderId', '$cartId', '$clientId', '$userId', '$userId', 'POS','$storeId','$fTotal','$fsTotal', 'PENDING','$fSaver', '$fromIp', '$storeId', '$fromBrowser', '$cart', 'CASH', 0, 'PENDING','$npro','$npa')");
       if($query1){
-        echo "true|¡Orden creada con éxito !";
+        echo "true|¡Orden creada con éxito!";
       } else {
         // Si hay un error, imprime el mensaje de error
         echo "false|" . mysqli_error($conectar);
