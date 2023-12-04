@@ -1647,7 +1647,7 @@ $_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
         }
     } else {
         if ($query) {
-$ar=json_encode($cart);
+$ar=json_encode($cart,true);
           $fTotal=  $_SESSION['fTotal'];
             $fsTotal=$_SESSION['fsTotal'];
             $fSaver=$_SESSION['fSaver'];
