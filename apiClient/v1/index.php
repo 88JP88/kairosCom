@@ -1773,7 +1773,7 @@ Flight::route('POST /postCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
             //$myuuid1 = $gen_uuid->guidv4();
          
 
-            $catalogIs = substr($myuuid, 0, 8);
+            $catalogId = substr($myuuid, 0, 8);
            // $orderId = substr($myuuid1, 0, 8);
 
             $conectar=conn();
