@@ -1816,6 +1816,9 @@ foreach ($arrayData as $item) {
         // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
         if (!$query) {
             echo "Error al insertar datos: " . mysqli_error($conectar);
+        }else{
+            
+        echo "true|¡Catálogo agregada con éxito!";
         }
     } else {
         echo "true|¡Catálogo agregada con éxito!";
