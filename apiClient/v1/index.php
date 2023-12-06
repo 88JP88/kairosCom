@@ -1769,11 +1769,7 @@ Flight::route('POST /postCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
            
          
             $gen_uuid = new generateUuid();
-            $myuuid = $gen_uuid->guidv4();
-            //$myuuid1 = $gen_uuid->guidv4();
-         
-
-            $catalogId = substr($myuuid, 0, 8);
+     
            // $orderId = substr($myuuid1, 0, 8);
 
             $conectar=conn();
@@ -1786,6 +1782,11 @@ $arrayData = json_decode($decodedData, true);
 
 foreach ($arrayData as $item) {
     if (isset($item['item'])) {
+        $myuuid = $gen_uuid->guidv4();
+        //$myuuid1 = $gen_uuid->guidv4();
+     
+
+        $catalogId = substr($myuuid, 0, 8);
         $clientId= $item['item']['clientId'];
         $productId= $item['item']['productId'];
         $categoryId= $item['item']['categoryId'];
