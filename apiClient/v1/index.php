@@ -1654,14 +1654,24 @@ $ar=json_encode($arrayData,true);
             $npro=$_SESSION['nProducts'];
             $npa=$_SESSION['nPacks'];
             $query3 = mysqli_query($conectar, "SELECT MAX(incId) as coId from generalOrders");
-       
-          //  $productName = $arrayData[0]['payment']['total'];
-         
-            // Obtener la primera fila como un arreglo asociativo
-            $fila = $query3->fetch_assoc();
-        
-            // Obtener el valor de la columna 'nombre_columna'
-            $valor = $fila['coId'];
+
+            // Verificar si la consulta fue exitosa
+            if ($query3) {
+                // Obtener la primera fila como un arreglo asociativo
+                $fila = $query3->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila) {
+                    // Obtener el valor de la columna 'coId'
+                    $valor = $fila['coId'];
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+                  //  echo "No se encontraron datos.";
+                }
+            } else {
+                echo "Error al ejecutar la consulta: " . mysqli_error($conectar);
+            }
+            
         
             // Mostrar o utilizar el valor
             
