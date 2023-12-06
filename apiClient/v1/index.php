@@ -1821,18 +1821,11 @@ foreach ($arrayData as $item) {
         echo "true|¡Catálogo agregada con éxito!";
         }
     } else {
-        echo "true|¡Catálogo agregada con éxito!";
+        echo "false|¡Catálogo agregada con éxito!";
     }
 }
 
-           
-           
-            
-            
-           
-     
-
-       
+          echo "true|".$decodedData; 
         
            // echo json_encode($response1);
         } else {
