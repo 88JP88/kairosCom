@@ -1807,6 +1807,7 @@ foreach ($arrayData as $item) {
         $unit= $item['item']['unit'];
         $readUnit= $item['item']['readUnit'];
         $unitUnit= $item['item']['unit'];
+        $isActive= $item['item']['isActive'];
         // Resto de tus variables aquí...
 
         // Tu consulta SQL aquí...
@@ -1833,9 +1834,9 @@ foreach ($arrayData as $item) {
 
                     if($product>=1 && $store>=1 && $cat>=1){
                         $query = mysqli_query($conectar, "INSERT INTO generalCatalogs 
-                        (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit,isPromo,isDiscount,isEcommerce,isPos,isInternal,isStocked) 
+                        (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit,isPromo,isDiscount,isEcommerce,isPos,isInternal,isStocked,isActive) 
                         VALUES
-                         ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',1,'$unitUnit',$isPromo,$isDiscount,$isEcommerce,$isPos,$isInternal,$isStocked)");
+                         ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',1,'$unitUnit',$isPromo,$isDiscount,$isEcommerce,$isPos,$isInternal,$isStocked,$isActive)");
                    
                     }
                    // echo "El valor máximo de incId es: " . $valor;
@@ -1854,6 +1855,157 @@ foreach ($arrayData as $item) {
 }}
 
           echo "true|¡Catálogo creado con éxito!"; 
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
+Flight::route('POST /putCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+            $bulk= Flight::request()->data->bulk;
+            $clientId= Flight::request()->data->clientId;
+         
+
+            require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
+           
+         
+            $gen_uuid = new generateUuid();
+     
+           // $orderId = substr($myuuid1, 0, 8);
+
+            $conectar=conn();
+           
+
+
+
+$decodedData = urldecode($bulk);
+$arrayData = json_decode($decodedData, true);
+
+foreach ($arrayData as $item) {
+    if (isset($item['item'])) {
+        $catalogId= $item['item']['catalogId'];
+       
+        $categoryId= $item['item']['categoryId'];
+        $stock= $item['item']['stock'];
+        $secStock= $item['item']['secStock'];
+        $minQty= $item['item']['minQty'];
+        $maxQty= $item['item']['maxQty'];
+        $storeId= $item['item']['storeId'];
+        $outPrice= $item['item']['outPrice'];
+        $promoId= $item['item']['promoId'];
+        $discount= $item['item']['discount'];
+        $isPromo= $item['item']['isPromo'];
+        $isDiscount= $item['item']['isDiscount'];
+        $isEcommerce= $item['item']['isEcommerce'];
+        $isPos= $item['item']['isPos'];
+        $isInternal= $item['item']['isInternal'];
+        $isStocked= $item['item']['isStocked'];
+        $unit= $item['item']['unit'];
+        $readUnit= $item['item']['readUnit'];
+        $unitUnit= $item['item']['unit'];
+        $isActive= $item['item']['isActive'];
+        // Resto de tus variables aquí...
+
+        // Tu consulta SQL aquí...
+
+
+
+        $query3 = mysqli_query($conectar, "SELECT COUNT(catalogId) as proId from generalCatalogs WHERE catalogId='$catalogId' AND clientId='$clientId'");
+        $query4 = mysqli_query($conectar, "SELECT COUNT(storeId) as stId from generalStores WHERE storeId='$storeId' AND clientId='$clientId'");
+        $query5 = mysqli_query($conectar, "SELECT COUNT(catId) as catId from generalCategories WHERE catId='$categoryId' AND clientId='$clientId'");
+
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila = $query3->fetch_assoc();
+                $fila1 = $query4->fetch_assoc();
+                $fila2 = $query5->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila && $fila1 && $fila2) {
+                    // Obtener el valor de la columna 'coId'
+                    $product = $fila['proId'];
+                    $store = $fila1['stId'];
+                    $cat = $fila2['catId'];
+
+                    if($product>=1 && $store>=1 && $cat>=1){
+                        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET
+                        categoryId='$categoryId', stock=$stock, secStock=$secStock, minQty=$minQty, maxQty=$maxQty, storeId=$storeId, outPrice=$outPrice, promoId='$promoId', discount=$discount,unit='$unit',readUnit='$readUnit',unitQty='$readUnit',unitUnit='$unitUnit',isPromo=$isPromo,isDiscount=$isDiscount,isEcommerce=$isEcommerce,isPos=$isPos,isInternal=$isInternal,isStocked=$isStocked,isActive=$isActive
+                        WHERE
+                         catalogId='$catalogId' and clientId='$clientId'");
+                   
+                    }
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+
+
+                }
+                  //  echo "N
+       // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
+       
+       
+      
+      
+        // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
+     
+}}
+
+          echo "true|¡Catálogo actualizado con éxito!"; 
         
            // echo json_encode($response1);
         } else {
