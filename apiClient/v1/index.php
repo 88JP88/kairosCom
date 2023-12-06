@@ -1987,7 +1987,7 @@ foreach ($arrayData as $item) {
                         $query = mysqli_query($conectar, "UPDATE generalCatalogs SET
                         categoryId='$categoryId', stock=$stock, secStock=$secStock, minQty=$minQty, maxQty=$maxQty, storeId=$storeId, outPrice=$outPrice, promoId='$promoId', discount=$discount,unit='$unit',readUnit='$readUnit',unitQty='$readUnit',unitUnit='$unitUnit',isPromo=$isPromo,isDiscount=$isDiscount,isEcommerce=$isEcommerce,isPos=$isPos,isInternal=$isInternal,isStocked=$isStocked,isActive=$isActive
                         WHERE
-                         catalogId='$catalogId' and clientId='$clientId'");
+                         catalogId='$catalogId'");
                    
                     }
                    // echo "El valor máximo de incId es: " . $valor;
