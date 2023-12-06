@@ -1635,7 +1635,8 @@ foreach ($arrayData as $item) {
 
         // Tu consulta SQL aquí...
         $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
-        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET stock= (SELECT stock FROM generalCatalogs where catalogId='$catalogId')-$productQty WHERE catalogId='$catalogId' and clientId='$clientId'");
+        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET stock= (SELECT stock FROM generalCatalogs where catalogId='$catalogId' and stock>=$productQty)-$productQty WHERE catalogId='$catalogId' and clientId='$clientId'");
+        
         $_SESSION['fTotal']=$_SESSION['fTotal']+$item['item']['totalShopping'];
 $_SESSION['fsTotal']=$_SESSION['fsTotal']+$item['item']['subTotalShopping'];
 $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
@@ -1676,7 +1677,7 @@ $ar=json_encode($arrayData,true);
         
           $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId) VALUES ('$orderId','$cartId','$clientId','$userId','$userId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor)");
       if($query1){
-        echo "true|¡Orden creada con éxito!";
+        echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver;
       } else {
         // Si hay un error, imprime el mensaje de error
         echo "false|" . mysqli_error($conectar);
