@@ -1710,4 +1710,134 @@ $ar=json_encode($arrayData,true);
 });
 
 
+
+
+Flight::route('POST /postCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+            $bulk= Flight::request()->data->bulk;
+         
+
+            require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
+           
+         
+            $gen_uuid = new generateUuid();
+            $myuuid = $gen_uuid->guidv4();
+            //$myuuid1 = $gen_uuid->guidv4();
+         
+
+            $catalogIs = substr($myuuid, 0, 8);
+           // $orderId = substr($myuuid1, 0, 8);
+
+            $conectar=conn();
+           
+
+
+
+$decodedData = urldecode($bulk);
+$arrayData = json_decode($decodedData, true);
+
+foreach ($arrayData as $item) {
+    if (isset($item['item'])) {
+        $clientId= $item['item']['clientId'];
+        $productId= $item['item']['productId'];
+        $categoryId= $item['item']['categoryId'];
+        $stock= $item['item']['stock'];
+        $secStock= $item['item']['secStock'];
+        $minQty= $item['item']['minQty'];
+        $maxQty= $item['item']['maxQty'];
+        $storeId= $item['item']['storeId'];
+        $outPrice= $item['item']['outPrice'];
+        $promoId= $item['item']['promoId'];
+        $discount= $item['item']['discount'];
+        $isPromo= $item['item']['isPromo'];
+        $isDiscount= $item['item']['isDiscount'];
+        $isEcommerce= $item['item']['isEcommerce'];
+        $isPos= $item['item']['isPos'];
+        $isInternal= $item['item']['isInternal'];
+        $isStocked= $item['item']['isStocked'];
+        $unit= $item['item']['unit'];
+        $readUnit= $item['item']['readUnit'];
+        $unitUnit= $item['item']['unit'];
+        // Resto de tus variables aquí...
+
+        // Tu consulta SQL aquí...
+       // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
+       $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',1,'$unitUnit')");
+  
+      
+        // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
+        if (!$query) {
+            echo "Error al insertar datos: " . mysqli_error($conectar);
+        }
+    } else {
+        echo "true|¡Catálogo agregada con éxito!";
+    }
+}
+
+           
+           
+            
+            
+           
+     
+
+       
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
 Flight::start();
