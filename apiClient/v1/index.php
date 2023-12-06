@@ -1817,7 +1817,7 @@ foreach ($arrayData as $item) {
      
 }}
 
-          echo "true|".$decodedData; 
+          echo "true|".$decodedData."hello"; 
         
            // echo json_encode($response1);
         } else {
