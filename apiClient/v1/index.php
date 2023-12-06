@@ -1663,7 +1663,7 @@ $ar=json_encode($arrayData,true);
                 // Verificar si la fila tiene datos
                 if ($fila) {
                     // Obtener el valor de la columna 'coId'
-                    $valor = $fila['coId'];
+                    $valor = $fila['coId']+1;
                    // echo "El valor máximo de incId es: " . $valor;
                 } else {
                   //  echo "No se encontraron datos.";
@@ -1676,7 +1676,7 @@ $ar=json_encode($arrayData,true);
             // Mostrar o utilizar el valor
             
         
-          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId) VALUES ('$orderId','$cartId','$clientId','$userId','$userId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor+1");
+          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId) VALUES ('$orderId','$cartId','$clientId','$userId','$userId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor");
       if($query1){
         echo "true|¡Orden creada con éxito!";
       } else {
