@@ -1656,7 +1656,7 @@ $ar=json_encode($arrayData,true);
             $query3 = mysqli_query($conectar, "SELECT MAX(incId) as coId from generalOrders");
 
             // Verificar si la consulta fue exitosa
-            if ($query3) {
+            
                 // Obtener la primera fila como un arreglo asociativo
                 $fila = $query3->fetch_assoc();
             
@@ -1668,9 +1668,7 @@ $ar=json_encode($arrayData,true);
                 } else {
                   //  echo "No se encontraron datos.";
                 }
-            } else {
-                echo "Error al ejecutar la consulta: " . mysqli_error($conectar);
-            }
+             
             
         
             // Mostrar o utilizar el valor
