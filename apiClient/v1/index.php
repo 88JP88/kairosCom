@@ -1653,8 +1653,20 @@ $ar=json_encode($arrayData,true);
             $fSaver=$_SESSION['fSaver'];
             $npro=$_SESSION['nProducts'];
             $npa=$_SESSION['nPacks'];
+            $query3 = mysqli_query($conectar, "SELECT MAX(incId) as coId from generalOrders");
+       
           //  $productName = $arrayData[0]['payment']['total'];
-          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId) VALUES ('$orderId','$cartId','$clientId','$userId','$userId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',(SELECT COUNT(orderId) from generalOrders)+1");
+         
+            // Obtener la primera fila como un arreglo asociativo
+            $fila = $query3->fetch_assoc();
+        
+            // Obtener el valor de la columna 'nombre_columna'
+            $valor = $fila['coId'];
+        
+            // Mostrar o utilizar el valor
+            
+        
+          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId) VALUES ('$orderId','$cartId','$clientId','$userId','$userId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor+1");
       if($query1){
         echo "true|¡Orden creada con éxito!";
       } else {
