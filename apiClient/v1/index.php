@@ -1810,12 +1810,44 @@ foreach ($arrayData as $item) {
         // Resto de tus variables aquí...
 
         // Tu consulta SQL aquí...
+
+
+
+        $query3 = mysqli_query($conectar, "SELECT COUNT(productId) as proId from generalProducts WHERE productId='$productId' AND clientId='$clientId'");
+        $query4 = mysqli_query($conectar, "SELECT COUNT(storeId) as stId from generalStores WHERE storeId='$storeId' AND clientId='$clientId'");
+        $query5 = mysqli_query($conectar, "SELECT COUNT(catId) as catId from generalCategories WHERE catId='$categoryId' AND clientId='$clientId'");
+
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila = $query3->fetch_assoc();
+                $fila1 = $query4->fetch_assoc();
+                $fila2 = $query5->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila && $fila1 && $fila2) {
+                    // Obtener el valor de la columna 'coId'
+                    $product = $fila['proId'];
+                    $store = $fila1['stId'];
+                    $cat = $fila2['catId'];
+
+                    if($product>=1 && $store>=1 && $cat>=1){
+                        $query = mysqli_query($conectar, "INSERT INTO generalCatalogs 
+                        (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit,isPromo,isDiscount,isEcommerce,isPos,isInternal,isStocked) 
+                        VALUES
+                         ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',1,'$unitUnit',$isPromo,$isDiscount,$isEcommerce,$isPos,$isInternal,$isStocked)");
+                   
+                    }
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+
+
+                }
+                  //  echo "N
        // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
-       $query = mysqli_query($conectar, "INSERT INTO generalCatalogs 
-       (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit,isPromo,isDiscount,isEcommerce,isPos,isInternal,isStocked) 
-       VALUES
-        ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',1,'$unitUnit',$isPromo,$isDiscount,$isEcommerce,$isPos,$isInternal,$isStocked)");
-  
+       
+       
+      
       
         // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
      
