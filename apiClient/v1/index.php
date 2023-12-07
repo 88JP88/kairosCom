@@ -2151,4 +2151,150 @@ foreach ($arrayData as $item) {
 });
 
 
+
+Flight::route('POST /putProductBulk/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+            $bulk= Flight::request()->data->bulk;
+            $clientId= Flight::request()->data->clientId;
+         
+
+           
+           // $orderId = substr($myuuid1, 0, 8);
+
+            $conectar=conn();
+           
+
+
+
+$decodedData = urldecode($bulk);
+$arrayData = json_decode($decodedData, true);
+
+foreach ($arrayData as $item) {
+    if (isset($item['item'])) {
+        $productId= $item['item']['productId'];
+       
+        
+        $productName= $item['item']['productName'];
+        $description= $item['item']['description'];
+        $ean1= $item['item']['ean1'];
+        $ean2= $item['item']['ean2'];
+        $sku= $item['item']['sku'];
+        $productType= $item['item']['productType'];
+        $inPrice= $item['item']['inPrice'];
+        $providerId= $item['item']['providerId'];
+        $imgProduct= $item['item']['imgProduct'];
+        $spcProduct= $item['item']['spcProduct'];
+        $isActive= $item['item']['isActive'];
+        $keyWords= $item['item']['keyWords'];
+        // Resto de tus variables aquí...
+
+        // Tu consulta SQL aquí...
+
+
+
+      
+                // Verificar si la fila tiene datos
+         
+                    // Obtener el valor de la columna 'coId'
+                   
+        $query3 = mysqli_query($conectar, "SELECT COUNT(productId) as proId from generalProducts WHERE productId='$productId' AND clientId='$clientId'");
+       
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila = $query3->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila) {
+                    // Obtener el valor de la columna 'coId'
+                    $product = $fila['proId'];
+
+                    if($product>=1){
+                       
+                        $query = mysqli_query($conectar, "UPDATE generalProducts SET productName='$productName',description=$description,ean1=$ean1,ean2='$ean2',sku='$sku',productType='$productType',inPrice='$inPrice',providerId='$providerId',imgProduct='$imgProduct',spcProduct='$spcProduct',isActive='$isActive',keyWords='$keyWords'
+                        WHERE
+                         productId='$productId' and clientId='$clientId'");
+                    }
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+
+
+                }
+
+                   
+                   
+                    
+                   // echo "El valor máximo de incId es: " . $valor;
+               
+                  //  echo "N
+       // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
+       
+       
+      
+      
+        // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
+     
+}}
+
+          echo "true|¡Catálogo actualizado con éxito!"; 
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
 Flight::start();
