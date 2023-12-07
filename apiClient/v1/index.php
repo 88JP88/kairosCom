@@ -2660,7 +2660,7 @@ foreach ($arrayData as $item) {
      
 }}
 
-          echo "true|¡Tiendas creadas con éxito!"; 
+          echo "true|¡Categorías creadas con éxito!"; 
         
            // echo json_encode($response1);
         } else {
@@ -2798,7 +2798,7 @@ foreach ($arrayData as $item) {
      
 }}
 
-          echo "true|¡Tiendas actualizadas con éxito!"; 
+          echo "true|¡Categorías actualizadas con éxito!"; 
         
            // echo json_encode($response1);
         } else {
