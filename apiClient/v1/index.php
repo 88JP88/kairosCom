@@ -1968,7 +1968,7 @@ foreach ($arrayData as $item) {
                    
 
                    
-                        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET categoryId='$categoryId',stock=$stock,secStock=$secStock,minQty='$minQty',maxQty='$maxQty',storeId='$storeId'
+                        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET categoryId='$categoryId',stock=$stock,secStock=$secStock,minQty='$minQty',maxQty='$maxQty',storeId='$storeId',outPrice='$outPrice',promoId='$promoId'
                         WHERE
                          catalogId='$catalogId' and clientId='$clientId'");
                    
