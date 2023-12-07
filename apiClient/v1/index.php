@@ -2259,7 +2259,7 @@ foreach ($arrayData as $item) {
 
                     if($product>=1){
                        
-                        $query = mysqli_query($conectar, "UPDATE generalProducts SET productName='$productName',description=$description,ean1=$ean1,ean2='$ean2',sku='$sku',productType='$productType',inPrice='$inPrice',providerId='$providerId',imgProduct='$imgProduct',spcProduct='$spcProduct',isActive='$isActive',keyWords='$keyWords'
+                        $query = mysqli_query($conectar, "UPDATE generalProducts SET productName='$productName',description='$description',ean1='$ean1',ean2='$ean2',sku='$sku',productType='$productType',inPrice='$inPrice',providerId='$providerId',imgProduct='$imgProduct',spcProduct='$spcProduct',isActive='$isActive',keyWords='$keyWords'
                         WHERE
                          productId='$productId' and clientId='$clientId'");
                     }
@@ -2284,7 +2284,7 @@ foreach ($arrayData as $item) {
      
 }}
 
-          echo "true|¡Catálogo actualizado con éxito!"; 
+          echo "true|¡Inventario actualizado con éxito!"; 
         
            // echo json_encode($response1);
         } else {
