@@ -2102,18 +2102,18 @@ foreach ($arrayData as $item) {
      
 
         $productId = substr($myuuid, 0, 8);
-        $productName= $item['item']['categoryId'];
-        $description= $item['item']['stock'];
-        $ean1= $item['item']['secStock'];
-        $ean2= $item['item']['minQty'];
-        $sku= $item['item']['maxQty'];
-        $productType= $item['item']['storeId'];
-        $inPrice= $item['item']['outPrice'];
-        $providerId= $item['item']['promoId'];
-        $imgProduct= $item['item']['discount'];
-        $spcProduct= $item['item']['isPromo'];
-        $isActive= $item['item']['isDiscount'];
-        $keyWords= $item['item']['isEcommerce'];
+        $productName= $item['item']['productName'];
+        $description= $item['item']['description'];
+        $ean1= $item['item']['ean1'];
+        $ean2= $item['item']['ean2'];
+        $sku= $item['item']['sku'];
+        $productType= $item['item']['productType'];
+        $inPrice= $item['item']['inPrice'];
+        $providerId= $item['item']['providerId'];
+        $imgProduct= $item['item']['imgProduct'];
+        $spcProduct= $item['item']['spcProduct'];
+        $isActive= $item['item']['isActive'];
+        $keyWords= $item['item']['keyWords'];
         // Resto de tus variables aquí...
 
             
