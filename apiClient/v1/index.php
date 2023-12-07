@@ -1966,11 +1966,37 @@ foreach ($arrayData as $item) {
          
                     // Obtener el valor de la columna 'coId'
                    
+        $query3 = mysqli_query($conectar, "SELECT COUNT(catalogId) as proId from generalCatalogs WHERE catalogId='$catalogId' AND clientId='$clientId'");
+        $query4 = mysqli_query($conectar, "SELECT COUNT(storeId) as stId from generalStores WHERE storeId='$storeId' AND clientId='$clientId'");
+        $query5 = mysqli_query($conectar, "SELECT COUNT(catId) as catId from generalCategories WHERE catId='$categoryId' AND clientId='$clientId'");
 
-                   
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila = $query3->fetch_assoc();
+                $fila1 = $query4->fetch_assoc();
+                $fila2 = $query5->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila && $fila1 && $fila2) {
+                    // Obtener el valor de la columna 'coId'
+                    $product = $fila['proId'];
+                    $store = $fila1['stId'];
+                    $cat = $fila2['catId'];
+
+                    if($product>=1 && $store>=1 && $cat>=1){
+                       
                         $query = mysqli_query($conectar, "UPDATE generalCatalogs SET categoryId='$categoryId',stock=$stock,secStock=$secStock,minQty='$minQty',maxQty='$maxQty',storeId='$storeId',outPrice='$outPrice',promoId='$promoId',discount='$discount',isPromo='$isPromo',isDiscount='$isDiscount',isEcommerce='$isEcommerce',isPos='$isPos',isInternal='$isInternal',isStocked='$isStocked',unit='$unit',readUnit='$readUnit',unitUnit='$unitUnit',isActive='$isActive'
                         WHERE
                          catalogId='$catalogId' and clientId='$clientId'");
+                    }
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+
+
+                }
+
+                   
                    
                     
                    // echo "El valor máximo de incId es: " . $valor;
