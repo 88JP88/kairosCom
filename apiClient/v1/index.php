@@ -2297,4 +2297,258 @@ foreach ($arrayData as $item) {
 });
 
 
+
+Flight::route('POST /postStoreBulk/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+            $bulk= Flight::request()->data->bulk;
+            $clientId= Flight::request()->data->clientId;
+         
+
+            require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
+           
+         
+            $gen_uuid = new generateUuid();
+     
+           // $orderId = substr($myuuid1, 0, 8);
+
+            $conectar=conn();
+           
+
+
+
+$decodedData = urldecode($bulk);
+$arrayData = json_decode($decodedData, true);
+
+foreach ($arrayData as $item) {
+    if (isset($item['item'])) {
+        $myuuid = $gen_uuid->guidv4();
+        //$myuuid1 = $gen_uuid->guidv4();
+     
+
+        $storeId = substr($myuuid, 0, 8);
+        $storeName= $item['item']['storeName'];
+        $comments= $item['item']['comments'];
+        $isActive= $item['item']['isActive'];
+        $storeType= $item['item']['storeType'];
+        $keyWords= $item['item']['keyWords'];
+        // Resto de tus variables aquí...
+
+            
+                // Verificar si la fila tiene datos
+              
+                    // Obtener el valor de la columna 'coId'
+                   
+                        $query = mysqli_query($conectar, "INSERT INTO generalStores 
+                        (storeId, clientId, storeName, comments, isActive, storeType, keyWords) 
+                        VALUES
+                         ('$storeId', '$clientId', '$storeName', '$comments', '$isActive', '$storeType', '$keyWords')");
+                   
+                   // echo "El valor máximo de incId es: " . $valor;
+               
+                  //  echo "N
+       // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
+       
+       
+      
+      
+        // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
+     
+}}
+
+          echo "true|¡Tiendas creadas con éxito!"; 
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
+Flight::route('POST /putStoreBulk/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+            $bulk= Flight::request()->data->bulk;
+            $clientId= Flight::request()->data->clientId;
+         
+
+           
+           // $orderId = substr($myuuid1, 0, 8);
+
+            $conectar=conn();
+           
+
+
+
+$decodedData = urldecode($bulk);
+$arrayData = json_decode($decodedData, true);
+
+foreach ($arrayData as $item) {
+    if (isset($item['item'])) {
+        $storeId= $item['item']['storeId'];
+       
+        $storeName= $item['item']['storeName'];
+        $comments= $item['item']['comments'];
+        $isActive= $item['item']['isActive'];
+        $storeType= $item['item']['storeType'];
+        $keyWords= $item['item']['keyWords'];
+
+        // Tu consulta SQL aquí...
+
+
+
+      
+                // Verificar si la fila tiene datos
+         
+                    // Obtener el valor de la columna 'coId'
+                   
+        $query3 = mysqli_query($conectar, "SELECT COUNT(storeId) as proId from generalStores WHERE storeId='$storeId' AND clientId='$clientId'");
+       
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila = $query3->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila) {
+                    // Obtener el valor de la columna 'coId'
+                    $product = $fila['proId'];
+
+                    if($product>=1){
+                       
+                        $query = mysqli_query($conectar, "UPDATE generalStores SET storeName='$storeName',comments='$comments',isActive='$isActive',storeType='$storeType',keyWords='$keyWords'
+                        WHERE
+                         storeId='$storeId' and clientId='$clientId'");
+                    }
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+
+
+                }
+
+                   
+                   
+                    
+                   // echo "El valor máximo de incId es: " . $valor;
+               
+                  //  echo "N
+       // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
+       
+       
+      
+      
+        // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
+     
+}}
+
+          echo "true|¡Inventario actualizado con éxito!"; 
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
 Flight::start();
