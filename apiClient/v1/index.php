@@ -2124,7 +2124,7 @@ foreach ($arrayData as $item) {
                         $query = mysqli_query($conectar, "INSERT INTO generalProducts 
                         (productId, clientId, productName, description, ean1, ean2, sku, productType, inPrice, providerId, imgProduct, spcProduct,isActive,keyWords) 
                         VALUES
-                         ('$productId', '$clientId', '$productName', '$description', $ean1, $ean2, $sku, $productType, '$inPrice', $providerId, '$imgProduct', $spcProduct,'$isActive','$keyWords')");
+                         ('$productId', '$clientId', '$productName', '$description', '$ean1', '$ean2', '$sku', '$productType', '$inPrice', '$providerId', '$imgProduct', '$spcProduct','$isActive','$keyWords')");
                    
                    // echo "El valor máximo de incId es: " . $valor;
                
