@@ -1921,11 +1921,7 @@ Flight::route('POST /putCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
             $clientId= Flight::request()->data->clientId;
          
 
-            require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
            
-         
-            $gen_uuid = new generateUuid();
-     
            // $orderId = substr($myuuid1, 0, 8);
 
             $conectar=conn();
@@ -1972,8 +1968,7 @@ foreach ($arrayData as $item) {
                    
 
                    
-                        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET
-                        categoryId='$categoryId', stock=$stock, secStock=$secStock, minQty=$minQty, maxQty=$maxQty, storeId=$storeId, outPrice=$outPrice, promoId='$promoId', discount=$discount,unit='$unit',readUnit='$readUnit',unitQty='$readUnit',unitUnit='$unitUnit',isPromo=$isPromo,isDiscount=$isDiscount,isEcommerce=$isEcommerce,isPos=$isPos,isInternal=$isInternal,isStocked=$isStocked,isActive=$isActive
+                        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET categoryId='$categoryId'
                         WHERE
                          catalogId='$catalogId'");
                    
