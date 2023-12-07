@@ -2877,7 +2877,7 @@ Flight::route('POST /postCustomer/@apk/@xapk', function ($apk,$xapk) {
 
            
             $query = mysqli_query($conectar, "INSERT INTO generalCustomers 
-            (customerId, clientId, customerName, customerLastName,customerMail,customerType) 
+            (customerId, clientId, customerName, customerLastName,customerMail,customerPhone,customerType) 
             VALUES
              ('$customerId', '$clientId', '$customerName', '$customerLastName', '$customerMail','$customerPhone','$customerType')");
 
