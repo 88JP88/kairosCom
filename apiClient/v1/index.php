@@ -1968,9 +1968,9 @@ foreach ($arrayData as $item) {
                    
 
                    
-                        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET categoryId='$categoryId'
+                        $query = mysqli_query($conectar, "UPDATE generalCatalogs SET categoryId='$categoryId',stock=$stock
                         WHERE
-                         catalogId='$catalogId'");
+                         catalogId='$catalogId' and clientId='$clientId'");
                    
                     
                    // echo "El valor máximo de incId es: " . $valor;
