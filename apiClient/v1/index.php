@@ -1570,6 +1570,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $userId= Flight::request()->data->userId;
             $fromIp= Flight::request()->data->fromIp;
             $fromBrowser= Flight::request()->data->fromBrowser;
+            $customerId= Flight::request()->data->customerId;
          
 
             require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
@@ -1665,10 +1666,48 @@ $ar=json_encode($arrayData,true);
             
         
             // Mostrar o utilizar el valor
+            $query4 = mysqli_query($conectar, "SELECT customerPoints,customerStars from generalCustomers WHERE customerId='$customerId'");
+
+            // Verificar si la consulta fue exitosa
             
-        
+                // Obtener la primera fila como un arreglo asociativo
+                $fila4 = $query4->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila4) {
+                    // Obtener el valor de la columna 'coId'
+                    $cPoints = $fila4['customerPoints'];
+                    $cStars = $fila4['customerStars'];
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+                  //  echo "No se encontraron datos.";
+                }
+
+                function calcularPuntos($montoCompra) {
+                    // Definir el valor de puntos por cada 50.000 en compras
+                    $puntosPorCadaCincuentaMil = 1;
+                
+                    // Calcular la cantidad de puntos
+                    if ($montoCompra >= 50000) {
+                        $puntos = floor($montoCompra / 50000) * $puntosPorCadaCincuentaMil;
+                    } else {
+                        // Calcular la cantidad de puntos en función del monto
+                        // Por ejemplo, si el monto es 30.000, se le dará 0.6 puntos (30.000 / 50.000 * 1)
+                        $puntos = $montoCompra / 50000 * $puntosPorCadaCincuentaMil;
+                    }
+                
+                    return $puntos;
+                }
+                
+                // Uso de la función para calcular puntos
+               // $monto = 75000; // Por ejemplo, monto de la compra
+                $puntosObtenidos = calcularPuntos($fTotal);
+                $query5 = mysqli_query($conectar, "UPDATE gneralCustomers SET customerPoints=$puntosObtenidos+$cPoints WHERE customerId='$customerId'");
+      
           $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId) VALUES ('$orderId','$cartId','$clientId','$userId','$userId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor)");
-      if($query1){
+      
+      
+          if($query1){
         echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver;
       } else {
         // Si hay un error, imprime el mensaje de error
@@ -3012,5 +3051,94 @@ if($filter=="filter"){
         echo 'Error: Encabezados faltantes';
     }
 });
+
+
+
+Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+
+            $clientId= Flight::request()->data->clientId;
+            $param= Flight::request()->data->param;
+            $value= Flight::request()->data->value;
+            $customerId= Flight::request()->data->customerId;
+         
+         
+            $conectar=conn();
+
+         
+            $query = mysqli_query($conectar, "UPDATE generalCustomers SET $param='$value' where clientId='$clientId' and customerId='$customerId'");
+
+           
+           
+            if ($query) {
+                echo "true|¡Producto actualizado con éxito!";
+            } else {
+                // Si hay un error, imprime el mensaje de error
+                echo "false|" . mysqli_error($conectar);
+            }
+            
+           
+     
+
+       
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
 
 Flight::start();
