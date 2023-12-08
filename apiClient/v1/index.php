@@ -1683,17 +1683,33 @@ $ar=json_encode($arrayData,true);
                   //  echo "No se encontraron datos.";
                 }
 
-                function calcularPuntos($montoCompra) {
+                function calcularPuntos($montoCompra,$clientId) {
+                    $conectar=conn();
                     // Definir el valor de puntos por cada 50.000 en compras
+                    $query8 = mysqli_query($conectar, "SELECT pointsEq from generalRules WHERE clientId='$clientId'");
+
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila8 = $query8->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila8) {
+                    // Obtener el valor de la columna 'coId'
+                    $cParam = $fila8['pointsEq'];
+                   // echo "El valor máximo de incId es: " . $valor;
+                } else {
+                  //  echo "No se encontraron datos.";
+                }
                     $puntosPorCadaCincuentaMil = 1;
                 
                     // Calcular la cantidad de puntos
-                    if ($montoCompra >= 50000) {
-                        $puntos = floor($montoCompra / 50000) * $puntosPorCadaCincuentaMil;
+                    if ($montoCompra >= $cParam) {
+                        $puntos = floor($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
                     } else {
                         // Calcular la cantidad de puntos en función del monto
                         // Por ejemplo, si el monto es 30.000, se le dará 0.6 puntos (30.000 / 50.000 * 1)
-                        $puntos = $montoCompra / 50000 * $puntosPorCadaCincuentaMil;
+                        $puntos = floor($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
                     }
                 
                     return $puntos;
@@ -1701,7 +1717,7 @@ $ar=json_encode($arrayData,true);
                 
                 // Uso de la función para calcular puntos
                // $monto = 75000; // Por ejemplo, monto de la compra
-                $puntosObtenidos = calcularPuntos($fTotal)+$cPoints;
+                $puntosObtenidos = calcularPuntos($fTotal,$clientId)+$cPoints;
 
                 $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
       
