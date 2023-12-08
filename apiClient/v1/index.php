@@ -1717,7 +1717,7 @@ $ar=json_encode($arrayData,true);
                 
                 // Uso de la función para calcular puntos
                // $monto = 75000; // Por ejemplo, monto de la compra
-                $puntosObtenidos = floor(calcularPuntos($fTotal,$clientId)+$cPoints);
+                $puntosObtenidos = calcularPuntos($fTotal,$clientId)+$cPoints;
 
                 $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
       
