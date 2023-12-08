@@ -1701,8 +1701,9 @@ $ar=json_encode($arrayData,true);
                 
                 // Uso de la función para calcular puntos
                // $monto = 75000; // Por ejemplo, monto de la compra
-                $puntosObtenidos = calcularPuntos($fTotal);
-                $query5 = mysqli_query($conectar, "UPDATE gneralCustomers SET customerPoints=$puntosObtenidos+$cPoints WHERE customerId='$customerId'");
+                $puntosObtenidos = calcularPuntos($fTotal)+$cPoints;
+
+                $query5 = mysqli_query($conectar, "UPDATE gneralCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
       
           $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId) VALUES ('$orderId','$cartId','$clientId','$userId','$userId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor)");
       
