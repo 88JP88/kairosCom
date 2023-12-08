@@ -1705,11 +1705,11 @@ $ar=json_encode($arrayData,true);
                 
                     // Calcular la cantidad de puntos
                     if ($montoCompra >= $cParam) {
-                        $puntos = floor($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
+                        $puntos = ($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
                     } else {
                         // Calcular la cantidad de puntos en función del monto
                         // Por ejemplo, si el monto es 30.000, se le dará 0.6 puntos (30.000 / 50.000 * 1)
-                        $puntos = floor($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
+                        $puntos = ($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
                     }
                 
                     return $puntos;
