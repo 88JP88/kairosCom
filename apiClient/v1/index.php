@@ -3017,7 +3017,7 @@ Flight::route('GET /getCustomers/@clientId/@filter/@param/@value', function ($cl
 
           
            
-                $query= mysqli_query($conectar,"SELECT customerId,clientId,customerName,customerLastName,customerMail,customerPoints,customerPhone,customerStars,customerType,isActive FROM generalCustomers where clientId='$clientId'");
+            $query= mysqli_query($conectar,"SELECT gc.customerId,gc.clientId,gc.customerName,gc.customerLastName,gc.customerMail,gc.customerPoints,gc.customerPhone,gc.customerStars,gc.customerType,gc.isActive,gr.pointsEq,gr.pointsValue FROM generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId where clientId='$clientId'");
         }
          
       
@@ -3025,7 +3025,7 @@ if($filter=="filter"){
 
           
            
-    $query= mysqli_query($conectar,"SELECT customerId,clientId,customerName,customerLastName,customerMail,customerPoints,customerPhone,customerStars,customerType,isActive FROM generalCustomers where clientId='$clientId' and $param='$value'");
+    $query= mysqli_query($conectar,"SELECT gc.customerId,gc.clientId,gc.customerName,gc.customerLastName,gc.customerMail,gc.customerPoints,gc.customerPhone,gc.customerStars,gc.customerType,gc.isActive,gr.pointsEq,gr.pointsValue FROM generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId where clientId='$clientId' and $param='$value'");
 
 
 }
@@ -3048,7 +3048,9 @@ if($filter=="filter"){
                             
                             'customerStars' => $row['customerStars'],
                             'customerType' => $row['customerType'],
-                            'isActive' => $row['isActive']
+                            'isActive' => $row['isActive'],
+                            'pointsEq' => $row['pointsEq'],
+                            'pointsValue' => $row['pointsValue']
                         ];
                         
                         array_push($values,$value);
