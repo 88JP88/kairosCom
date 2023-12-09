@@ -1573,6 +1573,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $customerId= Flight::request()->data->customerId;
             $paymentMethod= Flight::request()->data->paymentMethod;
             $paymentType= Flight::request()->data->paymentType;
+            $payWith= Flight::request()->data->payWith;
          
 
             require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
@@ -1723,17 +1724,29 @@ $ar=json_encode($arrayData,true);
                 $puntosObtenidos2 = round(calcularPuntos($fTotal,$clientId),2);
 
                 $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
-      if($paymentType=="transfer" || $paymentType=="card"){
-            if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc"){
-                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2')");
+    //VALIDA EL TIPO DE PAGO TRANSACCIONAL
+                if($paymentType=="transfer" || $paymentType=="card"){
+           //VALIDA EL MÉTODO DE PAGO
+                    if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc"){
+                        if($paymentMethod=="app"){
+                            $parameter="isApp";
+                        }
+                        if($paymentMethod=="dc"){
+                            $parameter="isDebit";
+                        }
+                        if($paymentMethod=="cc"){
+                            $parameter="isCredit";
+                        }
+                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,$parameter) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2',1)");
       $respuesta="true";
             }else{
                 $respuesta="false";
             }
        
       }
+//VALIDA TIPO DE PAGO EN EFECTIVO
       if($paymentType=="cash"){
-        $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PAYED',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','$paymentMethod')");
+        $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','cash',0,'PAYED',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','cash',1,'$payWith')");
       $respuesta="true";
       }
           
