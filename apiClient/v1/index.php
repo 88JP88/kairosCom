@@ -1571,6 +1571,8 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $fromIp= Flight::request()->data->fromIp;
             $fromBrowser= Flight::request()->data->fromBrowser;
             $customerId= Flight::request()->data->customerId;
+            $paymentMethod= Flight::request()->data->paymentMethod;
+            $paymentType= Flight::request()->data->paymentType;
          
 
             require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
@@ -1721,16 +1723,32 @@ $ar=json_encode($arrayData,true);
                 $puntosObtenidos2 = round(calcularPuntos($fTotal,$clientId),2);
 
                 $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
-      
-          $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','CASH',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2')");
-      
-      
-          if($query5){
-        echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver;
+      if($paymentType=="transfer" || $paymentType=="card"){
+            if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc"){
+                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2')");
+      $respuesta="true";
+            }else{
+                $respuesta="false";
+            }
+       
+      }
+      if($paymentType=="cash"){
+        $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PAYED',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','$paymentMethod')");
+      $respuesta="true";
+      }
+          
+      if($respuesta=="true"){
+          if($query1){
+
+        echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
       } else {
         // Si hay un error, imprime el mensaje de error
         echo "false|" . mysqli_error($conectar);
     }
+        }else{
+            echo "false|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+  
+        }
            
         } else {
             // Si hay un error, imprime el mensaje de error
