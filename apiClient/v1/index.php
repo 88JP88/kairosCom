@@ -1574,6 +1574,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             $paymentMethod= Flight::request()->data->paymentMethod;
             $paymentType= Flight::request()->data->paymentType;
             $payWith= Flight::request()->data->payWith;
+            $bankEntity= Flight::request()->data->bankEntity;
          
 
             require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
@@ -1737,7 +1738,7 @@ $ar=json_encode($arrayData,true);
                         if($paymentMethod=="cc"){
                             $parameter="isCredit";
                         }
-                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,$parameter) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2',1)");
+                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,$parameter,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2',1,'$bankEntity')");
       $respuesta="true";
             }else{
                 $respuesta="false";
