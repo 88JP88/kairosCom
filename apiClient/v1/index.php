@@ -1778,8 +1778,8 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                     if($validationPay>=$fTotal){
                                         $puntosObtenidos=0;
                                         //valor en pesos de puntos
-                                        $validationPay=$fTotal/$cPointValue;
-                                        $validarResultado=$fsTotal-$validationPay;
+                                    
+                                        $validarResultado=$fsTotal-$cTotal;
                                         $returnedCash=$$payWith-$validarResultado;
                                         
                                        
