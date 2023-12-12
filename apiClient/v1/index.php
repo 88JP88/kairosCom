@@ -1780,7 +1780,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                         //valor en pesos de puntos
                                     
                                         $validarResultado=($fTotal-$cTotal);
-                                        $returnedCash=($validarResultado);
+                                        $returnedCash=($cTotal);
                                         
                                        
                                         $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
