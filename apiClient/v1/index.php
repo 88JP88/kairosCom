@@ -1779,7 +1779,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                         $puntosObtenidos=0;
                                         //valor en pesos de puntos
                                     
-                                        $validarResultado=$fTotal-$cTotal;
+                                        $validarResultado=($fTotal-$cTotal);
                                         $returnedCash=($validarResultado);
                                         
                                        
