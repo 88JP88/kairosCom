@@ -1735,7 +1735,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
         //VALIDA TIPO DE PAGO EN EFECTIVO
             if($paymentType=="cash"){
                 $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','cash',$payWith-$fTotal,'DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','cash',1,'$payWith',1)");
-                $respuesta="true";
+                $respuesta="true_cash";
             }
 
             //VALIDA TIPO DE PAGO EN PUNTOS
@@ -1829,7 +1829,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
 
 
             //valida respuesta para api de salida
-        if($respuesta=="true"){
+        if($respuesta=="true_cash"){
                             if($query1){
 
                             echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
