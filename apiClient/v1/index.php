@@ -1754,7 +1754,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                     $cPoint = $fila9['customerPoints'];
                                     $cPointValue = $fila9['pointsValue'];
 
-                                    $cTotal=$cPointValue*$cPoint; 
+                                    $cTotal=($cPointValue*$cPoint); 
 
                                 // echo "El valor máximo de incId es: " . $valor;
                                 } else {
