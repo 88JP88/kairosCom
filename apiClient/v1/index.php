@@ -1728,7 +1728,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                         $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,$parameter,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2',1,'$bankEntity')");
                             $respuesta="true_method";
                                     }else{
-                                        $respuesta="false1";
+                                        $respuesta="false";
                                     }
             
             }
@@ -1835,16 +1835,16 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash1";
                         } else {
                             // Si hay un error, imprime el mensaje de error
-                            echo "false2|" . mysqli_error($conectar);
+                            echo "false|" . mysqli_error($conectar);
                         }
         }
         if($respuesta=="true_method"){
             if($query1){
 
-            echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
+            echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
         } else {
             // Si hay un error, imprime el mensaje de error
-            echo "false3|" . mysqli_error($conectar);
+            echo "false|" . mysqli_error($conectar);
         }
 }
         if($respuesta=="true_point_bank"){
@@ -1853,15 +1853,15 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
             echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
         } else {
             // Si hay un error, imprime el mensaje de error
-            echo "false4|" . mysqli_error($conectar);
+            echo "false|" . mysqli_error($conectar);
         }
 }
         if($respuesta=="false"){
-            echo "false5|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+            echo "false|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
         
         }
         if($respuesta=="false_point"){
-            echo "false6|¡Orden no se pudo crear puntos, efectivo, credito insuficientes!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+            echo "false|¡Orden no se pudo crear puntos, efectivo, credito insuficientes!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
         
         }
         else{
@@ -1871,7 +1871,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                 
                 } else {
                     // Si hay un error, imprime el mensaje de error
-                    echo "false7|" . mysqli_error($conectar);
+                    echo "false|" . mysqli_error($conectar);
                 }
             }
         }
@@ -1887,11 +1887,11 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false8|¡Autenticación fallida!';
+                    echo 'false|¡Autenticación fallida!';
                 // echo json_encode($data);
                 }
             } else {
-                echo 'false9|¡Encabezados faltantes!';
+                echo 'false|¡Encabezados faltantes!';
             }
 });
 
