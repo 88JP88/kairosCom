@@ -1740,7 +1740,8 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
 
                         //VALIDA TIPO DE PAGO EN PUNTOS
                     else if($paymentType=="points"){
-                            $query9 = mysqli_query($conectar, "SELECT gc.customerPoints,gr.pointsEq,gr.pointsValue from generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId WHERE gc.customerId='$customerId'");
+
+                            $query9 = mysqli_query($conectar, "SELECT gc.customerPoints,gr.pointsEq,gr.pointsValue,gr.minPoints from generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId WHERE gc.customerId='$customerId'");
 
                                         // Verificar si la consulta fue exitosa
                                         
@@ -1753,6 +1754,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                                 $cParam = $fila9['pointsEq'];
                                                 $cPoint = $fila9['customerPoints'];
                                                 $cPointValue = $fila9['pointsValue'];
+                                                $cMinPoints = $fila9['minPoints'];
 
                                                 $cTotal=$cPointValue*$cPoints; 
 
@@ -1760,6 +1762,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                             } else {
                                             //  echo "No se encontraron datos.";
                                             }
+                                            if($cPoints>=$cMinPoints){
                                     if($fTotal>$cTotal){
                                         if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc" || $paymentMethod=="cash"){
                                             if($paymentMethod=="app"){
@@ -1821,7 +1824,9 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                         $respuesta="true";
 
                                     }
-
+                                }else{
+                                    $respuesta="false_point_lack";
+                                }
                                         
                                     
                     }
@@ -1862,6 +1867,10 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                     }
                     if($respuesta=="false_point"){
                         echo "false|¡Orden no se pudo crear puntos, efectivo, credito insuficientes!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+                    
+                    }
+                    if($respuesta=="false_point_lack"){
+                        echo "false|¡Orden no se pudo crear puntos insuficientes, minimo de puntos acumulados deben ser ".$cMinPoints."!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
                     
                     }
                     else{
