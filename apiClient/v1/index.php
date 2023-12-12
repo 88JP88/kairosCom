@@ -1835,7 +1835,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash1";
                         } else {
                             // Si hay un error, imprime el mensaje de error
-                            echo "false|" . mysqli_error($conectar);
+                            echo "false2|" . mysqli_error($conectar);
                         }
         }
         if($respuesta=="true_method"){
