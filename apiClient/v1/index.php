@@ -1832,7 +1832,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
         if($respuesta=="true"){
                             if($query1){
 
-                            echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+                            echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
                         } else {
                             // Si hay un error, imprime el mensaje de error
                             echo "false|" . mysqli_error($conectar);
