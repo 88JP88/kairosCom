@@ -1841,7 +1841,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
         if($respuesta=="true_point_bank"){
             if($query1){
 
-            echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+            echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
         } else {
             // Si hay un error, imprime el mensaje de error
             echo "false|" . mysqli_error($conectar);
