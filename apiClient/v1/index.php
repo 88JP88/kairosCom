@@ -1754,7 +1754,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                     $cPoint = $fila9['customerPoints'];
                                     $cPointValue = $fila9['pointsValue'];
 
-                                    $cTotal=($cPointValue*$cPoint); 
+                                    $cTotal=$cPointValue*$cPoints; 
 
                                 // echo "El valor máximo de incId es: " . $valor;
                                 } else {
@@ -1779,8 +1779,8 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                         $puntosObtenidos=0;
                                         //valor en pesos de puntos
                                     
-                                        $validarResultado=($fTotal-$cTotal);
-                                        $returnedCash=($cTotal);
+                                        $validarResultado=$fTotal-$cTotal;
+                                        $returnedCash=($payWith-$validarResultado);
                                         
                                        
                                         $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
