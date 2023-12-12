@@ -1726,7 +1726,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                                     $parameter="isCredit";
                                                 }
                                         $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,$parameter,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2',1,'$bankEntity')");
-                            $respuesta="true";
+                            $respuesta="true_method";
                                     }else{
                                         $respuesta="false";
                                     }
@@ -1838,6 +1838,15 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             echo "false|" . mysqli_error($conectar);
                         }
         }
+        if($respuesta=="true_method"){
+            if($query1){
+
+            echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
+        } else {
+            // Si hay un error, imprime el mensaje de error
+            echo "false|" . mysqli_error($conectar);
+        }
+}
         if($respuesta=="true_point_bank"){
             if($query1){
 
