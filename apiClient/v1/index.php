@@ -1766,30 +1766,32 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                     $parameter="isApp";
                                     $pm="points_isApp_".$bankEntity;
                                     $puntosObtenidos=0;
-                                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos',backupPoints='$cPoints' WHERE customerId='$customerId'");
+                                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='0',backupPoints='$cPoints' WHERE customerId='$customerId'");
 
                                     $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isApp,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1)");
                                     $respuesta="true_point_bank";
                                 }
                                 if($paymentMethod=="dc"){
                                     $parameter="isDebit";
+                                    $pm="points_isDebit_".$bankEntity;
                                     $puntosObtenidos=0;
-                                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos',backupPoints='$cPoints' WHERE customerId='$customerId'");
+                                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='0',backupPoints='$cPoints' WHERE customerId='$customerId'");
 
                                     $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isDebit,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1)");
                                     $respuesta="true_point_bank";
                                 }
                                 if($paymentMethod=="cc"){
                                     $parameter="isCredit";
+                                    $pm="points_isCredit_".$bankEntity;
                                     $puntosObtenidos=0;
-                                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos',backupPoints='$cPoints' WHERE customerId='$customerId'");
+                                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='0',backupPoints='$cPoints' WHERE customerId='$customerId'");
 
                                     $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCredit,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1)");
                                     $respuesta="true_point_bank";
                                 }
                                 if($paymentMethod=="cash"){
                                     $parameter="isCash";
-
+                                    $pm="points_isCash_".$bankEntity;
                                     $validationPay=$payWith+$cTotal;
                                     if($validationPay>=$fTotal){
                                         $puntosObtenidos=0;
@@ -1799,9 +1801,9 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                         $returnedCash=($payWith-$validarResultado);
                                         
                                        
-                                        $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
+                                        $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='0' WHERE customerId='$customerId'");
 
-                                        $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','POINTS_$parameter+_$bankEntity',$returnedCash,'DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,'$payWith',1)");
+                                        $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',$returnedCash,'DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,'$payWith',1)");
                                         $respuesta="true";
                                     }else{
                                         $respuesta="false_point";
