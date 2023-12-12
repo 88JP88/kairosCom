@@ -1764,7 +1764,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc" || $paymentMethod=="cash"){
                                 if($paymentMethod=="app"){
                                     $parameter="isApp";
-                                    $pm="points_isApp_"+$bankEntity;
+                                    $pm="points_isApp_".$bankEntity;
                                     $puntosObtenidos=0;
                                     $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos',backupPoints='$cPoints' WHERE customerId='$customerId'");
 
