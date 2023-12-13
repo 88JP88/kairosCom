@@ -3497,8 +3497,8 @@ if($filter=="byStore"){
                
         
                 if ($query) {
-                   // echo json_encode(['orders'=>$values]);
-                    echo "true|¡Producto actualizado con éxito!";
+                    echo json_encode(['orders'=>$values]);
+                   // echo "true|¡Producto actualizado con éxito!";
                 } else {
                     // Si hay un error, imprime el mensaje de error
                     echo "false|" . mysqli_error($conectar);
