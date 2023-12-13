@@ -3494,9 +3494,15 @@ if($filter=="byStore"){
                 }
                 $row=$query->fetch_assoc();
                 //echo json_encode($students) ;
-                echo json_encode(['orders'=>$values]);
+               
         
-            
+                if ($query) {
+                    echo json_encode(['orders'=>$values]);
+                   // echo "true|¡Producto actualizado con éxito!";
+                } else {
+                    // Si hay un error, imprime el mensaje de error
+                    echo "false|" . mysqli_error($conectar);
+                }
         
 
         } else {
