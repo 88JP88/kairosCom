@@ -3449,7 +3449,7 @@ if($filter=="byStore"){
 
         
         
-    $query= mysqli_query($conectar,"SELECT gor.orderId,gor.carId,gor.clientId,gor.userId,gor.shopperId,gor.storeId,gor.totalAmount,gor.subTotalAmount,gor.orderProgress,gor.saver,gor.paymentMethod,gor.returnCash,gor.transactionStatus,gor.numberProducts,gor.numberPacks,gor.inDate,gor.inTime,gor.incId,gor.paymentReference,gor.payWith,gor.bankEntity,gc.customerName,gc.customerLastName,gs.storeName FROM generalOrder gor JOIN generalCustomers gc ON gor.shopperId=gc.customerId JOIN generalStores gs ON gor.storeId=gs.storeId where gor.clientId='$clientId' and gor.$param='$value'");
+    $query= mysqli_query($conectar,"SELECT gor.orderId,gor.carId,gor.clientId,gor.userId,gor.shopperId,gor.storeId,gor.totalAmount,gor.subTotalAmount,gor.orderProgress,gor.saver,gor.paymentMethod,gor.returnCash,gor.transactionStatus,gor.numberProducts,gor.numberPacks,gor.inDate,gor.inTime,gor.incId,gor.paymentReference,gor.payWith,gor.bankEntity,gc.customerName,gc.customerLastName,gs.storeName FROM generalOrders gor JOIN generalCustomers gc ON gor.shopperId=gc.customerId JOIN generalStores gs ON gor.storeId=gs.storeId where gor.clientId='$clientId' and gor.$param='$value'");
 
 
 }
@@ -3494,10 +3494,10 @@ if($filter=="byStore"){
                 }
                 $row=$query->fetch_assoc();
                 //echo json_encode($students) ;
-               
+                echo json_encode(['orders'=>$values]);
         
                 if ($query) {
-                    echo json_encode(['orders'=>$values]);
+                   
                    // echo "true|¡Producto actualizado con éxito!";
                 } else {
                     // Si hay un error, imprime el mensaje de error
