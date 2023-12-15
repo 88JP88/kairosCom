@@ -3611,7 +3611,7 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
                     echo "false|" . mysqli_error($conectar);
                 }
             } else {
-                echo "false|¡Debes registrarte como cliente!";
+                echo "false|¡Debes registrarte como cliente!".$clientId;
             }
             
           
