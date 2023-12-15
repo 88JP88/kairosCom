@@ -3582,8 +3582,7 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
             $myuuid = $gen_uuid->guidv4();
         
 
-            $valCode = substr($myuuid, 0, 8);
-
+          
         
         
             $conectar=conn();
@@ -3596,6 +3595,8 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
             
                 // Verificar si la fila tiene datos
                 if ($fila) {
+                    $valCode = substr($myuuid, 0, 8);
+
                     // Obtener el valor de la columna 'coId'
                     //mensaje al correo del clientr
 ini_set( 'display_errors', 1 );
@@ -3609,7 +3610,7 @@ $message = 'Tu Código de confirmación es:  '.$valCode;
 
 $headers = "From:" . $from;
 mail($to,$subject,$message, $headers);
-                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' where clientId='$clientId' and customerId IN (SELECT customerId WHERE customerMail='$customerMail' and clientId='$clientId')");
+                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' where clientId='$clientId' and customerMail='$customerMail'");
                     if ($query) {
                         echo "true|¡Código enviado con éxito al mail ".$customerMail." !";
                     } else {
