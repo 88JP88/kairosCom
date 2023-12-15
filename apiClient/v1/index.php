@@ -3610,7 +3610,7 @@ $message = 'Tu Código de confirmación es:  '.$valCode;
 
 $headers = "From:" . $from;
 mail($to,$subject,$message, $headers);
-                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' where clientId='$clientId' and customerMail='$customerMail'");
+                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode=$valCode where clientId='$clientId' and customerMail='$customerMail'");
                     if ($query) {
                         echo "true|¡Código enviado con éxito al mail ".$customerMail." !";
                     } else {
