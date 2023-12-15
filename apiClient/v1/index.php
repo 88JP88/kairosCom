@@ -3586,7 +3586,7 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         
         
             $conectar=conn();
-            $query3 = mysqli_query($conectar, "SELECT COUNT(customerId) as cusId from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId'");
+            $query3 = mysqli_query($conectar, "SELECT customerId from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId'");
             
             // Verificar si la consulta fue exitosa
             
@@ -3594,7 +3594,7 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
                 $fila = $query3->fetch_assoc();
             
                 // Verificar si la fila tiene datos
-                if ($fila>=1) {
+                if ($fila) {
                     $valCode = substr($myuuid, 0, 8);
 
                     // Obtener el valor de la columna 'coId'
