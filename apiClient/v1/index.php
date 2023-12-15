@@ -3619,7 +3619,7 @@ mail($to,$subject,$message, $headers);
                     }
                 }else{
 
-                    echo "false|¡Debes agregarte como cliente!";
+                    echo "false|¡Debes agregarte como cliente!".$customerMail;
                 }
             
         
