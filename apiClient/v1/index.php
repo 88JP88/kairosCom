@@ -3585,7 +3585,9 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
           
         
         
-            $conectar=conn();$query3 = mysqli_query($conectar, "SELECT customerId FROM generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId'");
+            $conectar=conn();
+            
+            $query3 = mysqli_query($conectar, "SELECT customerId FROM generalCustomers WHERE customerMail='$customerMail'");
 
             $fila = $query3->fetch_assoc();
             
