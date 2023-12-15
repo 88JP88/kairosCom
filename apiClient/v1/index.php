@@ -3585,44 +3585,35 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
           
         
         
-            $conectar=conn();
-            $query3 = mysqli_query($conectar, "SELECT customerId from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId'");
+            $conectar=conn();$query3 = mysqli_query($conectar, "SELECT customerId FROM generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId'");
+
+            $fila = $query3->fetch_assoc();
             
-            // Verificar si la consulta fue exitosa
+            if ($fila) {
+                // El cliente está registrado para el clienteId dado, proceder con el código para enviar el código de confirmación
+                $valCode = substr($myuuid, 0, 8);
             
-                // Obtener la primera fila como un arreglo asociativo
-                $fila = $query3->fetch_assoc();
+                // Envío del código de confirmación por correo
+                ini_set('display_errors', 1);
+                error_reporting(E_ALL);
+                $from = "confirmation@lugma.tech";
+                $to = $customerMail;
+                $subject = "Código de confirmación para compra";
+                $message = 'Tu Código de confirmación es: ' . $valCode;
+                $headers = "From:" . $from;
+                mail($to, $subject, $message, $headers);
             
-                // Verificar si la fila tiene datos
-                if ($fila) {
-                    $valCode = substr($myuuid, 0, 8);
-
-                    // Obtener el valor de la columna 'coId'
-                    //mensaje al correo del clientr
-ini_set( 'display_errors', 1 );
-error_reporting( E_ALL );
-$from = "confirmation@lugma.tech";
-$to = $customerMail;
-$subject = "Código de confirmación para compra";
-
-$message = 'Tu Código de confirmación es:  '.$valCode;
-
-
-$headers = "From:" . $from;
-mail($to,$subject,$message, $headers);
-                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' where clientId='$clientId' and customerMail='$customerMail'");
-                    if ($query) {
-                        echo "true|¡Código enviado con éxito al mail ".$customerMail." !";
-                    } else {
-                        // Si hay un error, imprime el mensaje de error
-                        echo "false|" . mysqli_error($conectar);
-                    }
-                }else{
-
-                    echo "false|¡Debes agregarte como cliente!".$customerMail;
+                // Actualización del código de confirmación en la base de datos
+                $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' WHERE clientId='$clientId' AND customerMail='$customerMail'");
+                if ($query) {
+                    echo "true|¡Código enviado con éxito al correo $customerMail!";
+                } else {
+                    echo "false|" . mysqli_error($conectar);
                 }
+            } else {
+                echo "false|¡Debes registrarte como cliente!";
+            }
             
-        
           
     
         
