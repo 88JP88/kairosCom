@@ -3594,7 +3594,7 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
                 $fila = $query3->fetch_assoc();
             
                 // Verificar si la fila tiene datos
-                if ($fila) {
+                if ($fila>=1) {
                     $valCode = substr($myuuid, 0, 8);
 
                     // Obtener el valor de la columna 'coId'
