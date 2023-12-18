@@ -3697,10 +3697,9 @@ Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
             // Verificar si la consulta fue exitosa
             
                 // Obtener la primera fila como un arreglo asociativo
-                $fila = $query3->fetch_assoc();
-            
-                // Verificar si la fila tiene datos
-                if ($fila) {
+                $num_rows = mysqli_num_rows($query3);
+
+                if ($num_rows > 0) {
                     // Obtener el valor de la columna 'coId'
                     //mensaje al correo del clientr
 ini_set( 'display_errors', 1 );
