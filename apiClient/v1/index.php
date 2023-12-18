@@ -3587,11 +3587,11 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         
             $conectar=conn();
             
-            $query3 = mysqli_query($conectar, "SELECT customerId FROM generalCustomers WHERE customerMail='$customerMail'");
+            $query3 = mysqli_query($conectar, "SELECT customerId FROM generalCustomers WHERE customerMail='$customerMail' and clientId='$clientId'");
 
-            $fila = $query3->fetch_assoc();
-            
-            if ($fila) {
+            $num_rows = mysqli_num_rows($query3);
+
+            if ($num_rows > 0) {
                 // El cliente está registrado para el clienteId dado, proceder con el código para enviar el código de confirmación
                 $valCode = substr($myuuid, 0, 8);
             
