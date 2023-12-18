@@ -3692,7 +3692,7 @@ Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         
         
             $conectar=conn();
-            $query3 = mysqli_query($conectar, "SELECT COUNT(customerId) as cusId from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId' and ecmCode='$valCode'");
+            $query3 = mysqli_query($conectar, "SELECT customerId from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId' and ecmCode='$valCode'");
             
             // Verificar si la consulta fue exitosa
             
