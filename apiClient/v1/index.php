@@ -3731,7 +3731,7 @@ mail($to,$subject,$message, $headers);
 
 
                 }else{
-                    $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='0' codeAttemps=(SELECT codeAttemps FROM generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId')+1 where clientId='$clientId' and customerMail='$customerMail'");
+                    $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=(SELECT codeAttemps FROM generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId')+1 where clientId='$clientId' and customerMail='$customerMail'");
                     $query3 = mysqli_query($conectar, "SELECT customerId,codeAttemps from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId'");
             
             // Verificar si la consulta fue exitosa
