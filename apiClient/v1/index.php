@@ -3608,12 +3608,12 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
                 // Actualización del código de confirmación en la base de datos
                 $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' WHERE clientId='$clientId' AND customerMail='$customerMail'");
                 if ($query) {
-                    echo "true|¡Código enviado con éxito al correo $customerMail!";
+                    echo "true|¡Código enviado con éxito al correo $customerMail!|validMail";
                 } else {
-                    echo "false|" . mysqli_error($conectar);
+                    echo "false|" . mysqli_error($conectar)."|invalidDb";
                 }
             } else {
-                echo "false|¡Debes registrarte como cliente!".$clientId;
+                echo "false|¡Debes registrarte como cliente!|invalidMail";
             }
             
           
@@ -3692,14 +3692,17 @@ Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         
         
             $conectar=conn();
-            $query3 = mysqli_query($conectar, "SELECT customerId from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId' and ecmCode='$valCode'");
+            $query3 = mysqli_query($conectar, "SELECT customerId,codeAttemps from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId' and ecmCode='$valCode'");
             
             // Verificar si la consulta fue exitosa
-            
+            $fila = $query3->fetch_assoc();
+
                 // Obtener la primera fila como un arreglo asociativo
                 $num_rows = mysqli_num_rows($query3);
 
                 if ($num_rows > 0) {
+$attemps=$fila['codeAttemps'];
+if($attemps<=3){
                     // Obtener el valor de la columna 'coId'
                     //mensaje al correo del clientr
 ini_set( 'display_errors', 1 );
@@ -3715,14 +3718,30 @@ $headers = "From:" . $from;
 mail($to,$subject,$message, $headers);
                     $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='0' where clientId='$clientId' and customerId IN (SELECT customerId WHERE customerMail='$customerMail' and clientId='$clientId')");
                     if ($query) {
-                        echo "true|¡Código validado con éxito al mail ".$customerMail." !";
+                        echo "true|¡Código validado con éxito al mail!|validatedMail";
                     } else {
                         // Si hay un error, imprime el mensaje de error
-                        echo "false|" . mysqli_error($conectar);
+                        echo "false|" . mysqli_error($conectar)."|invalidDb";
                     }
-                }else{
 
-                    echo "false|¡Código o correo incorrecto!";
+                }else{
+                    echo "false|¡Exediste el número de intentos máximos!|codeAttemps";
+                }
+
+
+
+                }else{
+                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=(SELECT codeAttemps FROM generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId')+1 where clientId='$clientId' and customerMail='$customerMail'");
+                    $query3 = mysqli_query($conectar, "SELECT customerId,codeAttemps from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId' and ecmCode='$valCode'");
+            
+            // Verificar si la consulta fue exitosa
+            $fila = $query3->fetch_assoc();
+            $attemps=$fila['codeAttemps'];
+            if($attemps>=3){
+                echo "false|¡Exediste el número de intentos máximos!|codeAttemps";
+            }else{
+                    echo "false|¡Código o correo incorrecto!|invalidMailCode";
+            }
                 }
             
         
