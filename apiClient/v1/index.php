@@ -4276,7 +4276,7 @@ mail($to,$subject,$message, $headers);
     //valida respuesta para api de salida
 if($respuesta=="true_cash"){
                     if($query1){
-                                sendingMail($customerEmail,$stringMessageProducts);
+                               // sendingMail($customerEmail,$stringMessageProducts);
                     echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
                 } else {
                     // Si hay un error, imprime el mensaje de error
