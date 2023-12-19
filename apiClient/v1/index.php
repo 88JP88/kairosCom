@@ -1657,7 +1657,7 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                 
                             
                                 // Mostrar o utilizar el valor
-                                $query4 = mysqli_query($conectar, "SELECT customerPoints,customerStars from generalCustomers WHERE customerId='$customerId'");
+                                $query4 = mysqli_query($conectar, "SELECT customerPoints,customerStars from generalCustomers WHERE customerId='$customerId' AND clientId='$clientId'");
 
                                 // Verificar si la consulta fue exitosa
                                 
@@ -4060,7 +4060,7 @@ $ar=json_encode($arrayData,true);
             
         
             // Mostrar o utilizar el valor
-            $query4 = mysqli_query($conectar, "SELECT customerPoints,customerStars from generalCustomers WHERE customerId='$customerId'");
+            $query4 = mysqli_query($conectar, "SELECT customerPoints,customerStars from generalCustomers WHERE customerId='$customerId' AND clientId='$clientId'");
 
             // Verificar si la consulta fue exitosa
             
@@ -4249,7 +4249,7 @@ if($respuesta=="true_cash"){
 if($respuesta=="true_method"){
     if($query1){
 
-    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE ENTREGAR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 } else {
     // Si hay un error, imprime el mensaje de error
     echo "false|" . mysqli_error($conectar);
@@ -4258,7 +4258,7 @@ if($respuesta=="true_method"){
 if($respuesta=="true_point_bank"){
     if($query1){
 
-    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE ENTREGAR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
+    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
 } else {
     // Si hay un error, imprime el mensaje de error
     echo "false|" . mysqli_error($conectar);
