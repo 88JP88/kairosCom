@@ -4256,7 +4256,7 @@ else if($paymentType=="points"){
 }
         
 
-function sendingMail($customermMail,$perMessage){
+function sendingMail($customermMail,$perMessage,$totalMessage,$stotalMessage,$saverMessage){
     
 
     // Obtener el valor de la columna 'coId'
@@ -4267,7 +4267,7 @@ $from = "confirmation@lugma.tech";
 $to = $customermMail;
 $subject = "Código de confirmación para compra";
 
-$message = 'Tu compra ha sido validada... \n'. $perMessage;
+$message = 'Tu compra ha sido validada... \n'. $perMessage.'\nTotal: $'.$totalMessage.'\nSub-Total: $'.$stotalMessage.'\nAhorro: $'.$saverMessage;
 
 
 $headers = "From:" . $from;
@@ -4276,7 +4276,7 @@ mail($to,$subject,$message, $headers);
     //valida respuesta para api de salida
 if($respuesta=="true_cash"){
                     if($query1){
-                                sendingMail($customerEmail,$stringMessageProducts);
+                                sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver);
                     echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
                 } else {
                     // Si hay un error, imprime el mensaje de error
@@ -4285,8 +4285,7 @@ if($respuesta=="true_cash"){
 }
 if($respuesta=="true_method"){
     if($query1){
-        sendingMail($customerEmail,$stringMessageProducts);
-    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+        sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver);    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 } else {
     // Si hay un error, imprime el mensaje de error
     echo "false|" . mysqli_error($conectar);
@@ -4294,8 +4293,8 @@ if($respuesta=="true_method"){
 }
 if($respuesta=="true_point_bank"){
     if($query1){
-        sendingMail($customerEmail,$stringMessageProducts);
-    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
+        sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver);
+            echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
 } else {
     // Si hay un error, imprime el mensaje de error
     echo "false|" . mysqli_error($conectar);
