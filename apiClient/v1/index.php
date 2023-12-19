@@ -4267,7 +4267,7 @@ $from = "confirmation@lugma.tech";
 $to = $customermMail;
 $subject = "Código de confirmación para compra";
 
-$message = 'Tu compra ha sido validada... '. $perMessage;
+$message = 'Tu compra ha sido validada... \n'. $perMessage;
 
 
 $headers = "From:" . $from;
