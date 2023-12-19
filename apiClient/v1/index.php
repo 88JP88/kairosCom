@@ -3822,7 +3822,7 @@ Flight::route('GET /getClientPickupPoints/@clientId/@filter/@param/@value', func
 
         
         
-            $query= mysqli_query($conectar,"SELECT pickupId,clientId,pointName,pointAdd,isActive,cityPoint,suscribedTo FROM pickupPoints where clientId='$clientId'");
+            $query= mysqli_query($conectar,"SELECT pickupId,clientId,pointName,pointAdd,isActive,cityPoint,subscribedTo FROM pickupPoints where clientId='$clientId'");
         }
         
     
