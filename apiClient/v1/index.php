@@ -3725,6 +3725,8 @@ mail($to,$subject,$message, $headers);
                     }
 
                 }else{
+                    $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=0 where clientId='$clientId' and customerMail='$customerMail'");
+                   
                     echo "false|¡Exediste el número de intentos máximos!|codeAttemps";
                 }
 
@@ -3738,6 +3740,8 @@ mail($to,$subject,$message, $headers);
             $fila = $query3->fetch_assoc();
             $attemps=$fila['codeAttemps'];
             if($attemps>=3){
+                $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=0 where clientId='$clientId' and customerMail='$customerMail'");
+                   
                 echo "false|¡Exediste el número de intentos máximos!|codeAttemps";
             }else{
                     echo "false|¡Código o correo incorrecto!|invalidMailCode";
