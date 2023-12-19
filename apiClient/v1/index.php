@@ -4041,7 +4041,7 @@ foreach ($arrayData as $item) {
             //  echo "No se encontraron datos.";
             }
       
-        $stringMessageProducts=$stringMessageProducts." - ".$valor13."<br>";
+      //  $stringMessageProducts=$stringMessageProducts." - ".$valor13."<br>";
       
       
       
