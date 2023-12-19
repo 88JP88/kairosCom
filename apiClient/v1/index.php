@@ -3971,7 +3971,7 @@ Flight::route('POST /postClientOrderEcm/@apk/@xapk', function ($apk,$xapk) {
                 // Verificar si la fila tiene datos
                 if ($fila10) {
                     // Obtener el valor de la columna 'coId'
-                    $_SESSION['customerId'] = $fila10['clientId'];
+                    $_SESSION['customerId'] = $fila10['customerId'];
                     $customerId=$_SESSION['customerId'];
                 // echo "El valor máximo de incId es: " . $valor;
                 } else {
