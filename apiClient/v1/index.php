@@ -3947,7 +3947,7 @@ Flight::route('POST /postClientOrderEcm/@apk/@xapk', function ($apk,$xapk) {
             $deliveryMethod= Flight::request()->data->deliveryMethod;
             $deliveryAdd= Flight::request()->data->deliveryAdd;
         
-//$customerEmail=$customerId;
+$customerEmail=$customerId;
             require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
         
         
@@ -4035,13 +4035,13 @@ foreach ($arrayData as $item) {
             // Verificar si la fila tiene datos
             if ($fila13) {
                 // Obtener el valor de la columna 'coId'
-                $valor13 = $fila13['productName']+1;
+                $valor13 = $fila13['productName'];
             // echo "El valor máximo de incId es: " . $valor;
             } else {
             //  echo "No se encontraron datos.";
             }
       
-      //  $stringMessageProducts=$stringMessageProducts." - ".$valor13."<br>";
+        $stringMessageProducts=$stringMessageProducts." - ".strval($productQty)." ".$valor13." ".strval($valor13)." $".strval($salePrice)."<br>";
       
       
       
@@ -4256,10 +4256,27 @@ else if($paymentType=="points"){
 }
         
 
+function sendingMail($customermMail,$perMessage){
+    
+
+    // Obtener el valor de la columna 'coId'
+    //mensaje al correo del clientr
+ini_set( 'display_errors', 1 );
+error_reporting( E_ALL );
+$from = "confirmation@lugma.tech";
+$to = $customermMail;
+$subject = "Código de confirmación para compra";
+
+$message = 'Tu compra ha sido validada... '. $perMessage;
+
+
+$headers = "From:" . $from;
+mail($to,$subject,$message, $headers);
+}
     //valida respuesta para api de salida
 if($respuesta=="true_cash"){
                     if($query1){
-                               // sendingMail($customerEmail,$stringMessageProducts);
+                                sendingMail($customerEmail,$stringMessageProducts);
                     echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
                 } else {
                     // Si hay un error, imprime el mensaje de error
@@ -4268,7 +4285,7 @@ if($respuesta=="true_cash"){
 }
 if($respuesta=="true_method"){
     if($query1){
-      //  sendingMail($customerEmail,$stringMessageProducts);
+        sendingMail($customerEmail,$stringMessageProducts);
     echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 } else {
     // Si hay un error, imprime el mensaje de error
@@ -4277,7 +4294,7 @@ if($respuesta=="true_method"){
 }
 if($respuesta=="true_point_bank"){
     if($query1){
-      //  sendingMail($customerEmail,$stringMessageProducts);
+        sendingMail($customerEmail,$stringMessageProducts);
     echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
 } else {
     // Si hay un error, imprime el mensaje de error
