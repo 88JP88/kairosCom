@@ -4285,7 +4285,7 @@ if($respuesta=="true_cash"){
 }
 if($respuesta=="true_method"){
     if($query1){
-        sendingMail($customerEmail,$stringMessageProducts);
+      //  sendingMail($customerEmail,$stringMessageProducts);
     echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 } else {
     // Si hay un error, imprime el mensaje de error
@@ -4294,7 +4294,7 @@ if($respuesta=="true_method"){
 }
 if($respuesta=="true_point_bank"){
     if($query1){
-        sendingMail($customerEmail,$stringMessageProducts);
+      //  sendingMail($customerEmail,$stringMessageProducts);
     echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
 } else {
     // Si hay un error, imprime el mensaje de error
