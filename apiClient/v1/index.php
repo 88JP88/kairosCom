@@ -4114,7 +4114,7 @@ $ar=json_encode($arrayData,true);
                 $puntosObtenidos = round(calcularPuntos($fTotal,$clientId)+$cPoints,2);
                 $puntosObtenidos2 = round(calcularPuntos($fTotal,$clientId),2);
 
-                $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
+             //   $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
     //VALIDA EL TIPO DE PAGO TRANSACCIONAL
 if($paymentType=="transfer" || $paymentType=="card"){
                         //VALIDA EL MÉTODO DE PAGO
@@ -4172,7 +4172,7 @@ else if($paymentType=="points"){
                             $parameter="isApp";
                             $pm="points_isApp_".$bankEntity;
                             $puntosObtenidos=0;
-                            $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
+                          //  $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
 
                             $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isApp,payWith,isPayed,bankEntity,deliveryMethod,deliveryAdd) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','ECM','$storeId',$fTotal,$fsTotal,'RECEIVED',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity','$deliveryMethod','$deliveryAdd')");
                             $respuesta="true_point_bank";
@@ -4181,7 +4181,7 @@ else if($paymentType=="points"){
                             $parameter="isDebit";
                             $pm="points_isDebit_".$bankEntity;
                             $puntosObtenidos=0;
-                            $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
+                          //  $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
 
                             $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isDebit,payWith,isPayed,bankEntity,deliveryMethod,deliveryAdd) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','ECM','$storeId',$fTotal,$fsTotal,'RECEIVED',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity','$deliveryMethod','$deliveryAdd')");
                             $respuesta="true_point_bank";
@@ -4190,7 +4190,7 @@ else if($paymentType=="points"){
                             $parameter="isCredit";
                             $pm="points_isCredit_".$bankEntity;
                             $puntosObtenidos=0;
-                            $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
+                           // $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
 
                             $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCredit,payWith,isPayed,bankEntity,deliveryMethod,deliveryAdd) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','ECM','$storeId',$fTotal,$fsTotal,'RECEIVED',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity','$deliveryMethod','$deliveryAdd')");
                             $respuesta="true_point_bank";
@@ -4207,7 +4207,7 @@ else if($paymentType=="points"){
                                 $returnedCash=($payWith-$validarResultado);
                                 
                             
-                                $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0 WHERE customerId='$customerId'");
+                              //  $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0 WHERE customerId='$customerId'");
 
                                 $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed,deliveryMethod,deliveryAdd) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','ECM','$storeId',$fTotal,$fsTotal,'RECEIVED',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',$returnedCash,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,'$payWith',1,'$deliveryMethod','$deliveryAdd')");
                                 $respuesta="true";
@@ -4221,7 +4221,7 @@ else if($paymentType=="points"){
 
                     $validationPay=$fTotal/$cPointValue;
                     $puntosObtenidos=$puntosObtenidos-$validationPay;
-                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
+                //    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
 
                     $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed,deliveryMethod,deliveryAdd) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','ECM','$storeId',$fTotal,$fsTotal,'RECEIVED',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','POINTS','0','PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS',1,'$payWith',1,'$deliveryMethod','$deliveryAdd')");
                     $respuesta="true";
@@ -4249,7 +4249,7 @@ if($respuesta=="true_cash"){
 if($respuesta=="true_method"){
     if($query1){
 
-    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE ENTREGAR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 } else {
     // Si hay un error, imprime el mensaje de error
     echo "false|" . mysqli_error($conectar);
@@ -4258,7 +4258,7 @@ if($respuesta=="true_method"){
 if($respuesta=="true_point_bank"){
     if($query1){
 
-    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
+    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE ENTREGAR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
 } else {
     // Si hay un error, imprime el mensaje de error
     echo "false|" . mysqli_error($conectar);
@@ -4274,10 +4274,6 @@ if($respuesta=="false_point"){
 }
 if($respuesta=="false_point_lack"){
     echo "false|¡Orden no se pudo crear puntos insuficientes, minimo de puntos acumulados deben ser ".$cMinPoints."!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
-
-}
-else{
-            echo "false|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 
 }
         
