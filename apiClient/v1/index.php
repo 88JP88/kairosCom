@@ -4256,23 +4256,6 @@ else if($paymentType=="points"){
 }
         
 
-function sendingMail($customermMail,$perMessage){
-    
-
-    // Obtener el valor de la columna 'coId'
-    //mensaje al correo del clientr
-ini_set( 'display_errors', 1 );
-error_reporting( E_ALL );
-$from = "confirmation@lugma.tech";
-$to = $customermMail;
-$subject = "Código de confirmación para compra";
-
-$message = 'Tu compra ha sido validada... '. $perMessage;
-
-
-$headers = "From:" . $from;
-mail($to,$subject,$message, $headers);
-}
     //valida respuesta para api de salida
 if($respuesta=="true_cash"){
                     if($query1){
