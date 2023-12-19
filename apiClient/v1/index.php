@@ -3947,7 +3947,7 @@ Flight::route('POST /postClientOrderEcm/@apk/@xapk', function ($apk,$xapk) {
             $deliveryMethod= Flight::request()->data->deliveryMethod;
             $deliveryAdd= Flight::request()->data->deliveryAdd;
         
-$customerEmail=$customerId;
+//$customerEmail=$customerId;
             require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
         
         
