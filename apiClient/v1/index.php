@@ -2053,8 +2053,82 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
       
+
+
+
+
+
             $query = mysqli_query($conectar, "UPDATE generalOrders SET $param='$value' where clientId='$clientId' and orderId='$orderId'");
 
+
+
+
+
+            $query9 = mysqli_query($conectar, "SELECT gor.incId,gc.customerMail,gs.storeName,gor,deliveryAdd,gor.deliveryMethod from generalOrders gor JOIN generalCustomer gc ON gc.customerId=gor.shopperId JOIN generalStores gs ON gs.storeId=gor.storeId WHERE gor.orderId='$orderId' AND gor.clientId='$clientId'");
+
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila9 = $query9->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila9) {
+                    // Obtener el valor de la columna 'coId'
+                    $orNumber = $fila9['incId'];
+                    $cusMail = $fila9['customerMail'];
+                    $stName = $fila9['storeName'];
+                    $delMeth = $fila9['deliveryMethod'];
+                    $delAdd = $fila9['deliveryAdd'];
+
+                   
+
+                // echo "El valor máximo de incId es: " . $valor;
+                } else {
+                //  echo "No se encontraron datos.";
+                }
+                                        if($value=="in_progress"){
+                                                    $stateorder="EN PROGRESO";
+                                                    $colorstate="orange";
+                                        }
+                                        if($value=="picking"){
+                                            $stateorder="EN PROGRESO";
+                                            $colorstate="DarkSalmon";
+                                }
+                                if($value=="ready"){
+                                    $stateorder="LISTA";
+                                    $colorstate="green";
+                                }
+                                if($value=="on_way"){
+                                    $stateorder="EN CAMINO";
+                                    $colorstate="blue";
+                                }
+                                if($value=="delivered"){
+                                    $stateorder="ENTREGADA";
+                                    $colorstate="#a3e4d7";
+                                }
+                                if($value=="done"){
+                                    $stateorder="FINALIZADA";
+                                    $colorstate="#d4e6f1";
+                                }
+                                if($value=="canceled"){
+                                    $stateorder="CANCELADA";
+                                    $colorstate="#cd6155";
+                                }
+
+            function sendingMail($customermMail, $orId, $orNumber,$storeName,$delmeth,$deladd,$orstate,$orcolor) {
+ 
+               
+                $finishedMsg = "Validación de estado de orden con ID <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: $orcolor;'>$orstate</h3><br/>Tienda: $storeName <br>Método de entrega: $delmeth <br>Dirección de entrega: $deladd";
+                 $from = "confirmation@lugma.tech";
+                 $to = $customermMail;
+                 $subject = "Confirmación de estado de orden #" . $orId;
+             
+                 $headers = "MIME-Version: 1.0" . "\r\n";
+                 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                 $headers .= "From: " . $from;
+             
+                 mail($to, $subject, $finishedMsg, $headers);
+             }
         
         
             if ($query) {
