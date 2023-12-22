@@ -2090,7 +2090,7 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
                                                     $stateorder="EN PROGRESO";
                                                     $colorstate="orange";
                                         }
-                                        if($value=="picking"){
+                                        if($value=="packing"){
                                             $stateorder="EN PROGRESO";
                                             $colorstate="DarkSalmon";
                                 }
