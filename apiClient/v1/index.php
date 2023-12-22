@@ -4255,24 +4255,20 @@ else if($paymentType=="points"){
                 
 }
         
+function sendingMail($customermMail, $perMessage, $totalMessage, $stotalMessage, $saverMessage, $orId, $orNumber) {
+    $finishedMsg = "Tu compra ha sido validada con ID de orden <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong> ... <br/>" . $perMessage . "<br/>Total: <strong>$" . $totalMessage . "</strong><br/>Sub-Total: <strong>$" . $stotalMessage . "</strong><br/>Ahorro: <strong>$" . $saverMessage . "</strong>";
 
-function sendingMail($customermMail,$perMessage,$totalMessage,$stotalMessage,$saverMessage,$orId,$orNumber){
-    
-$finishedMsg="Tu compra ha sido validada con ID de orden <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong> ... \n". $perMessage."\nTotal: <strong>$".$totalMessage."</strong>\nSub-Total: <strong>$".$stotalMessage."</strong>\nAhorro: <strong>$".$saverMessage."</strong>";
-    // Obtener el valor de la columna 'coId'
-    //mensaje al correo del clientr
-ini_set( 'display_errors', 1 );
-error_reporting( E_ALL );
-$from = "confirmation@lugma.tech";
-$to = $customermMail;
-$subject = "Confirmación de orden <strong>#".$orId."</strong>";
+    $from = "confirmation@lugma.tech";
+    $to = $customermMail;
+    $subject = "Confirmación de orden #" . $orId;
 
-$message = $finishedMsg;
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= "From: " . $from;
 
-
-$headers = "From:" . $from;
-mail($to,$subject,$message, $headers);
+    mail($to, $subject, $finishedMsg, $headers);
 }
+
     //valida respuesta para api de salida
 if($respuesta=="true_cash"){
                     if($query1){
