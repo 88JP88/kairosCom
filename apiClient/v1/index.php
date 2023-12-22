@@ -4041,7 +4041,7 @@ foreach ($arrayData as $item) {
             //  echo "No se encontraron datos.";
             }
       
-        $stringMessageProducts=$stringMessageProducts." - ".strval($productQty)." ".$valor13." $".strval($salePrice)."\n";
+        $stringMessageProducts=$stringMessageProducts."<br> - ".strval($productQty)." ".$valor13." $".strval($salePrice)."<br>";
       
       
       
