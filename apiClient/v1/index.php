@@ -4041,7 +4041,7 @@ foreach ($arrayData as $item) {
             //  echo "No se encontraron datos.";
             }
       
-        $stringMessageProducts=$stringMessageProducts."- ".strval($productQty)." ".$valor13." $".strval($salePrice)."<br>";
+        $stringMessageProducts=$stringMessageProducts."- x".strval($productQty)." ".$valor13." $".strval($salePrice)."<br>";
       
       
       
@@ -4255,8 +4255,8 @@ else if($paymentType=="points"){
                 
 }
         
-function sendingMail($customermMail, $perMessage, $totalMessage, $stotalMessage, $saverMessage, $orId, $orNumber) {
-    $finishedMsg = "Tu compra ha sido validada con ID de orden <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong> ... <br/>" . $perMessage . "<br/>Total: <strong>$" . $totalMessage . "</strong><br/>Sub-Total: <strong>$" . $stotalMessage . "</strong><br/>Ahorro: <strong>$" . $saverMessage . "</strong>";
+function sendingMail($customermMail, $perMessage, $totalMessage, $stotalMessage, $saverMessage, $orId, $orNumber,$pw,$pt,$pm,$ep) {
+    $finishedMsg = "Tu compra ha sido validada con ID de orden <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong> ... <br/>" . $perMessage . "<br/>Total: <strong>$" . $totalMessage . "</strong><br/>Sub-Total: <strong>$" . $stotalMessage . "</strong><br/>Ahorro: <strong>$" . $saverMessage . "</strong><br>Paga con: ".$pw-$totalMessage."<br><br>Tipo de pago: ".$pt."<br>Método de pago: ".$pm."<br>Entidad de pago: ".$ep;
 
     $from = "confirmation@lugma.tech";
     $to = $customermMail;
@@ -4272,7 +4272,7 @@ function sendingMail($customermMail, $perMessage, $totalMessage, $stotalMessage,
     //valida respuesta para api de salida
 if($respuesta=="true_cash"){
                     if($query1){
-                                sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver,$orderId,$valor);
+                                sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver,$orderId,$valor,$payWith,$paymentType,$paymentMethod,$bankEntity);
                     echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
                 } else {
                     // Si hay un error, imprime el mensaje de error
@@ -4281,7 +4281,7 @@ if($respuesta=="true_cash"){
 }
 if($respuesta=="true_method"){
     if($query1){
-        sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver,$orderId,$valor);    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+        sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver,$orderId,$valor,$payWith),$paymentType,$paymentMethod,$bankEntity;    echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 } else {
     // Si hay un error, imprime el mensaje de error
     echo "false|" . mysqli_error($conectar);
@@ -4289,7 +4289,7 @@ if($respuesta=="true_method"){
 }
 if($respuesta=="true_point_bank"){
     if($query1){
-        sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver,$orderId,$valor);
+        sendingMail($customerEmail,$stringMessageProducts,$fTotal,$fsTotal,$fSaver,$orderId,$valor,$payWith,$paymentType,$paymentMethod,$bankEntity);
             echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
 } else {
     // Si hay un error, imprime el mensaje de error
