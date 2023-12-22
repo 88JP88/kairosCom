@@ -4506,7 +4506,7 @@ if($respuesta=="false_point_lack"){
 
 
 
-Flight::route('GET /getDelivey/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+Flight::route('GET /getDelivery/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
