@@ -2129,7 +2129,7 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
              
                  mail($to, $subject, $finishedMsg, $headers);
              }
-        
+        sendingMail($cusMail,$orderId,$orNumber,$stName,$delMeth,$delAdd,$stateorder,$colorstate);
         
             if ($query) {
                 echo "true|¡Estado de orden actualizado con éxito!";
