@@ -2064,7 +2064,7 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-            $query9 = mysqli_query($conectar, "SELECT gor.incId,gc.customerMail,gs.storeName,gor.deliveryAdd,gor.deliveryMethod from generalOrders gor JOIN generalCustomers gc ON gc.customerId=gor.shopperId JOIN generalStores gs ON gs.storeId=gor.storeId WHERE gor.orderId='$orderId' AND gor.clientId='$clientId'");
+            $query9 = mysqli_query($conectar, "SELECT gor.incId,gc.customerMail,gs.storeName,gor.deliveryAdd,gor.deliveryMethod,gc.customerName,gc.customerLastName from generalOrders gor JOIN generalCustomers gc ON gc.customerId=gor.shopperId JOIN generalStores gs ON gs.storeId=gor.storeId WHERE gor.orderId='$orderId' AND gor.clientId='$clientId'");
 
             // Verificar si la consulta fue exitosa
             
@@ -2079,6 +2079,8 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
                     $stName = $fila9['storeName'];
                     $delMeth = $fila9['deliveryMethod'];
                     $delAdd = $fila9['deliveryAdd'];
+                    $cusname = $fila9['customerName'];
+                    $cuslname = $fila9['customerLastName'];
 
                    
 
@@ -2114,11 +2116,12 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
                                     $stateorder="CANCELADA";
                                     $colorstate="#cd6155";
                                 }
+                                
 
-            function sendingMail($customermMail, $orId, $orNumber,$storeName,$delmeth,$deladd,$orstate,$orcolor) {
+            function sendingMail($customermMail,$fmsg,$orId) {
  
                
-                $finishedMsg = "Validación de estado de orden con ID <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: $orcolor;'>$orstate</h3><br/>Tienda: $storeName <br>Método de entrega: $delmeth <br>Dirección de entrega: $deladd";
+               // $finishedMsg = "Validación de estado de orden con ID <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: $orcolor;'>$orstate</h3><br/>Tienda: $storeName <br>Método de entrega: $delmeth <br>Dirección de entrega: $deladd";
                  $from = "confirmation@lugma.tech";
                  $to = $customermMail;
                  $subject = "Confirmación de estado de orden #" . $orId;
@@ -2127,9 +2130,50 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
                  $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
                  $headers .= "From: " . $from;
              
-                 mail($to, $subject, $finishedMsg, $headers);
+                 mail($to, $subject, $fmsg, $headers);
              }
-        sendingMail($cusMail,$orderId,$orNumber,$stName,$delMeth,$delAdd,$stateorder,$colorstate);
+
+
+             if($param=="deliveryPerson"){
+
+
+                  $query99 = mysqli_query($conectar, "SELECT deliveryName,deliveryLastName,deliveryMail,deliveryContact FROM generalDelivery WHERE clientId='$clientId' and deliveryId='$value'");
+
+            // Verificar si la consulta fue exitosa
+            
+                // Obtener la primera fila como un arreglo asociativo
+                $fila99 = $query99->fetch_assoc();
+            
+                // Verificar si la fila tiene datos
+                if ($fila99) {
+                    // Obtener el valor de la columna 'coId'
+                    $delname = $fila99['deliveryName'];
+                    $dellname = $fila99['deliveryLastName'];
+                    $delmail = $fila99['deliveryMail'];
+                    $delcontact = $fila99['deliveryContact'];
+
+                   
+
+                // echo "El valor máximo de incId es: " . $valor;
+                } else {
+                //  echo "No se encontraron datos.";
+                }
+                $finishedMsg = "Validación de estado de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: green;'>ASIGNADA A DOMICILIARIO $delname $dellname</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
+                
+                sendingMail($cusMail,$finishedMsg,$orderId);
+
+                $finishedMsg = "Asignación de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: green;'>ASIGNADA para el cliente $cusname $cuslname</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
+                
+                sendingMail($delmail,$finishedMsg,$orderId);
+             }
+
+
+             if($param=="orderProgress"){
+                $finishedMsg = "Validación de estado de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: $colorstate;'>$stateorder</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
+                
+                sendingMail($cusMail,$finishedMsg,$orderId);
+       
+             }
         
             if ($query) {
                 echo "true|¡Estado de orden actualizado con éxito!";
