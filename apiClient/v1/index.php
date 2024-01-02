@@ -3466,10 +3466,10 @@ Flight::route('POST /postDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
             $clientId= Flight::request()->data->clientId;
-            $deliveryName= Flight::request()->data->customerName;
-            $deliveryLastName= Flight::request()->data->customerLastName;
-            $deliveryMail= Flight::request()->data->customerMail;
-            $deliveryContact= Flight::request()->data->customerPhone;
+            $deliveryName= Flight::request()->data->deliveryName;
+            $deliveryLastName= Flight::request()->data->deliveryLastName;
+            $deliveryMail= Flight::request()->data->deliveryMail;
+            $deliveryContact= Flight::request()->data->deliveryContact;
           
 
             require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
