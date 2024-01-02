@@ -2100,7 +2100,7 @@ if($param=="deliveryStatus"){
                         $paramSecondLet = $deliveryAdd['paramSecondLet'];
                         $paramDescription = $deliveryAdd['paramDescription'];
                     
-                       $delAdd= $paramOne. " ". $startStreet."".$paramOneLet. " ".$paramOneBis."\n".$paramSecond." ".$startAvenue."".$paramSecondLet." ".$paramSecondBis."\nCasa".$context;
+                       $delAdd= $paramOne. " ". $startStreet."".$paramOneLet. " ".$paramOneBis."<br>".$paramSecond." ".$startAvenue."".$paramSecondLet." ".$paramSecondBis."<br>Casa ".$context;
                       
                     
                         // ... y así sucesivamente con los demás valores
