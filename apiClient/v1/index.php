@@ -2138,7 +2138,7 @@ if($param=="deliveryStatus"){
              }
 
 
-             if($param=="deliveryStatus"){
+             if($param=="deliveryPerson"){
 
 
                   $query99 = mysqli_query($conectar, "SELECT deliveryName,deliveryLastName,deliveryMail,deliveryContact FROM generalDelivery WHERE clientId='$clientId' and deliveryId='$value'");
