@@ -2085,7 +2085,26 @@ if($param=="deliveryStatus"){
                     $delAdd = $fila9['deliveryAdd'];
                     $cusname = $fila9['customerName'];
                     $cuslname = $fila9['customerLastName'];
-
+                    $data = json_decode($delAdd, true);
+                    foreach ($data as $item) {
+                        $deliveryAdd = $item['deliveryAdd'];
+                    
+                        $startStreet = $deliveryAdd['startStreet'];
+                        $startAvenue = $deliveryAdd['startAvenue'];
+                        $context = $deliveryAdd['context'];
+                        $paramOne = $deliveryAdd['paramOne'];
+                        $paramSecond = $deliveryAdd['paramSecond'];
+                        $paramOneBis = $deliveryAdd['paramOneBis'];
+                        $paramSecondBis = $deliveryAdd['paramSecondBis'];
+                        $paramOneLet = $deliveryAdd['paramOneLet'];
+                        $paramSecondLet = $deliveryAdd['paramSecondLet'];
+                        $paramDescription = $deliveryAdd['paramDescription'];
+                    
+                       $delAdd= $paramOne. " ". $startStreet."".$paramOneLet. " ".$paramOneBis."\n".$paramSecond." ".$startAvenue."".$paramSecondLet." ".$paramSecondBis."\nCasa".$context;
+                      
+                    
+                        // ... y así sucesivamente con los demás valores
+                    }
                    
 
                 // echo "El valor máximo de incId es: " . $valor;
