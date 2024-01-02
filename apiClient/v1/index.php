@@ -2100,7 +2100,7 @@ if($param=="deliveryStatus"){
                         $paramSecondLet = $deliveryAdd['paramSecondLet'];
                         $paramDescription = $deliveryAdd['paramDescription'];
                     
-                       $delAdd= $paramOne. " ". $startStreet."".$paramOneLet. " ".$paramOneBis."<br>".$paramSecond." ".$startAvenue."".$paramSecondLet." ".$paramSecondBis."<br>Casa ".$context;
+                       $delAdd= $paramOne. " ". $startStreet."".$paramOneLet. " ".$paramOneBis."<br>".$paramSecond." # ".$startAvenue."".$paramSecondLet." ".$paramSecondBis."<br>Casa ".$context;
                       
                     
                         // ... y así sucesivamente con los demás valores
@@ -4633,7 +4633,7 @@ Flight::route('GET /getDelivery/@clientId/@filter/@param/@value', function ($cli
 
         
         
-            $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules FROM generalDelivery where clientId='$clientId'");
+            $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules,deliveryMail,deliveryContact FROM generalDelivery where clientId='$clientId'");
         }
         
     
@@ -4641,7 +4641,7 @@ if($filter=="filter"){
 
         
         
-    $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules FROM generalDelivery where clientId='$clientId'");
+    $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules,deliveryMail,deliveryContact FROM generalDelivery where clientId='$clientId'");
 
 
 }
@@ -4659,7 +4659,9 @@ if($filter=="filter"){
                             'deliveryName' => $row['deliveryName'],
                             'deliveryLastName' => $row['deliveryLastName'],
                             'isActive' => $row['isActive'],
-                            'distanceRules' => $row['distanceRules']
+                            'distanceRules' => $row['distanceRules'],
+                            'deliveryMail' => $row['deliveryMail'],
+                            'deliveryContact' => $row['deliveryContact']
                         ];
                         
                         array_push($values,$value);
