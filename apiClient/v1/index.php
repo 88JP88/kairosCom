@@ -2058,7 +2058,7 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
 
 if($param==="deliveryStatus"){
 
-    $query = mysqli_query($conectar, "UPDATE generalOrders SET $param='assigned' where clientId='$clientId' and orderId='$orderId'");
+    $query = mysqli_query($conectar, "UPDATE generalOrders SET deliveryStatus='assigned' where clientId='$clientId' and orderId='$orderId'");
 
 }
 if($param==="deliveryPerson"){
