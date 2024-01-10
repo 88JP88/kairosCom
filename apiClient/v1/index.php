@@ -5022,10 +5022,17 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             if ($query) {
                 
                 $response12="true|¡Repartidor actualizado con éxito!";
-
+                
                 //inicio de log
                 require_once 'kronos/postLog.php';
-           
+                $dta = array(
+            
+                    'clientId' => Flight::request()->data->clientId,
+                    'param' => Flight::request()->data->param,
+                    'value' => Flight::request()->data->value,
+                    'deliveryId' => Flight::request()->data->deliveryId
+                );
+                $dt=json_encode($dta);
                 $backtrace = debug_backtrace();
                 $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
                 $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
