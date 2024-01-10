@@ -71,7 +71,21 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
                     require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
                 
-        
+                    $dta = array(
+            
+                        'clientId' =>$clientId,
+                        'productName' => $param,
+                        'description' => $value,
+                        'ean1' => $deliveryId,
+                        'ean2' => $param,
+                        'sku' => $value,
+                        'productType' => $deliveryId,
+                        'inPrice' => $param,
+                        'providerId' => $value,
+                        'imgUrl' => $deliveryId,
+                        'techSpef' => $param
+                    );
+                    $dt=json_encode($dta);
 
                     $gen_uuid = new generateUuid();
                     $myuuid = $gen_uuid->guidv4();
@@ -5010,7 +5024,14 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             $param= Flight::request()->data->param;
             $value= Flight::request()->data->value;
             $deliveryId= Flight::request()->data->deliveryId;
-        
+            $dta = array(
+            
+                'clientId' =>$clientId,
+                'param' => $param,
+                'value' => $value,
+                'deliveryId' => $deliveryId
+            );
+            $dt=json_encode($dta);
         
             $conectar=conn();
 
@@ -5025,14 +5046,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                 
                 //inicio de log
                 require_once 'kronos/postLog.php';
-                $dta = array(
-            
-                    'clientId' => Flight::request()->data->clientId,
-                    'param' => Flight::request()->data->param,
-                    'value' => Flight::request()->data->value,
-                    'deliveryId' => Flight::request()->data->deliveryId
-                );
-                $dt=json_encode($dta);
+                
                 $backtrace = debug_backtrace();
                 $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
                 $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
