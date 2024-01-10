@@ -86,9 +86,50 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
                     $query = mysqli_query($conectar, "INSERT INTO generalProducts (productId, clientId, productName, description, ean1, ean2, sku, productType, inPrice, providerId, imgProduct, spcProduct,keyWords) VALUES ('$productId', '$clientId', '$productName', '$description', '$ean1', '$ean2', '$sku', '$productType', '$inPrice', '$providerId', '$imgUrl', '$techSpef','$keywords')");
 
                     if ($query) {
+                        
+                                $response12="true|¡Producto creado con éxito!";
+
+      //inicio de log
+      require_once 'kronos/postLog.php';
+ 
+      $backtrace = debug_backtrace();
+      $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+      $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+     $justFileName = basename($currentFile);
+     $rutaCompleta = __DIR__;
+     $status = http_response_code();
+     $cid=Flight::request()->data->clientId;
+     
+     //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+     $array = explode("|", $response12);
+     $response12=$array[0];
+     $message=$array[1];
+     kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+     //final de log
                         echo "true|¡Producto creado con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+
+
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -99,10 +140,49 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
+
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
                     echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -194,9 +274,49 @@ Flight::route('POST /postCatalog/@apk/@xapk', function ($apk,$xapk) {
                     $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',$unitQty,'$unitUnit')");
 
                     if ($query) {
+
+                        $response12="true|¡Catalogo creado con éxito!";
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "true|¡Catalogo creado con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -207,10 +327,49 @@ Flight::route('POST /postCatalog/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
                     echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -285,6 +444,27 @@ Flight::route('POST /postStore/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Tienda creada con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -295,10 +475,49 @@ Flight::route('POST /postStore/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -387,6 +606,26 @@ Flight::route('POST /postCategorie/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Categoria creada con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -397,10 +636,49 @@ Flight::route('POST /postCategorie/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -1189,6 +1467,26 @@ Flight::route('POST /putProduct/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Producto actualizado con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -1199,10 +1497,49 @@ Flight::route('POST /putProduct/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -1285,6 +1622,26 @@ Flight::route('POST /putCategorie/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Categoría actualizada con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -1295,10 +1652,49 @@ Flight::route('POST /putCategorie/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -1375,6 +1771,26 @@ Flight::route('POST /putStore/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Tienda actualizada con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -1385,10 +1801,49 @@ Flight::route('POST /putStore/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -1482,6 +1937,26 @@ Flight::route('POST /putCatalog/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Catálogo actualizado con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -1492,10 +1967,49 @@ Flight::route('POST /putCatalog/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -1840,6 +2354,26 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                                         echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
                                     } else {
                                         // Si hay un error, imprime el mensaje de error
+                                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                                         echo "false|" . mysqli_error($conectar);
                                     }
                     }
@@ -1849,6 +2383,26 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
             }
@@ -1858,6 +2412,26 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
             }
@@ -1880,6 +2454,26 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             
                             } else {
                                 // Si hay un error, imprime el mensaje de error
+                                
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                                 echo "false|" . mysqli_error($conectar);
                             }
                         }
@@ -1896,10 +2490,49 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             
                             // echo json_encode($response1);
                             } else {
-                                echo 'false|¡Autenticación fallida!';
+                                $response12='false|¡Autenticación fallida!'.$response11;
+            
+                                //inicio de log
+                                require_once 'kronos/postLog.php';
+                           
+                                $backtrace = debug_backtrace();
+                                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                               $justFileName = basename($currentFile);
+                               $rutaCompleta = __DIR__;
+                               $status = http_response_code();
+                               $cid=Flight::request()->data->clientId;
+                               
+                               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                               $array = explode("|", $response12);
+                               $response12=$array[0];
+                               $message=$array[1];
+                               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                               //final de log
+                                echo 'false|¡Autenticación fallida!'.$response11;
                             // echo json_encode($data);
                             }
                         } else {
+            
+                            $response12='false|¡Encabezados faltantes!';
+            
+                            //inicio de log
+                            require_once 'kronos/postLog.php';
+                       
+                            $backtrace = debug_backtrace();
+                            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                           $justFileName = basename($currentFile);
+                           $rutaCompleta = __DIR__;
+                           $status = http_response_code();
+                           $cid=Flight::request()->data->clientId;
+                           
+                           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                           $array = explode("|", $response12);
+                           $response12=$array[0];
+                           $message=$array[1];
+                           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                           //final de log
                             echo 'false|¡Encabezados faltantes!';
                         }
 });
@@ -1972,6 +2605,26 @@ Flight::route('POST /putClientOrderPaymentStatus/@apk/@xapk', function ($apk,$xa
                 echo "true|¡Pago actualizado con éxito!";
             } else {
                 // Si hay un error, imprime el mensaje de error
+                
+                $response12="false|" . mysqli_error($conectar);
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo "false|" . mysqli_error($conectar);
             }
             
@@ -1982,10 +2635,49 @@ Flight::route('POST /putClientOrderPaymentStatus/@apk/@xapk', function ($apk,$xa
         
         // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            $response12='false|¡Autenticación fallida!'.$response11;
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
+            echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
         }
     } else {
+
+        $response12='false|¡Encabezados faltantes!';
+
+        //inicio de log
+        require_once 'kronos/postLog.php';
+   
+        $backtrace = debug_backtrace();
+        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+       $justFileName = basename($currentFile);
+       $rutaCompleta = __DIR__;
+       $status = http_response_code();
+       $cid=Flight::request()->data->clientId;
+       
+       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+       $array = explode("|", $response12);
+       $response12=$array[0];
+       $message=$array[1];
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+       //final de log
         echo 'false|¡Encabezados faltantes!';
     }
 });
@@ -2202,6 +2894,26 @@ if($param==="deliveryPerson"){
                 echo "true|¡Estado de orden actualizado con éxito!";
             } else {
                 // Si hay un error, imprime el mensaje de error
+                
+                $response12="false|" . mysqli_error($conectar);
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo "false|" . mysqli_error($conectar);
             }
             
@@ -2212,10 +2924,49 @@ if($param==="deliveryPerson"){
         
         // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            $response12='false|¡Autenticación fallida!'.$response11;
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
+            echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
         }
     } else {
+
+        $response12='false|¡Encabezados faltantes!';
+
+        //inicio de log
+        require_once 'kronos/postLog.php';
+   
+        $backtrace = debug_backtrace();
+        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+       $justFileName = basename($currentFile);
+       $rutaCompleta = __DIR__;
+       $status = http_response_code();
+       $cid=Flight::request()->data->clientId;
+       
+       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+       $array = explode("|", $response12);
+       $response12=$array[0];
+       $message=$array[1];
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+       //final de log
         echo 'false|¡Encabezados faltantes!';
     }
 });
@@ -2366,10 +3117,49 @@ Flight::route('POST /postCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
                     
                     // echo json_encode($response1);
                     } else {
-                        echo 'false|¡Autenticación fallida!';
+                        $response12='false|¡Autenticación fallida!'.$response11;
+    
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
+                        echo 'false|¡Autenticación fallida!'.$response11;
                     // echo json_encode($data);
                     }
                 } else {
+    
+                    $response12='false|¡Encabezados faltantes!';
+    
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
                     echo 'false|¡Encabezados faltantes!';
                 }
 });
@@ -2523,10 +3313,49 @@ Flight::route('POST /putCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -2648,10 +3477,49 @@ Flight::route('POST /postProductBulk/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -2793,10 +3661,49 @@ Flight::route('POST /putProductBulk/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -2911,10 +3818,49 @@ Flight::route('POST /postStoreBulk/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -3047,10 +3993,49 @@ Flight::route('POST /putStoreBulk/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -3166,10 +4151,49 @@ Flight::route('POST /postCategorieBulk/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -3303,10 +4327,49 @@ Flight::route('POST /putCategorieBulk/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -3394,6 +4457,26 @@ Flight::route('POST /postCustomer/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Cliente creado con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -3404,10 +4487,49 @@ Flight::route('POST /postCustomer/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -3495,6 +4617,26 @@ Flight::route('POST /postDelivery/@apk/@xapk', function ($apk,$xapk) {
                 echo "true|¡Repartidor creado con éxito!";
             } else {
                 // Si hay un error, imprime el mensaje de error
+                
+                $response12="false|" . mysqli_error($conectar);
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo "false|" . mysqli_error($conectar);
             }
             
@@ -3505,10 +4647,49 @@ Flight::route('POST /postDelivery/@apk/@xapk', function ($apk,$xapk) {
         
         // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            $response12='false|¡Autenticación fallida!'.$response11;
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
+            echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
         }
     } else {
+
+        $response12='false|¡Encabezados faltantes!';
+
+        //inicio de log
+        require_once 'kronos/postLog.php';
+   
+        $backtrace = debug_backtrace();
+        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+       $justFileName = basename($currentFile);
+       $rutaCompleta = __DIR__;
+       $status = http_response_code();
+       $cid=Flight::request()->data->clientId;
+       
+       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+       $array = explode("|", $response12);
+       $response12=$array[0];
+       $message=$array[1];
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+       //final de log
         echo 'false|¡Encabezados faltantes!';
     }
 });
@@ -3694,6 +4875,27 @@ Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Cliente actualizado con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar);
                     }
                     
@@ -3704,10 +4906,49 @@ Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
                 
                 // echo json_encode($response1);
                 } else {
-                    echo 'false|¡Autenticación fallida!';
+                    $response12='false|¡Autenticación fallida!'.$response11;
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
+                    echo 'false|¡Autenticación fallida!'.$response11;
                 // echo json_encode($data);
                 }
             } else {
+
+                $response12='false|¡Encabezados faltantes!';
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo 'false|¡Encabezados faltantes!';
             }
 });
@@ -3782,6 +5023,26 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                 echo "true|¡Repartidor actualizado con éxito!";
             } else {
                 // Si hay un error, imprime el mensaje de error
+                
+                $response12="false|" . mysqli_error($conectar);
+
+                //inicio de log
+                require_once 'kronos/postLog.php';
+           
+                $backtrace = debug_backtrace();
+                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+               $justFileName = basename($currentFile);
+               $rutaCompleta = __DIR__;
+               $status = http_response_code();
+               $cid=Flight::request()->data->clientId;
+               
+               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+               $array = explode("|", $response12);
+               $response12=$array[0];
+               $message=$array[1];
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+               //final de log
                 echo "false|" . mysqli_error($conectar);
             }
             
@@ -3792,10 +5053,49 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
         
         // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            $response12='false|¡Autenticación fallida!'.$response11;
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
+            echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
         }
     } else {
+
+        $response12='false|¡Encabezados faltantes!';
+
+        //inicio de log
+        require_once 'kronos/postLog.php';
+   
+        $backtrace = debug_backtrace();
+        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+       $justFileName = basename($currentFile);
+       $rutaCompleta = __DIR__;
+       $status = http_response_code();
+       $cid=Flight::request()->data->clientId;
+       
+       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+       $array = explode("|", $response12);
+       $response12=$array[0];
+       $message=$array[1];
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+       //final de log
         echo 'false|¡Encabezados faltantes!';
     }
 });
@@ -4036,6 +5336,26 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
                 if ($query) {
                     echo "true|¡Código enviado con éxito al correo $customerMail!|validMail";
                 } else {
+                    
+                    $response12="false|" . mysqli_error($conectar);
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
                     echo "false|" . mysqli_error($conectar)."|invalidDb";
                 }
             } else {
@@ -4047,10 +5367,49 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         
         // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            $response12='false|¡Autenticación fallida!'.$response11;
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
+            echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
         }
     } else {
+
+        $response12='false|¡Encabezados faltantes!';
+
+        //inicio de log
+        require_once 'kronos/postLog.php';
+   
+        $backtrace = debug_backtrace();
+        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+       $justFileName = basename($currentFile);
+       $rutaCompleta = __DIR__;
+       $status = http_response_code();
+       $cid=Flight::request()->data->clientId;
+       
+       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+       $array = explode("|", $response12);
+       $response12=$array[0];
+       $message=$array[1];
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+       //final de log
         echo 'false|¡Encabezados faltantes!';
     }
 });
@@ -4147,6 +5506,26 @@ mail($to,$subject,$message, $headers);
                         echo "true|¡Código validado con éxito al mail!|validatedMail";
                     } else {
                         // Si hay un error, imprime el mensaje de error
+                        
+                        $response12="false|" . mysqli_error($conectar);
+
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
+                   
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
+                       
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                       //final de log
                         echo "false|" . mysqli_error($conectar)."|invalidDb";
                     }
 
@@ -4180,10 +5559,49 @@ mail($to,$subject,$message, $headers);
         
         // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            $response12='false|¡Autenticación fallida!'.$response11;
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
+            echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
         }
     } else {
+
+        $response12='false|¡Encabezados faltantes!';
+
+        //inicio de log
+        require_once 'kronos/postLog.php';
+   
+        $backtrace = debug_backtrace();
+        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+       $justFileName = basename($currentFile);
+       $rutaCompleta = __DIR__;
+       $status = http_response_code();
+       $cid=Flight::request()->data->clientId;
+       
+       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+       $array = explode("|", $response12);
+       $response12=$array[0];
+       $message=$array[1];
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+       //final de log
         echo 'false|¡Encabezados faltantes!';
     }
 });
@@ -4478,6 +5896,26 @@ $_SESSION['nPacks']=$_SESSION['nPacks']+1;
 $_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
         // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
         if (!$query) {
+            
+            $response12="false|" . mysqli_error($conectar);
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
             echo "Error al insertar datos: " . mysqli_error($conectar);
         }
     } else {
@@ -4703,6 +6141,27 @@ if($respuesta=="true_cash"){
                     echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
                 } else {
                     // Si hay un error, imprime el mensaje de error
+
+                    
+                    $response12="false|" . mysqli_error($conectar);
+
+                    //inicio de log
+                    require_once 'kronos/postLog.php';
+               
+                    $backtrace = debug_backtrace();
+                    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                   $justFileName = basename($currentFile);
+                   $rutaCompleta = __DIR__;
+                   $status = http_response_code();
+                   $cid=Flight::request()->data->clientId;
+                   
+                   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                   $array = explode("|", $response12);
+                   $response12=$array[0];
+                   $message=$array[1];
+                   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+                   //final de log
                     echo "false|" . mysqli_error($conectar);
                 }
 }
@@ -4712,6 +6171,27 @@ if($respuesta=="true_method"){
           echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
 } else {
     // Si hay un error, imprime el mensaje de error
+
+    
+    $response12="false|" . mysqli_error($conectar);
+
+    //inicio de log
+    require_once 'kronos/postLog.php';
+
+    $backtrace = debug_backtrace();
+    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+   $justFileName = basename($currentFile);
+   $rutaCompleta = __DIR__;
+   $status = http_response_code();
+   $cid=Flight::request()->data->clientId;
+   
+   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+   $array = explode("|", $response12);
+   $response12=$array[0];
+   $message=$array[1];
+   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+   //final de log
     echo "false|" . mysqli_error($conectar);
 }
 }
@@ -4721,6 +6201,27 @@ if($respuesta=="true_point_bank"){
             echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN AL MOMENTO DE RECIBIR LA ORDEN!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
 } else {
     // Si hay un error, imprime el mensaje de error
+
+    
+    $response12="false|" . mysqli_error($conectar);
+
+    //inicio de log
+    require_once 'kronos/postLog.php';
+
+    $backtrace = debug_backtrace();
+    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+   $justFileName = basename($currentFile);
+   $rutaCompleta = __DIR__;
+   $status = http_response_code();
+   $cid=Flight::request()->data->clientId;
+   
+   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+   $array = explode("|", $response12);
+   $response12=$array[0];
+   $message=$array[1];
+   kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+   //final de log
     echo "false|" . mysqli_error($conectar);
 }
 }
@@ -4739,6 +6240,27 @@ if($respuesta=="false_point_lack"){
         
         } else {
             // Si hay un error, imprime el mensaje de error
+
+            
+            $response12="false|" . mysqli_error($conectar);
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
             echo "false|" . mysqli_error($conectar);
         }
     }
@@ -4755,10 +6277,49 @@ if($respuesta=="false_point_lack"){
         
         // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            $response12='false|¡Autenticación fallida!'.$response11;
+
+            //inicio de log
+            require_once 'kronos/postLog.php';
+       
+            $backtrace = debug_backtrace();
+            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+           $justFileName = basename($currentFile);
+           $rutaCompleta = __DIR__;
+           $status = http_response_code();
+           $cid=Flight::request()->data->clientId;
+           
+           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+           $array = explode("|", $response12);
+           $response12=$array[0];
+           $message=$array[1];
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+           //final de log
+            echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
         }
     } else {
+
+        $response12='false|¡Encabezados faltantes!';
+
+        //inicio de log
+        require_once 'kronos/postLog.php';
+   
+        $backtrace = debug_backtrace();
+        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+       $justFileName = basename($currentFile);
+       $rutaCompleta = __DIR__;
+       $status = http_response_code();
+       $cid=Flight::request()->data->clientId;
+       
+       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+       $array = explode("|", $response12);
+       $response12=$array[0];
+       $message=$array[1];
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status);
+       //final de log
         echo 'false|¡Encabezados faltantes!';
     }
 });
