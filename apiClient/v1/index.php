@@ -68,9 +68,6 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
                     $providerId= Flight::request()->data->providerId;
                     $imgUrl= Flight::request()->data->imgUrl;
                     $techSpef= Flight::request()->data->techSpef;
-
-                    require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
-                
                     $dta = array(
             
                         'clientId' =>$clientId,
@@ -86,6 +83,9 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
                         'techSpef' => $techSpef
                     );
                     $dt=json_encode($dta);
+                    require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
+                
+                  
 
                     $gen_uuid = new generateUuid();
                     $myuuid = $gen_uuid->guidv4();
