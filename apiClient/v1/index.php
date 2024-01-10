@@ -74,16 +74,16 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
                     $dta = array(
             
                         'clientId' =>$clientId,
-                        'productName' => $param,
-                        'description' => $value,
-                        'ean1' => $deliveryId,
-                        'ean2' => $param,
-                        'sku' => $value,
-                        'productType' => $deliveryId,
-                        'inPrice' => $param,
-                        'providerId' => $value,
-                        'imgUrl' => $deliveryId,
-                        'techSpef' => $param
+                        'productName' => $productName,
+                        'description' => $description,
+                        'ean1' => $ean1,
+                        'ean2' => $ean2,
+                        'sku' => $sku,
+                        'productType' => $productType,
+                        'inPrice' => $inPrice,
+                        'providerId' => $providerId,
+                        'imgUrl' => $imgUrl,
+                        'techSpef' => $techSpef
                     );
                     $dt=json_encode($dta);
 
