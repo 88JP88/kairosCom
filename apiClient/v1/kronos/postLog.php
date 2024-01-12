@@ -1,6 +1,6 @@
 <?php
 
-function kronos($response,$message,$error,$function,$filename,$module,$clientId,$data,$endpoint,$statusCode) {
+function kronos($response,$message,$error,$function,$filename,$module,$clientId,$data,$endpoint,$statusCode,$level) {
 
   // Establecer la zona horaria a Bogotá
 date_default_timezone_set('America/Bogota');
@@ -11,10 +11,10 @@ $now->setTimezone(new DateTimeZone('America/Bogota'));
 
 // Formatear la fecha y hora actual
 $currentDateTime = $now->format('Y-m-d H:i:s');
-if($response==="true"){
+if($level==="true"){
     $level="info";
 }
-if($response==="error"){
+if($level==="error"){
     $level="error";
 }
 $ip = $_SERVER['REMOTE_ADDR'];
