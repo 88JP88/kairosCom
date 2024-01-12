@@ -118,9 +118,9 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
      $array = explode("|", $response12);
      $response12=$array[0];
      $message=$array[1];
-     echo kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+     kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
      //final de log
-                        //echo "true|¡Producto creado con éxito!";
+                        echo "true|¡Producto creado con éxito!";
                     } else {
                         // Si hay un error, imprime el mensaje de error
 
