@@ -5122,7 +5122,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                $array = explode("|", $response12);
                $response12=$array[0];
                $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
                //final de log
                 echo "false|" . mysqli_error($conectar);
             }
@@ -5151,7 +5151,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
            $array = explode("|", $response12);
            $response12=$array[0];
            $message=$array[1];
-           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
            //final de log
             echo 'false|¡Autenticación fallida!'.$response11;
         // echo json_encode($data);
@@ -5175,7 +5175,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
        $array = explode("|", $response12);
        $response12=$array[0];
        $message=$array[1];
-       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
        //final de log
         echo 'false|¡Encabezados faltantes!';
     }
