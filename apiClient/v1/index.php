@@ -5059,12 +5059,14 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
             $clientId= Flight::request()->data->clientId;
+            $trackId= Flight::request()->data->trackId;
             $param= Flight::request()->data->param;
             $value= Flight::request()->data->value;
             $deliveryId= Flight::request()->data->deliveryId;
             $dta = array(
             
                 'clientId' =>$clientId,
+                'trackId' =>$trackId,
                 'param' => $param,
                 'value' => $value,
                 'deliveryId' => $deliveryId
@@ -5097,7 +5099,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                $array = explode("|", $response12);
                $response12=$array[0];
                $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
                //final de log
                 echo "true|¡Repartidor actualizado con éxito!";
             } else {
