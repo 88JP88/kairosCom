@@ -5095,12 +5095,12 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                $rutaCompleta = __DIR__;
                $status = http_response_code();
                $cid=Flight::request()->data->clientId;
-               
+               $rutaActual = Flight::request()->url;
                //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
                $array = explode("|", $response12);
                $response12=$array[0];
                $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId,$urlreferer);
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'true',$trackId,$urlreferer);
                //final de log
                 echo "true|¡Repartidor actualizado con éxito!";
             } else {
