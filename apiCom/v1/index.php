@@ -59,6 +59,7 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
 
             $clientId= Flight::request()->data->clientId;
+            $trackId= Flight::request()->data->trackId;
             $productName= Flight::request()->data->productName;
             $description= Flight::request()->data->description;
             $ean1= Flight::request()->data->ean1;
@@ -120,7 +121,7 @@ $keywords=$productName."-".$description."-".$sku."-".$productType."-".$techSpef;
                $array = explode("|", $response12);
                $response12=$array[0];
                $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
                //final de log
                 echo "true|¡Producto creado con éxito!";
 
