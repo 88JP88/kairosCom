@@ -14,7 +14,7 @@ $currentDateTime = $now->format('Y-m-d H:i:s');
 if($level==="true"){
     $level="info";
 }
-if($level==="error"){
+if($level==="false"){
     $level="error";
 }
 $ip = $_SERVER['REMOTE_ADDR'];
