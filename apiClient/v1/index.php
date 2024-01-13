@@ -5110,7 +5110,22 @@ $rutaActual = Flight::request()->url;
 kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'true',$trackId,$urlreferer);
 //final de log
 
+$values=[];
 
+   
+   
+$value=[
+    'response' => $responseApi,
+    'message' => $messageApi,
+    'status' => $statusApi
+    
+];
+
+array_push($values,$value);
+
+
+//echo json_encode($students) ;
+echo json_encode(['response'=>$values]);
             }
             
         
