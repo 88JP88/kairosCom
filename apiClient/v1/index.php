@@ -5076,7 +5076,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
         
-            $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
+            $query = mysqli_query($conectar, "UPDATE generalD1elivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
 
         
         
@@ -5090,27 +5090,11 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                // echo "true|¡Repartidor actualizado con éxito!";
             } else {
                 // Si hay un error, imprime el mensaje de error
-                
-                $response12="false|" . mysqli_error($conectar);
+                $responseApi="false";
+                $messageApi=mysqli_error($conectar);
+                $statusApi="500";
 
-                //inicio de log
-                require_once 'kronos/postLog.php';
-           
-                $backtrace = debug_backtrace();
-                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-               $justFileName = basename($currentFile);
-               $rutaCompleta = __DIR__;
-               $status = http_response_code();
-               $cid=Flight::request()->data->clientId;
-               
-               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-               $array = explode("|", $response12);
-               $response12=$array[0];
-               $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
-               //final de log
-                echo "false|" . mysqli_error($conectar);
+
             }
             
         
@@ -5120,51 +5104,19 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
         
         // echo json_encode($response1);
         } else {
-            $response12='false|¡Autenticación fallida!'.$response11;
-
-            //inicio de log
-            require_once 'kronos/postLog.php';
-       
-            $backtrace = debug_backtrace();
-            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-           $justFileName = basename($currentFile);
-           $rutaCompleta = __DIR__;
-           $status = http_response_code();
-           $cid=Flight::request()->data->clientId;
-           
-           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-           $array = explode("|", $response12);
-           $response12=$array[0];
-           $message=$array[1];
-           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
-           //final de log
-            echo 'false|¡Autenticación fallida!'.$response11;
-        // echo json_encode($data);
+            $responseApi="false";
+            $messageApi="¡Autenticación fallida!";
+            $statusApi="401";
         }
     } else {
 
-        $response12='false|¡Encabezados faltantes!';
-
-        //inicio de log
-        require_once 'kronos/postLog.php';
-   
-        $backtrace = debug_backtrace();
-        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-       $justFileName = basename($currentFile);
-       $rutaCompleta = __DIR__;
-       $status = http_response_code();
-       $cid=Flight::request()->data->clientId;
-       
-       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-       $array = explode("|", $response12);
-       $response12=$array[0];
-       $message=$array[1];
-       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
-       //final de log
-        echo 'false|¡Encabezados faltantes!';
+        $responseApi="false";
+        $messageApi="¡Encabezados faltantes!";
+        $statusApi="403";
     }
+
+
+
     //inicio de log
     require_once 'kronos/postLog.php';
     $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
