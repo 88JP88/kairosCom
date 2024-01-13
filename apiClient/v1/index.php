@@ -5081,47 +5081,12 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
         
         
             if ($query) {
+                $responseApi="true";
+                $messageApi="¡Repartidor actualizado con éxito!";
+                $statusApi="200";
+               // $response12="true|¡Repartidor actualizado con éxito!";
                 
-                $response12="true|¡Repartidor actualizado con éxito!";
                 
-                //inicio de log
-                require_once 'kronos/postLog.php';
-                $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-                $backtrace = debug_backtrace();
-                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-               $justFileName = basename($currentFile);
-               $rutaCompleta = __DIR__;
-               $status = http_response_code();
-               $cid=Flight::request()->data->clientId;
-               $rutaActual = Flight::request()->url;
-               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-               $array = explode("|", $response12);
-               $response12=$array[0];
-               $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'true',$trackId,$urlreferer);
-               //final de log
-
-
-               $values=[];
-        
-               
-               
-                       $value=[
-                           'response' => 'true',
-                           'message' => '¡Repartidor123 editado con exito!',
-                           'status' => '200'
-                           
-                       ];
-                       
-                       array_push($values,$value);
-                       
-           
-               //echo json_encode($students) ;
-               echo json_encode(['response'=>$values]);
-
-
                // echo "true|¡Repartidor actualizado con éxito!";
             } else {
                 // Si hay un error, imprime el mensaje de error
@@ -5200,6 +5165,42 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
        //final de log
         echo 'false|¡Encabezados faltantes!';
     }
+    //inicio de log
+    require_once 'kronos/postLog.php';
+    $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    $backtrace = debug_backtrace();
+    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+   $justFileName = basename($currentFile);
+   $rutaCompleta = __DIR__;
+   $status = http_response_code();
+   $cid=Flight::request()->data->clientId;
+   $rutaActual = Flight::request()->url;
+   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+  
+   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'true',$trackId,$urlreferer);
+   //final de log
+
+
+   $values=[];
+
+   
+   
+           $value=[
+               'response' => $responseApi,
+               'message' => $messageApi,
+               'status' => $statusApi
+               
+           ];
+           
+           array_push($values,$value);
+           
+
+   //echo json_encode($students) ;
+   echo json_encode(['response'=>$values]);
+
+
 });
 
 
