@@ -5025,6 +5025,22 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->domKairos();
+
+
+
+
+         //inicio de log
+    require_once 'kronos/postLog.php';
+    $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    $backtrace = debug_backtrace();
+    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+   $justFileName = basename($currentFile);
+   $rutaCompleta = __DIR__;
+   $status = http_response_code();
+   $cid=Flight::request()->data->clientId;
+   $rutaActual = Flight::request()->url;
         $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
     
         $data = array(
@@ -5066,6 +5082,10 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             'deliveryId' => $deliveryId
         );
         $dt=json_encode($dta);
+        $responseApi="true";
+        $messageApi="receivedFrom-".$urlreferer;
+        
+        kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',$trackId,$urlreferer);
 
         if ($response11 == 'true' ) {
 
@@ -5117,21 +5137,10 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-    //inicio de log
-    require_once 'kronos/postLog.php';
-    $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-    $backtrace = debug_backtrace();
-    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-   $justFileName = basename($currentFile);
-   $rutaCompleta = __DIR__;
-   $status = http_response_code();
-   $cid=Flight::request()->data->clientId;
-   $rutaActual = Flight::request()->url;
+   
    //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
   
-   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'true',$trackId,$urlreferer);
+   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',$trackId,$urlreferer);
    //final de log
 
 
