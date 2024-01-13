@@ -11,10 +11,10 @@ $now->setTimezone(new DateTimeZone('America/Bogota'));
 
 // Formatear la fecha y hora actual
 $currentDateTime = $now->format('Y-m-d H:i:s');
-if($level==="true"){
+if($response==="true"){
     $level="info";
 }
-if($level==="false"){
+if($response==="false"){
     $level="error";
 }
 $ip = $_SERVER['REMOTE_ADDR'];
