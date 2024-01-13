@@ -5110,7 +5110,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                
                        $value=[
                            'response' => 'true',
-                           'message' => '¡Repartidor editado con exito!',
+                           'message' => '¡Repartidor123 editado con exito!',
                            'status' => '200'
                            
                        ];
