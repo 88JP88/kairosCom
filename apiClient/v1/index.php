@@ -5102,7 +5102,27 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                $message=$array[1];
                kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'true',$trackId,$urlreferer);
                //final de log
-                echo "true|¡Repartidor actualizado con éxito!";
+
+
+               $values=[];
+        
+               
+               
+                       $value=[
+                           'response' => $row['orderId'],
+                           'message' => $row['carId'],
+                           'status' => $row['clientId']
+                           
+                       ];
+                       
+                       array_push($values,$value);
+                       
+           
+               //echo json_encode($students) ;
+               echo json_encode(['response'=>$values]);
+
+
+               // echo "true|¡Repartidor actualizado con éxito!";
             } else {
                 // Si hay un error, imprime el mensaje de error
                 
