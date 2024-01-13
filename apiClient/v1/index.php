@@ -5076,7 +5076,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
         
-            $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientI8d='$clientId' and deliveryId='$deliveryId'");
+            $query = mysqli_query($conectar, "UPDATE generalDeliqvery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
 
         
         
@@ -5091,7 +5091,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             } else {
                 // Si hay un error, imprime el mensaje de error
                 $responseApi="false";
-                $messageApi=mysqli_error($conectar);
+                $messageApi="sqlerror";
                 $statusApi="500";
 
 
