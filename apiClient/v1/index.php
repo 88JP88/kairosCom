@@ -5076,7 +5076,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
         
-            $query = mysqli_query($conectar, "UPDATE genqeralDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
+            $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
 
         
         
@@ -5091,41 +5091,10 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             } else {
                 // Si hay un error, imprime el mensaje de error
                 $responseApi="false";
-                $messageApi="sqlerror";
+                $messageApi=mysqli_error($conectar);
                 $statusApi="500";
- //inicio de log
- require_once 'kronos/postLog.php';
- $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
- $backtrace = debug_backtrace();
- $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
- $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-$justFileName = basename($currentFile);
-$rutaCompleta = __DIR__;
-$status = http_response_code();
-$cid=Flight::request()->data->clientId;
-$rutaActual = Flight::request()->url;
-//$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-
-kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'true',$trackId,$urlreferer);
-//final de log
-
-$values=[];
-
-   
-   
-$value=[
-    'response' => $responseApi,
-    'message' => $messageApi,
-    'status' => $statusApi
-    
-];
-
-array_push($values,$value);
 
 
-//echo json_encode($students) ;
-echo json_encode(['response'=>$values]);
             }
             
         
