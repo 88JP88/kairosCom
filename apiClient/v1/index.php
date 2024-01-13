@@ -5052,26 +5052,26 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
     
 
         // Realizar acciones basadas en los valores de los encabezados
-
+        $clientId= Flight::request()->data->clientId;
+        $trackId= Flight::request()->data->trackId;
+        $param= Flight::request()->data->param;
+        $value= Flight::request()->data->value;
+        $deliveryId= Flight::request()->data->deliveryId;
+        $dta = array(
+        
+            'clientId' =>$clientId,
+            'trackId' =>$trackId,
+            'param' => $param,
+            'value' => $value,
+            'deliveryId' => $deliveryId
+        );
+        $dt=json_encode($dta);
 
         if ($response11 == 'true' ) {
 
 
 
-            $clientId= Flight::request()->data->clientId;
-            $trackId= Flight::request()->data->trackId;
-            $param= Flight::request()->data->param;
-            $value= Flight::request()->data->value;
-            $deliveryId= Flight::request()->data->deliveryId;
-            $dta = array(
-            
-                'clientId' =>$clientId,
-                'trackId' =>$trackId,
-                'param' => $param,
-                'value' => $value,
-                'deliveryId' => $deliveryId
-            );
-            $dt=json_encode($dta);
+           
         
             $conectar=conn();
 
