@@ -19,6 +19,18 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
 
                 
+         //inicio de log
+    require_once 'kronos/postLog.php';
+    $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    $backtrace = debug_backtrace();
+    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+   $justFileName = basename($currentFile);
+   $rutaCompleta = __DIR__;
+   $status = http_response_code();
+   $cid=Flight::request()->data->clientId;
+   $rutaActual = Flight::request()->url;
 
 
 
@@ -53,101 +65,69 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
                 // Realizar acciones basadas en los valores de los encabezados
 
+            
+                require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
+                
+                $gen_uuid = new generateUuid();
+                $myuuid = $gen_uuid->guidv4();
+            
+
+                $productId = substr($myuuid, 0, 8);
+
+            
+                $dta = array(
+        
+                    'clientId' =>Flight::request()->data->clientId,
+                    'productId' =>$productId,
+                    'productName' => Flight::request()->data->productName,
+                    'description' => Flight::request()->data->description,
+                    'ean1' => Flight::request()->data->ean1,
+                    'ean2' => Flight::request()->data->ean2,
+                    'sku' => Flight::request()->data->sku,
+                    'productType' => Flight::request()->data->productType,
+                    'inPrice' => Flight::request()->data->inPrice,
+                    'providerId' => Flight::request()->data->provderId,
+                    'imgUrl' => Flight::request()->data->imgUrl,
+                    'techSpef' => Flight::request()->data->techSpef
+                );
+                $dt=json_encode($dta);
+    $responseApi="true";
+    $messageApi="receivedFrom-".$urlreferer;
+    
+    kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',Flight::request()->data->trackId,$urlreferer);
+
+              
+              
+
 
                 if ($response11 == 'true' ) {
 
 
 
-                    $clientId= Flight::request()->data->clientId;
-                    $productName= Flight::request()->data->productName;
-                    $description= Flight::request()->data->description;
-                    $ean1= Flight::request()->data->ean1;
-                    $ean2= Flight::request()->data->ean2;
-                    $sku= Flight::request()->data->sku;
-                    $productType= Flight::request()->data->productType;
-                    $inPrice= Flight::request()->data->inPrice;
-                    $providerId= Flight::request()->data->providerId;
-                    $imgUrl= Flight::request()->data->imgUrl;
-                    $techSpef= Flight::request()->data->techSpef;
-                    $dta = array(
-            
-                        'clientId' =>$clientId,
-                        'productName' => $productName,
-                        'description' => $description,
-                        'ean1' => $ean1,
-                        'ean2' => $ean2,
-                        'sku' => $sku,
-                        'productType' => $productType,
-                        'inPrice' => $inPrice,
-                        'providerId' => $providerId,
-                        'imgUrl' => $imgUrl,
-                        'techSpef' => $techSpef
-                    );
-                    $dt=json_encode($dta);
-                    require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
+                    //$conectar=conn();
                 
-                  
-
-                    $gen_uuid = new generateUuid();
-                    $myuuid = $gen_uuid->guidv4();
-                
-
-                    $productId = substr($myuuid, 0, 8);
-
-                
-                    $conectar=conn();
-        $keywords=$productName."-".$description."-".$sku."-".$productType."-".$techSpef;
-                
-                    $query = mysqli_query($conectar, "INSERT INTO generalProducts (productId, clientId, productName, description, ean1, ean2, sku, productType, inPrice, providerId, imgProduct, spcProduct,keyWords) VALUES ('$productId', '$clientId', '$productName', '$description', '$ean1', '$ean2', '$sku', '$productType', '$inPrice', '$providerId', '$imgUrl', '$techSpef','$keywords')");
-
-                    if ($query) {
-                        
-                                $response12="true|¡Producto creado con éxito!";
-
-      //inicio de log
-      require_once 'kronos/postLog.php';
- 
-      $backtrace = debug_backtrace();
-      $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-      $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-     $justFileName = basename($currentFile);
-     $rutaCompleta = __DIR__;
-     $status = http_response_code();
-     $cid=Flight::request()->data->clientId;
-     
-     //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-     $array = explode("|", $response12);
-     $response12=$array[0];
-     $message=$array[1];
-     kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-     //final de log
-                        echo "true|¡Producto creado con éxito!";
-                    } else {
-                        // Si hay un error, imprime el mensaje de error
-
-
-                        $response12="false|" . mysqli_error($conectar);
-
-                        //inicio de log
-                        require_once 'kronos/postLog.php';
-                   
-                        $backtrace = debug_backtrace();
-                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-                       $justFileName = basename($currentFile);
-                       $rutaCompleta = __DIR__;
-                       $status = http_response_code();
-                       $cid=Flight::request()->data->clientId;
-                       
-                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-                       $array = explode("|", $response12);
-                       $response12=$array[0];
-                       $message=$array[1];
-                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-                       //final de log
-                        echo "false|" . mysqli_error($conectar);
-                    }
-                    
+                   // $query = mysqli_query($conectar, "INSERT INTO generalProducts (productId, clientId, productName, description, ean1, ean2, sku, productType, inPrice, providerId, imgProduct, spcProduct,keyWords) VALUES ('$productId', '$clientId', '$productName', '$description', '$ean1', '$ean2', '$sku', '$productType', '$inPrice', '$providerId', '$imgUrl', '$techSpef','$keywords')");
+                    $query= modelPost::postProduct($dta);
+                    // $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
+         
+                 
+                 
+                     if ($query==="true") {
+                         $responseApi="true";
+                         $messageApi="¡Repartidor actualizado con éxito!";
+                         $statusApi="200";
+                        // $response12="true|¡Repartidor actualizado con éxito!";
+                         
+                         
+                        // echo "true|¡Repartidor actualizado con éxito!";
+                     } else {
+                         // Si hay un error, imprime el mensaje de error
+                         $responseApi="false";
+                         $messageApi="MYSQL ERROR";
+                         $statusApi="500";
+         
+         
+                     }
                 
             
 
@@ -5094,7 +5074,6 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
         $dta = array(
         
             'clientId' =>Flight::request()->data->clientId,
-            'trackId' =>Flight::request()->data->trackId,
             'param' => Flight::request()->data->param,
             'value' => Flight::request()->data->value,
             'deliveryId' => Flight::request()->data->deliveryId
@@ -5152,7 +5131,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
    
    //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
   
-   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',$trackId,$urlreferer);
+   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',Flight::request()->data->trackId,$urlreferer);
    //final de log
 
 
