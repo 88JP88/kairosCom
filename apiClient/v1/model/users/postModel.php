@@ -36,7 +36,7 @@
                   $apiMessage="¡Repartidor actualizado con éxito!";
                     $status="201";
                 } else {
-                    $response="true";
+                    $response="false";
                   $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
                     $status="500";
                     $apiMessage="¡Repartidor no actualizado con éxito!";
