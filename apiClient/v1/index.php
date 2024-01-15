@@ -3,7 +3,7 @@
 require 'flight/Flight.php';
 require_once 'database/db_users.php';
 require_once 'model/users/postModel.php';
-require_once 'model/modelSecurity/authModule.php';
+//require_once 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
 
 
@@ -5091,7 +5091,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
         //LOG FUNCTION**
 
 
-        if ($response11 === 'true' ) {
+        if ($response11 == 'true' ) {
 
 
 
