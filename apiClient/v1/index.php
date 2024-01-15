@@ -3,7 +3,7 @@
 require 'flight/Flight.php';
 require_once 'database/db_users.php';
 require_once 'model/users/postModel.php';
-//require_once 'model/modelSecurity/authModule.php';
+require 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
 
 
@@ -5037,35 +5037,10 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-require 'model/modelSecurity/authModule.php';
+
 //$response11=$intanceAuth->authModel($apk,$xapk);
 $response11=modelAuth::authModel($apk,$xapk);
-/*
-   $sub_domaincon=new model_domain();
-   $sub_domain=$sub_domaincon->domKairos();
 
-
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-    
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-        
-        );
-    $curl = curl_init();
-    
-    // Configurar las opciones de la sesión cURL
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    
-    // Ejecutar la solicitud y obtener la respuesta
-    $response11 = curl_exec($curl);
-
-    curl_close($curl);
-*/
 
 //RECEIVE DATA
         $dta = array(
