@@ -5,6 +5,7 @@ require_once 'database/db_users.php';
 require_once 'model/users/postModel.php';
 require 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
+require_once 'kronos/postLog.php';
 
 
 
@@ -5021,10 +5022,14 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
     if (!empty($apk) && !empty($xapk)) {    
     
 
-          //START LOG STRUCTURE
-    require_once 'kronos/postLog.php';
-    $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+//AUTH MODULE
+        $response11=modelAuth::authModel($apk,$xapk);
+//AUTH MODULE**
 
+
+
+          //START LOG STRUCTURE
+    $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     $backtrace = debug_backtrace();
     $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
     $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
@@ -5034,12 +5039,6 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
    $cid=Flight::request()->data->clientId;
    $rutaActual = Flight::request()->url;
    //END LOG STRUCTURE
-
-
-
-
-//$response11=$intanceAuth->authModel($apk,$xapk);
-$response11=modelAuth::authModel($apk,$xapk);
 
 
 //RECEIVE DATA
@@ -5052,6 +5051,7 @@ $response11=modelAuth::authModel($apk,$xapk);
         );
 
 //RECEIVE DATA**
+
 
         //COMPLETE lOG STRUCTRUE
         $dt=json_encode($dta);
@@ -5078,30 +5078,16 @@ $response11=modelAuth::authModel($apk,$xapk);
        
            $responseSQL=$data['response'][0]['response'];
            $messageSQL=$data['response'][0]['message'];
+           $apiMessageSQL=$data['response'][0]['apiMessage'];
+           $apiStatusSQL=$data['response'][0]['status'];
          //JSON DECODE**
 
 
-            if ($responseSQL==="true") {
-                $responseApi="true";
-                $messageApi="¡Repartidor actualizado con éxito!";
-                $statusApi="200";
-               // $response12="true|¡Repartidor actualizado con éxito!";
-                
-                
-               // echo "true|¡Repartidor actualizado con éxito!";
-            } if($responseSQL==="false") {
-                // Si hay un error, imprime el mensaje de error
-                $responseApi="false";
-                $messageApi="MYSQL ERROR";
-                $statusApi="500";
-
-
-            }
+         $responseApi=$responseSQL;
+         $messageApi=$apiMessageSQL;
+         $statusApi=$apiStatusSQL;
             
         
-    
-
-    
         
         // echo json_encode($response1);
         } else {
