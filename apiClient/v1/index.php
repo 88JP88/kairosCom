@@ -5040,7 +5040,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 //$response11=$intanceAuth->authModel($apk,$xapk);
 $response11=modelAuth::authModel($apk,$xapk);
-/*
+
    $sub_domaincon=new model_domain();
    $sub_domain=$sub_domaincon->domKairos();
 
@@ -5065,7 +5065,7 @@ $response11=modelAuth::authModel($apk,$xapk);
     $response11 = curl_exec($curl);
 
     curl_close($curl);
-*/
+
 
 //RECEIVE DATA
         $dta = array(
