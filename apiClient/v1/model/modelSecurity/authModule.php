@@ -1,5 +1,5 @@
 <?php
-require_once '/env/domain.php';
+require_once 'env/domain.php';
 class modelAuth {
         
     public static function authModel($apk,$xapk) {
