@@ -3,6 +3,7 @@
 require 'flight/Flight.php';
 require_once 'database/db_users.php';
 require_once 'model/users/postModel.php';
+require_once 'model/users/responses.php';
 require 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
 require_once 'kronos/postLog.php';
@@ -5028,40 +5029,16 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-       
-
-
-//RECEIVE DATA
-        $dta = array(
-        
-            'clientId' =>Flight::request()->data->clientId,
-            'param' => Flight::request()->data->param,
-            'value' => Flight::request()->data->value,
-            'deliveryId' => Flight::request()->data->deliveryId
-        );
-
-//RECEIVE DATA**
-
-
-        //COMPLETE lOG STRUCTRUE
-        $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        $cid=Flight::request()->data->clientId;
-        $rutaActual = Flight::request()->url;
-        $dt=json_encode($dta);
-        $responseApi="true";
-        $messageApi="receivedFrom-".$urlreferer;
-         //COMPLETE lOG STRUCTRUE **
-
-
-
-        //LOG FUNCTION
-        kronos($responseApi,$messageApi,$messageApi,$cid,$dt,$rutaActual,'send',Flight::request()->data->trackId);
-        //LOG FUNCTION**
-
-
         if ($response11 == 'true' ) {
 
-
+            $dta = array(
+        
+                'clientId' =>Flight::request()->data->clientId,
+                'param' => Flight::request()->data->param,
+                'value' => Flight::request()->data->value,
+                'deliveryId' => Flight::request()->data->deliveryId
+            );
+            $dt=json_encode($dta);
 
         $query= modelPost::putDelivery($dta);
          
@@ -5099,23 +5076,13 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
    
     //LOG FUNCTION  
-    kronos($responseApi,$messageApi,$messageApi,$cid,$dt,$rutaActual,'send',Flight::request()->data->trackId);
+    
+   
+    kronos($responseApi,$messageApi,$messageApi,Flight::request()->data->clientId,$dt,Flight::request()->url,'send',Flight::request()->data->trackId);
     //LOG FUNCTION**
+echo modelResponse::responsePost($responseApi,$messageApi,$statusApi);
 
-
-   //RESPONSE API
-   $values=[];
-
-           $value=[
-               'response' => $responseApi,
-               'message' => $messageApi,
-               'status' => $statusApi
-               
-           ];
-           
-           array_push($values,$value);
-           
-   echo json_encode(['response'=>$values]);
+  
  //RESPONSE API**
 });
 
