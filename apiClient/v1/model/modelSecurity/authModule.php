@@ -1,5 +1,5 @@
 <?php
-require_once '../../env/domain.php';
+require_once '/env/domain.php';
 class modelAuth {
         
     public static function authModel($apk,$xapk) {
@@ -32,7 +32,14 @@ class modelAuth {
     $response11 = curl_exec($curl);
 
     curl_close($curl);
-         return $response11;
+
+    if($response11=="true"){
+        return "true";
+    }
+    if($response11!="true"){
+        return "false";
+    }
+        
      }
 
 
