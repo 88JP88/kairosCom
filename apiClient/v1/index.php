@@ -5040,10 +5040,8 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             );
             $dt=json_encode($dta);
 
-        $query= modelPost::putDelivery($dta);
-         
-
-        //JSON DECODE
+        $query= modelPost::putDelivery($dta);       
+       //JSON DECODE
            $data = json_decode($query, true);
        
            $responseSQL=$data['response'][0]['response'];
@@ -5053,34 +5051,34 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
          //JSON DECODE**
 
 
-         $responseApi=$responseSQL;
-         $messageApi=$apiMessageSQL;
-         $statusApi=$apiStatusSQL;
+       
             
         
         
         // echo json_encode($response1);
         } else {
-            $responseApi="false";
-            $messageApi="¡Autenticación fallida!";
-            $statusApi="401";
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
+
         }
     } else {
 
-        $responseApi="false";
-        $messageApi="¡Encabezados faltantes!";
-        $statusApi="403";
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
 
 
 
    
     //LOG FUNCTION  
-    
-   
-    kronos($responseApi,$messageApi,$messageApi,Flight::request()->data->clientId,$dt,Flight::request()->url,'send',Flight::request()->data->trackId);
+        kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);
     //LOG FUNCTION**
-echo modelResponse::responsePost($responseApi,$messageApi,$statusApi);
+
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);
 
   
  //RESPONSE API**

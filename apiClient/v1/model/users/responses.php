@@ -2,14 +2,16 @@
    
     class modelResponse {
         
-       public static function responsePost($responseApi,$messageApi,$statusApi) {
+       public static function responsePost($responseApi,$messageApi,$statusApi,$messageSQL) {
     
         $values=[];
 
         $value=[
             'response' => $responseApi,
             'message' => $messageApi,
-            'status' => $statusApi
+            'status' => $statusApi,
+            'status' => $statusApi,
+            'messageSQL'=>$messageSQL
             
         ];
         
