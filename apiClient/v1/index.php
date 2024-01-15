@@ -5091,7 +5091,7 @@ $response11=modelAuth::authModel($apk,$xapk);
         //LOG FUNCTION**
 
 
-        if ($response11 == 'true' ) {
+        if ($response11 === 'true' ) {
 
 
 
@@ -5163,7 +5163,7 @@ $response11=modelAuth::authModel($apk,$xapk);
            
    echo json_encode(['response'=>$values]);
  //RESPONSE API**
-
+echo $response11;
 });
 
 
