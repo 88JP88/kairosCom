@@ -28,14 +28,45 @@
             $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
            
             if($query){
-                return "true";
+                $filasAfectadas = mysqli_affected_rows($conectar);
+                if ($filasAfectadas > 0) {
+                    // Éxito: La actualización se realizó correctamente
+                  $response="true";
+                  $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
+                    $status="201";
+                } else {
+                    $response="true";
+                  $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
+                    $status="500";
+                 }
+              //  return "true";
              //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
             }else{
-        
-                return "false";
+                $response="true";
+                $message="Error en la actualización: " . mysqli_error($conectar);
+                  $status="404";
+                
             
                  
                                 }
+
+
+                                $values=[];
+
+   
+   
+                                $value=[
+                                    'response' => $response,
+                                    'message' => $message,
+                                    'status' => $status
+                                    
+                                ];
+                                
+                                array_push($values,$value);
+                                
+                     
+                        //echo json_encode($students) ;
+                        return json_encode(['response'=>$values]);
             
         }
 

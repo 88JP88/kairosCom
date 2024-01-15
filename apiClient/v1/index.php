@@ -5089,9 +5089,16 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
         $query= modelPost::putDelivery($dta);
            // $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
 
+
+           
+           $data = json_decode($query, true);
+       
+           $responseSQL=$data['response'][0]['response'];
+           $messageSQL=$data['response'][0]['message'];
         
-        
-            if ($query==="true") {
+
+
+            if ($responseSQL==="true") {
                 $responseApi="true";
                 $messageApi="¡Repartidor actualizado con éxito!";
                 $statusApi="200";
@@ -5099,7 +5106,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                 
                 
                // echo "true|¡Repartidor actualizado con éxito!";
-            } if($query==="false") {
+            } if($responseSQL==="false") {
                 // Si hay un error, imprime el mensaje de error
                 $responseApi="false";
                 $messageApi="MYSQL ERROR";
