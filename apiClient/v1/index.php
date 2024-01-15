@@ -5091,35 +5091,21 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
     curl_close($curl);
 
-    
-
-        // Realizar acciones basadas en los valores de los encabezados
-        $clientId= Flight::request()->data->clientId;
-        $trackId= Flight::request()->data->trackId;
-        $param= Flight::request()->data->param;
-        $value= Flight::request()->data->value;
-        $deliveryId= Flight::request()->data->deliveryId;
         $dta = array(
         
-            'clientId' =>$clientId,
-            'trackId' =>$trackId,
-            'param' => $param,
-            'value' => $value,
-            'deliveryId' => $deliveryId
+            'clientId' =>Flight::request()->data->clientId,
+            'trackId' =>Flight::request()->data->trackId,
+            'param' => Flight::request()->data->param,
+            'value' => Flight::request()->data->value,
+            'deliveryId' => Flight::request()->data->deliveryId
         );
         $dt=json_encode($dta);
         $responseApi="true";
         $messageApi="receivedFrom-".$urlreferer;
         
-        kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',$trackId,$urlreferer);
+        kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',Flight::request()->data->trackId,$urlreferer);
 
         if ($response11 == 'true' ) {
-
-
-
-           
-        
-            $conectar=conn();
 
         $query= modelPost::putDelivery($dta);
            // $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
@@ -5137,7 +5123,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             } else {
                 // Si hay un error, imprime el mensaje de error
                 $responseApi="false";
-                $messageApi=mysqli_error($conectar);
+                $messageApi="MYSQL ERROR";
                 $statusApi="500";
 
 

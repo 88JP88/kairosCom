@@ -1,9 +1,10 @@
 <?php
-    
+    require_once 'database/db_users.php';
     class modelPost {
+        
        public static function putDelivery($dta) {
     
-            require_once 'database/db_users.php'; // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+             // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
          
             // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
             $conectar = conn();
