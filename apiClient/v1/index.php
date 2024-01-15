@@ -5091,7 +5091,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
         
         
-            if ($query==="true") {
+            if ($query=="true") {
                 $responseApi="true";
                 $messageApi="¡Repartidor actualizado con éxito!";
                 $statusApi="200";
