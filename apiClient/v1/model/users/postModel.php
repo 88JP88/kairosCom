@@ -39,6 +39,7 @@
                     $response="true";
                   $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
                     $status="500";
+                    $apiMessage="¡Repartidor no actualizado con éxito!";
                  }
               //  return "true";
              //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -46,7 +47,7 @@
                 $response="true";
                 $message="Error en la actualización: " . mysqli_error($conectar);
                   $status="404";
-                
+                  $apiMessage="¡Repartidor no actualizado con éxito!";
             
                                 }
 
