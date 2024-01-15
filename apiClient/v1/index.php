@@ -5163,7 +5163,6 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
            
    echo json_encode(['response'=>$values]);
  //RESPONSE API**
-echo $response11;
 });
 
 
