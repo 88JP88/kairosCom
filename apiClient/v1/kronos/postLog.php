@@ -1,6 +1,6 @@
 <?php
 
-function kronos($response,$message,$error,$function,$filename,$module,$clientId,$data,$endpoint,$statusCode,$logType,$trackId,$referer) {
+function kronos($response,$message,$error,$clientId,$data,$endpoint,$logType,$trackId) {
 
   // Establecer la zona horaria a Bogotá
 date_default_timezone_set('America/Bogota');
@@ -11,6 +11,23 @@ $now->setTimezone(new DateTimeZone('America/Bogota'));
 
 // Formatear la fecha y hora actual
 $currentDateTime = $now->format('Y-m-d H:i:s');
+
+
+
+
+
+$urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$backtrace = debug_backtrace();
+$info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+$currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+$justFileName = basename($currentFile);
+$rutaCompleta = __DIR__;
+$status = http_response_code();
+
+
+
+
+
 if($response==="true"){
     $level="info";
 }
@@ -28,10 +45,10 @@ $jsonData = '{
         "logType": "'.$logType.'",
         "level": "'.$level.'",
         "clientId": "'.$clientId.'",
-        "module": "'.$module.'",
+        "module": "'.$rutaCompleta.'",
         "domain":"'.$_SERVER['HTTP_HOST'].'",
-        "function":"'.$function.'",
-        "file":"'.$filename.'",
+        "function":"'.$info['Función'].'",
+        "file":"'.$justFileName.'",
         "response":"'.$response.'",
         "error":"'.$error.'",
         "clientIp":"'.$_SERVER['REMOTE_ADDR'].'",
@@ -45,8 +62,8 @@ $jsonData = '{
       }
     },"data":'.$data.',
      "status":{
-      "code":"'.$statusCode.'",
-      "referer":"'.$referer.'"
+      "code":"'.$status.'",
+      "referer":"'.$urlreferer.'"
     }
   }';
 

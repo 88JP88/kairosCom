@@ -5028,17 +5028,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-          //START LOG STRUCTURE
-    $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    $backtrace = debug_backtrace();
-    $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-    $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-   $justFileName = basename($currentFile);
-   $rutaCompleta = __DIR__;
-   $status = http_response_code();
-   $cid=Flight::request()->data->clientId;
-   $rutaActual = Flight::request()->url;
-   //END LOG STRUCTURE
+       
 
 
 //RECEIVE DATA
@@ -5054,6 +5044,9 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
         //COMPLETE lOG STRUCTRUE
+        $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $cid=Flight::request()->data->clientId;
+        $rutaActual = Flight::request()->url;
         $dt=json_encode($dta);
         $responseApi="true";
         $messageApi="receivedFrom-".$urlreferer;
@@ -5062,7 +5055,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
         //LOG FUNCTION
-        kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',Flight::request()->data->trackId,$urlreferer);
+        kronos($responseApi,$messageApi,$messageApi,$cid,$dt,$rutaActual,'send',Flight::request()->data->trackId);
         //LOG FUNCTION**
 
 
@@ -5106,8 +5099,8 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
    
     //LOG FUNCTION  
-   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',Flight::request()->data->trackId,$urlreferer);
-   //LOG FUNCTION**
+    kronos($responseApi,$messageApi,$messageApi,$cid,$dt,$rutaActual,'send',Flight::request()->data->trackId);
+    //LOG FUNCTION**
 
 
    //RESPONSE API
