@@ -47,14 +47,10 @@
                   $status="404";
                 
             
-                 
                                 }
-
 
                                 $values=[];
 
-   
-   
                                 $value=[
                                     'response' => $response,
                                     'message' => $message,

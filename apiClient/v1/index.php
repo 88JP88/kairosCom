@@ -3,6 +3,7 @@
 require 'flight/Flight.php';
 require_once 'database/db_users.php';
 require_once 'model/users/postModel.php';
+require_once 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
 
 
@@ -5018,24 +5019,9 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
     
 
-
-
-
-        
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-
-
-
-
-         //inicio de log
+          //START LOG STRUCTURE
     require_once 'kronos/postLog.php';
     $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
@@ -5047,6 +5033,18 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
    $status = http_response_code();
    $cid=Flight::request()->data->clientId;
    $rutaActual = Flight::request()->url;
+   //END LOG STRUCTURE
+
+
+
+
+//$response11=$intanceAuth->authModel($apk,$xapk);
+$response11=modelAuth::authModel($apk,$xapk);
+/*
+   $sub_domaincon=new model_domain();
+   $sub_domain=$sub_domaincon->domKairos();
+
+
         $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
     
         $data = array(
@@ -5066,11 +5064,10 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
     // Ejecutar la solicitud y obtener la respuesta
     $response11 = curl_exec($curl);
 
-    
-
-
     curl_close($curl);
+*/
 
+//RECEIVE DATA
         $dta = array(
         
             'clientId' =>Flight::request()->data->clientId,
@@ -5078,24 +5075,35 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
             'value' => Flight::request()->data->value,
             'deliveryId' => Flight::request()->data->deliveryId
         );
+
+//RECEIVE DATA**
+
+        //COMPLETE lOG STRUCTRUE
         $dt=json_encode($dta);
         $responseApi="true";
         $messageApi="receivedFrom-".$urlreferer;
-        
+         //COMPLETE lOG STRUCTRUE **
+
+
+
+        //LOG FUNCTION
         kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',Flight::request()->data->trackId,$urlreferer);
+        //LOG FUNCTION**
+
 
         if ($response11 == 'true' ) {
 
+
+
         $query= modelPost::putDelivery($dta);
-           // $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
+         
 
-
-           
+        //JSON DECODE
            $data = json_decode($query, true);
        
            $responseSQL=$data['response'][0]['response'];
            $messageSQL=$data['response'][0]['message'];
-        
+         //JSON DECODE**
 
 
             if ($responseSQL==="true") {
@@ -5136,16 +5144,14 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
    
-   //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-  
+    //LOG FUNCTION  
    kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',Flight::request()->data->trackId,$urlreferer);
-   //final de log
+   //LOG FUNCTION**
 
 
+   //RESPONSE API
    $values=[];
 
-   
-   
            $value=[
                'response' => $responseApi,
                'message' => $messageApi,
@@ -5155,10 +5161,8 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
            
            array_push($values,$value);
            
-
-   //echo json_encode($students) ;
    echo json_encode(['response'=>$values]);
-
+ //RESPONSE API**
 
 });
 
