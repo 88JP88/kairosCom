@@ -5091,7 +5091,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
         
         
-            if ($query=="true") {
+            if ($query==="true") {
                 $responseApi="true";
                 $messageApi="¡Repartidor actualizado con éxito!";
                 $statusApi="200";
@@ -5099,7 +5099,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
                 
                 
                // echo "true|¡Repartidor actualizado con éxito!";
-            } else {
+            } if($query==="false") {
                 // Si hay un error, imprime el mensaje de error
                 $responseApi="false";
                 $messageApi="MYSQL ERROR";
