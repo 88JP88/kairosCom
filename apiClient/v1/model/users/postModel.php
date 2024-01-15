@@ -28,11 +28,11 @@
             $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
            
             if($query){
-                echo "true";
+                return "true";
              //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
             }else{
         
-                echo "false";
+                return "false";
             
                  
                                 }
