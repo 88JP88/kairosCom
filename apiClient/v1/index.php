@@ -5028,17 +5028,17 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 //AUTH MODULE**
 
 
-
+$dta = array(
+        
+    'clientId' =>Flight::request()->data->clientId,
+    'param' => Flight::request()->data->param,
+    'value' => Flight::request()->data->value,
+    'deliveryId' => Flight::request()->data->deliveryId
+);
+$dt=json_encode($dta);
         if ($response11 == 'true' ) {
 
-            $dta = array(
-        
-                'clientId' =>Flight::request()->data->clientId,
-                'param' => Flight::request()->data->param,
-                'value' => Flight::request()->data->value,
-                'deliveryId' => Flight::request()->data->deliveryId
-            );
-            $dt=json_encode($dta);
+           
 
         $query= modelPost::putDelivery($dta);       
        //JSON DECODE
