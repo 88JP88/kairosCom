@@ -556,7 +556,6 @@ if ($numRows > 0) {
         
 }
 
-           
 
 public static function getCategoriesC($dta) {
             
@@ -680,7 +679,7 @@ if ($numRows > 0) {
         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
         }else{
             $response="false";
-            $message="Error en la consulta: " . mysqli_error($conectar);
+            $message="Error en la consulta: ";
             $status="404";
             $apiMessage="¡Categorías no selleccionados con éxito!";
             $values=[];
