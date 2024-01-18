@@ -576,10 +576,10 @@ public static function getCategoriesC($dta) {
             
 
 //         // Escapa los valores para prevenir inyección SQL
-//         $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-//         $filter = mysqli_real_escape_string($conectar, $dta['filter']);
-//         $param = mysqli_real_escape_string($conectar, $dta['param']);
-//         $value = mysqli_real_escape_string($conectar, $dta['value']);
+        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+        $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+        $param = mysqli_real_escape_string($conectar, $dta['param']);
+        $value = mysqli_real_escape_string($conectar, $dta['value']);
                     
                     
 //                 if($filter=="all"){
