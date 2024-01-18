@@ -646,7 +646,7 @@ if ($numRows > 0) {
                 'categories' => $values
             ];
             
-            echo json_encode($responseData);
+            return json_encode($responseData);
         }else {
             // La consulta no arrojó resultados
             $response="false";
