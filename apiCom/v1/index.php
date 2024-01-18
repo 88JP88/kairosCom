@@ -335,6 +335,7 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 
 Flight::route('GET /getCatalogs/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+   
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -346,206 +347,41 @@ Flight::route('GET /getCatalogs/@clientId/@filter/@param/@value', function ($cli
         // Acceder a los encabezados
         $apiKey = $headers['Api-Key'];
         $xApiKey = $headers['x-api-Key'];
-        
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
-      
-        $data = array(
-          'apiKey' =>$apiKey, 
-          'xApiKey' => $xApiKey
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response1 = curl_exec($curl);
 
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
+        $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
 
         if ($response1 == 'true' ) {
            
-
-
-            $array = explode("|", $filter);
-            $filter=$array[0];
-            $ids=$array[1];
-           
-            $conectar=conn();
-            
+            $dta = array(
         
-         
-     
-if($filter=="all"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId  where ca.clientId='$clientId' and ca.status=1");
-
-
-}
-
-if($filter=="deleted"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId  where ca.clientId='$clientId' and ca.status=0");
-
-
-}
-
-          
-  
-if($filter=="basic"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.$param ='$value' and ca.status=1");
-
-
-}
-  
-if($filter=="ecm"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and  ca.isEcommerce=1 and ca.status=1");
-
-
-}
-if($filter=="pos"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.isPos=1 and ca.status=1");
-
-
-}
-
-if($filter=="internal"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.isInternal=1 and ca.status=1");
-
-
-}
-if($filter=="stocked"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.isStocked=1 and ca.status=1");
-
-
-}
-if($filter=="browser"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and p.keyWords LIKE '%$value%' and ca.status=1");
-
-
-}
-
-if($filter=="filter"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.storeId='$ids' and p.keyWords LIKE ('%$value%')  and ca.status=1");
-
-
-}
-
-if($filter=="store"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.storeId='$ids' and ca.status=1");
-
-
-}
-
-
-
-
-if ($query) {
-
-                $values=[];
-          
-                while($row = $query->fetch_assoc())
-                {
-                   
-                        $value=[
-                            'productId' => $row['productId'],
-                            'clientId' => $row['clientId'],
-                            'productName' => $row['productName'],
-                            'catalogId' => $row['catalogId'],
-                            'categoryId' => $row['categoryId'],
-                            'stock' => $row['stock'],
-                            'secStock' => $row['secStock'],
-                            
-                            'minQty' => $row['minQty'],
-                            'maxQty' => $row['maxQty'],
-                            'storeId' => $row['storeId'],
-                            'outPrice' => $row['outPrice'],
-                            'promoId' => $row['promoId'],
-                            'isActive' => $row['isActive'],
-                            'discount' => $row['discount'],
-                            'isPromo' => $row['isPromo'],
-                            'isDiscount' => $row['isDiscount'],
-                            'isEcommerce' => $row['isEcommerce'],
-                            'isPos' => $row['isPos'],
-                            'isInternal' => $row['isInternal'],
-                            'isStocked' => $row['isStocked'],
-                            'unit' => $row['unit'],
-                            'readUnit' => $row['readUnit'],
-                            'unitQty' => $row['unitQty'],
-                            'unitUnit' => $row['unitUnit'],
-                            'storeName' => $row['storeName'],
-                            'categoryName' => $row['catName'],
-                            'description' => $row['description'],
-                            'imgProduct' => $row['imgProduct'],
-                            'spcProduct' => $row['spcProduct'],
-                            'keyWords' => $row['keyWords']
-
-                        ];
-                        
-                        array_push($values,$value);
-                        
-                }
-                $row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-                echo json_encode(['catalogs'=>$values]);
-          
-               
+                'clientId' =>$clientId,
                 
-                } else {
-                    // Si hay un error, imprime el mensaje de error
-                    echo "false|" . mysqli_error($conectar);
-                }
+                'filter' => $filter,
+                'param' => $param,
+                'value' => $value
+            );
 
-        } else {
-            echo 'Error: Autenticación fallida';
-             //echo json_encode($response1);
-        }
-    } else {
-        echo 'Error: Encabezados faltantes';
-    }
+echo modelGet::getCatalogs($dta);
+           
+
+}else { 
+    
+    $responseSQL="false";
+    $apiMessageSQL="¡Autenticación fallida!";
+    $apiStatusSQL="401";
+    $messageSQL="¡Autenticación fallida!";
+    echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
+}
+} else {
+
+$responseSQL="false";
+$apiMessageSQL="¡Encabezados faltantes!";
+$apiStatusSQL="403";
+$messageSQL="¡Encabezados faltantes!";
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
+}
 });
 
 
