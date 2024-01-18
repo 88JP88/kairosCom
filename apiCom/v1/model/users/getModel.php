@@ -96,7 +96,7 @@ class modelGet {
                                             'products' => $values
                                         ];
                                         
-                                        echo json_encode($responseData);
+                                        return json_encode($responseData);
                                     }else {
                                         // La consulta no arrojó resultados
                                         $response="false";
@@ -345,7 +345,7 @@ if ($numRows > 0) {
                             'catalogs' => $values
                         ];
                         
-                        echo json_encode($responseData);
+                        return json_encode($responseData);
                     }else {
                         // La consulta no arrojó resultados
                         $response="false";
@@ -494,7 +494,7 @@ if ($numRows > 0) {
                 'stores' => $values
             ];
             
-            echo json_encode($responseData);
+            return json_encode($responseData);
         }else {
             // La consulta no arrojó resultados
             $response="false";
