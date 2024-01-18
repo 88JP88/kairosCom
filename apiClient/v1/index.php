@@ -316,7 +316,7 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
 
                 if ($response11 == 'true' ) {
 
-              echo  $query= modelGet::getProducts($dta);  //DATA MODAL
+              echo modelGet::getProducts($dta);  //DATA MODAL
 
             //JSON DECODE RESPPNSE
                 
