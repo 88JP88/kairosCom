@@ -338,7 +338,7 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
                 'value' => $value
             );
 
-echo modelGet::getProducts($dta);
+//return modelGet::getProducts($dta);
            
 //             $conectar=conn();
             
@@ -397,7 +397,7 @@ echo modelGet::getProducts($dta);
 //                 $row=$query->fetch_assoc();
 //                 //echo json_encode($students) ;
 //                echo json_encode(['products'=>$values]);
-//           //echo "hola";
+echo "hola";
                
            
 
