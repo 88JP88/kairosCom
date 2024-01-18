@@ -1,9 +1,8 @@
 <?php
     require_once 'database/db_users.php';
-    require_once 'model/modelSecurity/uuid/uuidd.php';
-class modelPost {
+class modelGet {
           
-        public static function postProduct($dta) {
+        public static function getProducts($dta) {
             
                 
 
@@ -20,69 +19,110 @@ class modelPost {
                             
                                     
                                         
-                                    $gen_uuid = new generateUuid();
-                                    $myuuid = $gen_uuid->guidv4();
-                                    $productId = substr($myuuid, 0, 8);
 
                                     // Escapa los valores para prevenir inyección SQL
                                     $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-                                    $productName = mysqli_real_escape_string($conectar, $dta['productName']);
-                                    $description = mysqli_real_escape_string($conectar, $dta['description']);
-                                    $ean1 = mysqli_real_escape_string($conectar, $dta['ean1']);
-                                    $ean2 = mysqli_real_escape_string($conectar, $dta['ean2']);
-                                    $sku = mysqli_real_escape_string($conectar, $dta['sku']);
-                                    $productType = mysqli_real_escape_string($conectar, $dta['productType']);
-                                    $inPrice = mysqli_real_escape_string($conectar, $dta['inPrice']);
-                                    $providerId = mysqli_real_escape_string($conectar, $dta['providerId']);
-                                    $imgUrl = mysqli_real_escape_string($conectar, $dta['imgUrl']);
-                                    $techSpef = mysqli_real_escape_string($conectar, $dta['techSpef']);
-                                    $keywords=$productName."-".$description."-".$sku."-".$productType."-".$techSpef;
-                                    //$dato_encriptado = $keyword;
-                                    
+                                    $filter = mysqli_real_escape_string($conectar, $dta['productName']);
+                                    $param = mysqli_real_escape_string($conectar, $dta['description']);
+                                    $value = mysqli_real_escape_string($conectar, $dta['ean1']);
+                                   
                             
-                                    $query = mysqli_query($conectar, "INSERT INTO generalProducts (productId, clientId, productName, description, ean1, ean2, sku, productType, inPrice, providerId, imgProduct, spcProduct,keyWords) VALUES ('$productId', '$clientId', '$productName', '$description', '$ean1', '$ean2', '$sku', '$productType', '$inPrice', '$providerId', '$imgUrl', '$techSpef','$keywords')");
+                                    if($filter=="all"){
+
+                
+                
+                                        $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId'");
+                                }
                                 
+                                if($filter=="browser"){
+                
+                                
+                                
+                                    $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and keyWords LIKE ('%$value%')");
+                                
+                                
+                                }
+                        if($filter=="filter"){
+                
+                                
+                                
+                            $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and $param='$value'");
+                
+                
+                        }       
                                     if($query){
-                                        $filasAfectadas = mysqli_affected_rows($conectar);
-                                        if ($filasAfectadas > 0) {
-                                            // Éxito: La actualización se realizó correctamente
+                                       
                                         $response="true";
-                                        $message="Creación exitosa. Filas afectadas: $filasAfectadas";
-                                        $apiMessage="¡Producto creado con éxito!";
-                                            $status="201";
-                                        } else {
-                                            $response="false";
-                                        $message="Creación no exitosa. Filas afectadas: $filasAfectadas";
-                                            $status="500";
-                                            $apiMessage="¡Producto no credo con éxito!";
+                                        $message="Consulta exitosa";
+                                        $status="202";
+                                        $apiMessage="¡Productos selleccionados con éxito!";
+                                        $values=[];
+                
+                                        while ($row = $query->fetch_assoc()) {
+                                            $value = [
+                                                'productId' => $row['productId'],
+                                                'clientId' => $row['clientId'],
+                                                'productName' => $row['productName'],
+                                                'description' => $row['description'],
+                                                'ean1' => $row['ean1'],
+                                                'ean2' => $row['ean2'],
+                                                'sku' => $row['sku'],
+                                                'productType' => $row['productType'],
+                                                'inPrice' => $row['inPrice'],
+                                                'providerId' => $row['providerId'],
+                                                'imgProduct' => $row['imgProduct'],
+                                                'spcProduct' => $row['spcProduct'],
+                                                'isActive' => $row['isActive'],
+                                                'keyWords' => $row['keyWords']
+                                            ];
+                                        
+                                            array_push($values, $value);
                                         }
+                                        
+                                        $row = $query->fetch_assoc();
+                                        
+                                        // Crear un array separado para el objeto 'response'
+                                        $responseData = [
+                                            'response' => [
+                                                'response' => $response,
+                                                'message' => $message,
+                                                'apiMessage' => $apiMessage,
+                                                'status' => $status
+                                            ],
+                                            'products' => $values
+                                        ];
+                                        
+                                        return json_encode($responseData);
+
+
                                     //  return "true";
                                     //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
                                     }else{
                                         $response="true";
-                                        $message="Error en la actualización: " . mysqli_error($conectar);
+                                        $message="Error en la consulta: " . mysqli_error($conectar);
                                         $status="404";
-                                        $apiMessage="¡Producto no creado con éxito!";
-                                    
+                                        $apiMessage="¡Productos no selleccionados con éxito!";
+                                        $values=[];
+
+                                        $value=[
+                                            'response' => $response,
+                                            'message' => $message,
+                                            'apiMessage' => $apiMessage,
+                                            'status' => $status
+                                            
+                                        ];
+                                        
+                                        array_push($values,$value);
+                                        
+                            
+                                //echo json_encode($students) ;
+                                return json_encode(['response'=>$values]);
                                                         }
 
-                                                        $values=[];
-
-                                                        $value=[
-                                                            'response' => $response,
-                                                            'message' => $message,
-                                                            'apiMessage' => $apiMessage,
-                                                            'status' => $status
-                                                            
-                                                        ];
                                                         
-                                                        array_push($values,$value);
-                                                        
-                                            
-                                                //echo json_encode($students) ;
-                                                return json_encode(['response'=>$values]);
                                     
             }
+
             
         public static function postCatalog($dta) {
             
