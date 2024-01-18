@@ -575,134 +575,134 @@ public static function getCategoriesC($dta) {
         
             
 
-        // Escapa los valores para prevenir inyección SQL
-        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-        $filter = mysqli_real_escape_string($conectar, $dta['filter']);
-        $param = mysqli_real_escape_string($conectar, $dta['param']);
-        $value = mysqli_real_escape_string($conectar, $dta['value']);
+//         // Escapa los valores para prevenir inyección SQL
+//         $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+//         $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+//         $param = mysqli_real_escape_string($conectar, $dta['param']);
+//         $value = mysqli_real_escape_string($conectar, $dta['value']);
                     
                     
-                if($filter=="all"){
+//                 if($filter=="all"){
 
                         
                         
-                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
+//                     $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
                 
 
 
-                }
+//                 }
 
-                if($filter=="browser"){
+//                 if($filter=="browser"){
 
                         
-                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE ('%$value%')");
+//                     $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE ('%$value%')");
 
-                }
-                if($filter=="filter"){
+//                 }
+//                 if($filter=="filter"){
                         
-                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and $param='$value'");
+//                     $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and $param='$value'");
 
-                }
+//                 }
 
-        if($query){
-            $numRows = mysqli_num_rows($query);
+//         if($query){
+//             $numRows = mysqli_num_rows($query);
 
-if ($numRows > 0) {
-            $response="true";
-            $message="Consulta exitosa";
-            $status="202";
-            $apiMessage="¡Categorías seleccionadas ($numRows)!";
-            $values=[];
+// if ($numRows > 0) {
+//             $response="true";
+//             $message="Consulta exitosa";
+//             $status="202";
+//             $apiMessage="¡Categorías seleccionadas ($numRows)!";
+//             $values=[];
 
-            while ($row = $query->fetch_assoc()) {
-                $value = [
-                    'categoryId' => $row['catId'],
-                    'categoryName' => $row['catName'],
-                    'comments' => $row['comments'],
-                    'isActive' => $row['isActive'],
-                    'categoryType' => $row['catType'],
-                    'clientId' => $row['clientId'],
-                    'parentId' => $row['parentId'],
-                    'keyWords' => $row['keyWords'],
-                    'parentName' => $_SESSION['catName']
-                ];
+//             while ($row = $query->fetch_assoc()) {
+//                 $value = [
+//                     'categoryId' => $row['catId'],
+//                     'categoryName' => $row['catName'],
+//                     'comments' => $row['comments'],
+//                     'isActive' => $row['isActive'],
+//                     'categoryType' => $row['catType'],
+//                     'clientId' => $row['clientId'],
+//                     'parentId' => $row['parentId'],
+//                     'keyWords' => $row['keyWords'],
+//                     'parentName' => $_SESSION['catName']
+//                 ];
                 
-                array_push($values,$value);
-            }
+//                 array_push($values,$value);
+//             }
             
-            $row = $query->fetch_assoc();
-           // return json_encode(['products'=>$values]);
+//             $row = $query->fetch_assoc();
+//            // return json_encode(['products'=>$values]);
             
-            // Crear un array separado para el objeto 'response'
-            $responseData = [
-                'response' => [
-                    'response' => $response,
-                    'message' => $message,
-                    'apiMessage' => $apiMessage,
-                    'status' => $status,
-                    'sentData'=>$dta
-                ],
-                'categories' => $values
-            ];
+//             // Crear un array separado para el objeto 'response'
+//             $responseData = [
+//                 'response' => [
+//                     'response' => $response,
+//                     'message' => $message,
+//                     'apiMessage' => $apiMessage,
+//                     'status' => $status,
+//                     'sentData'=>$dta
+//                 ],
+//                 'categories' => $values
+//             ];
             
-          //  return json_encode($responseData);
-          return "hello";
-        }else {
-            // La consulta no arrojó resultados
-            $response="false";
-            $message="Error en la consulta";
-            $status="204";
-            $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
-            $values=[];
+//           //  return json_encode($responseData);
+//           return "hello";
+//         }else {
+//             // La consulta no arrojó resultados
+//             $response="false";
+//             $message="Error en la consulta";
+//             $status="204";
+//             $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
+//             $values=[];
 
-            $value = [
+//             $value = [
                                             
-            ];
-            $responseData = [
-                'response' => [
-                    'response' => $response,
-                    'message' => $message,
-                    'apiMessage' => $apiMessage,
-                    'status' => $status,
-                    'sentData'=>$dta
-                ],
-                'categories' => $values
-            ];
-            array_push($values,$value);
+//             ];
+//             $responseData = [
+//                 'response' => [
+//                     'response' => $response,
+//                     'message' => $message,
+//                     'apiMessage' => $apiMessage,
+//                     'status' => $status,
+//                     'sentData'=>$dta
+//                 ],
+//                 'categories' => $values
+//             ];
+//             array_push($values,$value);
             
 
-    //echo json_encode($students) ;
-    return json_encode($responseData);
-        }
+//     //echo json_encode($students) ;
+//     return json_encode($responseData);
+//         }
 
-        //  return "true";
-        //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
-        }else{
-            $response="false";
-            $message="Error en la consulta: ";
-            $status="404";
-            $apiMessage="¡Categorías no selleccionados con éxito!";
-            $values=[];
+//         //  return "true";
+//         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+//         }else{
+//             $response="false";
+//             $message="Error en la consulta: ";
+//             $status="404";
+//             $apiMessage="¡Categorías no selleccionados con éxito!";
+//             $values=[];
 
-            $value = [
+//             $value = [
                                             
-            ];
-            $responseData = [
-                'response' => [
-                    'response' => $response,
-                    'message' => $message,
-                    'apiMessage' => $apiMessage,
-                    'status' => $status,
-                    'sentData'=>$dta
-                ],
-                'categories' => $values
-            ];
-            array_push($values,$value);
+//             ];
+//             $responseData = [
+//                 'response' => [
+//                     'response' => $response,
+//                     'message' => $message,
+//                     'apiMessage' => $apiMessage,
+//                     'status' => $status,
+//                     'sentData'=>$dta
+//                 ],
+//                 'categories' => $values
+//             ];
+//             array_push($values,$value);
             
 
-    //echo json_encode($students) ;
-    return json_encode($responseData);
-                            }
+//     //echo json_encode($students) ;
+//     return json_encode($responseData);
+//                             }
 
                     return "hi";        
         
