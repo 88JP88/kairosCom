@@ -495,100 +495,59 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 
 Flight::route('POST /putProduct/@apk/@xapk', function ($apk,$xapk) {
-  
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
+    
 
 
+        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
 
+//DATA EXTRACTION ARRAY - JSON CONVERT
+$dta = array(
         
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
+    'clientId' =>Flight::request()->data->clientId,
+    'param' => Flight::request()->data->param,
+    'value' => Flight::request()->data->value,
+    'productId' => Flight::request()->data->productId
+);
+$dt=json_encode($dta);
+//DATA EXTRACTION**
 
 
         if ($response11 == 'true' ) {
 
+        $query= modelPut::putProduct($dta);  //DATA MODAL
 
+    //JSON DECODE RESPPNSE
+        $data = json_decode($query, true);
+        $responseSQL=$data['response'][0]['response'];
+        $messageSQL=$data['response'][0]['message'];
+        $apiMessageSQL=$data['response'][0]['apiMessage'];
+        $apiStatusSQL=$data['response'][0]['status'];
+        //JSON DECODE**
 
-            $clientId= Flight::request()->data->clientId;
-            $param= Flight::request()->data->param;
-            $value= Flight::request()->data->value;
-            $productId= Flight::request()->data->productId;
-         
-         
-            $conectar=conn();
-
-           if($param=="isEcommerce" && $value=="1" || $param=="isPos" && $value=="1"){
-            $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isStocked=0,isInternal=0 where clientId='$clientId' and productId='$productId'");
-
-           }
-           if($param=="isStocked" && $value=="1"){
-            $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isEcommerce=0,isPos=0,isInternal=0 where clientId='$clientId' and productId='$productId'");
-
-           }
-           if($param=="isInternal" && $value=="1"){
-            $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isEcommerce=0,isPos=0,isStocked=0 where clientId='$clientId' and productId='$productId'");
-
-           }else{
-            $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' where clientId='$clientId' and productId='$productId'");
-
-           }
-           
-            if ($query) {
-                echo "true|¡Producto actualizado con éxito!";
-            } else {
-                // Si hay un error, imprime el mensaje de error
-                echo "false|" . mysqli_error($conectar);
-            }
-            
-           
-     
-
-       
-        
-           // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
+
         }
     } else {
-        echo 'false|¡Encabezados faltantes!';
+
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
+
+
+        kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 Flight::route('POST /putCategorie/@apk/@xapk', function ($apk,$xapk) {
