@@ -80,20 +80,20 @@ class modelGet {
                                         }
                                         
                                         $row = $query->fetch_assoc();
-                                        return json_encode(['products'=>$values]);
+                                       // return json_encode(['products'=>$values]);
                                         
                                         // Crear un array separado para el objeto 'response'
-                                        // $responseData = [
-                                        //     'responses' => [
-                                        //         'response' => $response,
-                                        //         'message' => $message,
-                                        //         'apiMessage' => $apiMessage,
-                                        //         'status' => $status
-                                        //     ],
-                                        //     'products' => $values
-                                        // ];
+                                        $responseData = [
+                                            'responses' => [
+                                                'response' => $response,
+                                                'message' => $message,
+                                                'apiMessage' => $apiMessage,
+                                                'status' => $status
+                                            ],
+                                            'products' => $values
+                                        ];
                                         
-                                        // echo json_encode($responseData);
+                                        echo json_encode($responseData);
 
 
                                     //  return "true";
