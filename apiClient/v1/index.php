@@ -286,15 +286,15 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
            
 
         //DATA EXTRACTION ARRAY - JSON CONVERT
-        $dta = array(
+        // $dta = array(
         
-            'clientId' =>$clientId,
+        //     'clientId' =>$clientId,
             
-            'filter' => $filter,
-            'param' => $param,
-            'value' => $value
-        );
-        $dt=json_encode($dta);
+        //     'filter' => $filter,
+        //     'param' => $param,
+        //     'value' => $value
+        // );
+        // $dt=json_encode($dta);
         //DATA EXTRACTION**
         header("Access-Control-Allow-Origin: *");
         // Leer los encabezados
