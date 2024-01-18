@@ -647,7 +647,7 @@ public static function getCategoriesC($dta) {
                'categories' => $values
            ];
            
-           return json_encode($responseData);
+           return json_encode($values);
           //return "hello";
 //         }else {
 //             // La consulta no arrojó resultados
