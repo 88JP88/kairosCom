@@ -329,14 +329,14 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
 
         if ($response1 == 'true' ) {
            
-            $dta = array(
+            // $dta = array(
         
-                'clientId' =>$clientId,
+            //     'clientId' =>$clientId,
                 
-                'filter' => $filter,
-                'param' => $param,
-                'value' => $value
-            );
+            //     'filter' => $filter,
+            //     'param' => $param,
+            //     'value' => $value
+            // );
 
 //return modelGet::getProducts($dta);
            
