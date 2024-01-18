@@ -10,7 +10,6 @@
             'response' => $responseApi,
             'message' => $messageApi,
             'status' => $statusApi,
-            'status' => $statusApi,
             'messageSQL'=>$messageSQL
             
         ];

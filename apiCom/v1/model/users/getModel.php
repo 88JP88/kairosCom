@@ -55,7 +55,7 @@ class modelGet {
                                         $response="true";
                                         $message="Consulta exitosa";
                                         $status="202";
-                                        $apiMessage="¡Productos selleccionados con éxito!";
+                                        $apiMessage="¡Productos seleccionados con éxito!";
                                         $values=[];
                 
                                         while ($row = $query->fetch_assoc()) {
