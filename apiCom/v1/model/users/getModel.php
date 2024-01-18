@@ -84,7 +84,7 @@ class modelGet {
                                         
                                         // Crear un array separado para el objeto 'response'
                                         $responseData = [
-                                            'responses' => [
+                                            'response' => [
                                                 'response' => $response,
                                                 'message' => $message,
                                                 'apiMessage' => $apiMessage,
