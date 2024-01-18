@@ -338,7 +338,7 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
                 'value' => $value
             );
 
-return modelGet::getProducts($dta);
+echo modelGet::getProducts($dta);
            
 //             $conectar=conn();
             
