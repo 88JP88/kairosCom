@@ -370,7 +370,7 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
              }
              
              $row = $query->fetch_assoc();
-             return json_encode(['catalogs'=>$values]);
+             echo json_encode(['catalogs'=>$values]);
              
 
                 } else {
