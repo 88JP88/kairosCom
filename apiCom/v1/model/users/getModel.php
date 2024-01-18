@@ -104,21 +104,37 @@ class modelGet {
                                         $status="204";
                                         $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
                                         $values=[];
-
-                                        $value=[
-                                            'response' => $response,
-                                            'message' => $message,
-                                            'apiMessage' => $apiMessage,
-                                            'status' => $status,
-                                            'sentData'=>$dta
-                                            
+                                        $value = [
+                                            'productId' => '',
+                                            'clientId' => '',
+                                            'productName' => '',
+                                            'description' => '',
+                                            'ean1' => '',
+                                            'ean2' => '',
+                                            'sku' => '',
+                                            'productType' => '',
+                                            'inPrice' => '',
+                                            'providerId' => '',
+                                            'imgProduct' => '',
+                                            'spcProduct' => '',
+                                            'isActive' => '',
+                                            'keyWords' => ''
                                         ];
-                                        
+                                        $responseData = [
+                                            'response' => [
+                                                'response' => $response,
+                                                'message' => $message,
+                                                'apiMessage' => $apiMessage,
+                                                'status' => $status,
+                                                'sentData'=>$dta
+                                            ],
+                                            'products' => $values
+                                        ];
                                         array_push($values,$value);
                                         
                             
                                 //echo json_encode($students) ;
-                                return json_encode(['response'=>$values]);
+                                return json_encode($responseData);
                                     }
 
                                     //  return "true";
