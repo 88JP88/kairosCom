@@ -704,7 +704,7 @@ public static function getCategoriesC($dta) {
 //     return json_encode($responseData);
 //                             }
 
-                    return "hi";        
+                    return json_encode($dta);        
         
 }
     }
