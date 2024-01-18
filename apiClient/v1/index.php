@@ -4769,102 +4769,45 @@ Flight::route('GET /getDelivery/@clientId/@filter/@param/@value', function ($cli
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
-    
+       
         // Acceder a los encabezados
         $apiKey = $headers['Api-Key'];
         $xApiKey = $headers['x-api-Key'];
-        
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
-    
-        $data = array(
-        'apiKey' =>$apiKey, 
-        'xApiKey' => $xApiKey
-        
-        );
-    $curl = curl_init();
-    
-    // Configurar las opciones de la sesión cURL
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    
-    // Ejecutar la solicitud y obtener la respuesta
-    $response1 = curl_exec($curl);
 
-    
-
-
-    curl_close($curl);
-
-    
-
-        // Realizar acciones basadas en los valores de los encabezados
-
+        $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
 
         if ($response1 == 'true' ) {
+           
+            $dta = array(
         
+                'clientId' =>$clientId,
+                
+                'filter' => $filter,
+                'param' => $param,
+                'value' => $value
+            );
 
+echo modelGet::getDelivery($dta);
+           
 
-
-        
-            $conectar=conn();
-            
-        if($filter=="all"){
-
-        
-        
-            $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules,deliveryMail,deliveryContact FROM generalDelivery where clientId='$clientId'");
-        }
-        
+}else { 
     
-if($filter=="filter"){
-
-        
-        
-    $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules,deliveryMail,deliveryContact FROM generalDelivery where clientId='$clientId'");
-
+    $responseSQL="false";
+    $apiMessageSQL="¡Autenticación fallida!";
+    $apiStatusSQL="401";
+    $messageSQL="¡Autenticación fallida!";
+    echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
 }
+} else {
 
+$responseSQL="false";
+$apiMessageSQL="¡Encabezados faltantes!";
+$apiStatusSQL="403";
+$messageSQL="¡Encabezados faltantes!";
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
-
-                $values=[];
-        
-                while($row = $query->fetch_assoc())
-                {
-                
-                        $value=[
-                            'deliveryId' => $row['deliveryId'],
-                            'clientId' => $row['clientId'],
-                            'deliveryName' => $row['deliveryName'],
-                            'deliveryLastName' => $row['deliveryLastName'],
-                            'isActive' => $row['isActive'],
-                            'distanceRules' => $row['distanceRules'],
-                            'deliveryMail' => $row['deliveryMail'],
-                            'deliveryContact' => $row['deliveryContact']
-                        ];
-                        
-                        array_push($values,$value);
-                        
-                }
-                $row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-                echo json_encode(['delivery'=>$values]);
-        
-            
-        
-
-        } else {
-            echo 'Error: Autenticación fallida';
-            //echo json_encode($response1);
-        }
-    } else {
-        echo 'Error: Encabezados faltantes';
-    }
+}
 });
 
 
