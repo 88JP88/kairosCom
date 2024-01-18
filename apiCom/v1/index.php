@@ -295,37 +295,8 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
         // Acceder a los encabezados
         $apiKey = $headers['Api-Key'];
         $xApiKey = $headers['x-api-Key'];
-        
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
-      
-        $data = array(
-          'apiKey' =>$apiKey, 
-          'xApiKey' => $xApiKey
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response1 = curl_exec($curl);
 
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
+        $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
 
         if ($response1 == 'true' ) {
            
@@ -340,74 +311,25 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
 
 echo modelGet::getProducts($dta);
            
-//             $conectar=conn();
-            
-//           if($filter=="all"){
 
-          
-           
-//                 $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId'");
-//         }
-         
-//         if($filter=="browser"){
+}else { 
+    
+    $responseSQL="false";
+    $apiMessageSQL="¡Autenticación fallida!";
+    $apiStatusSQL="401";
+    $messageSQL="¡Autenticación fallida!";
+    echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
-          
-           
-//             $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and keyWords LIKE ('%$value%')");
-        
-        
-//         }
-// if($filter=="filter"){
+}
+} else {
 
-          
-           
-//     $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and $param='$value'");
+$responseSQL="false";
+$apiMessageSQL="¡Encabezados faltantes!";
+$apiStatusSQL="403";
+$messageSQL="¡Encabezados faltantes!";
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
-
-// }
-
-
-
-//                 $values=[];
-          
-//                 while($row = $query->fetch_assoc())
-//                 {
-                   
-//                         $value=[
-//                             'productId' => $row['productId'],
-//                             'clientId' => $row['clientId'],
-//                             'productName' => $row['productName'],
-//                             'description' => $row['description'],
-//                             'ean1' => $row['ean1'],
-//                             'ean2' => $row['ean2'],
-//                             'sku' => $row['sku'],
-                            
-//                             'productType' => $row['productType'],
-//                             'inPrice' => $row['inPrice'],
-//                             'providerId' => $row['providerId'],
-//                             'imgProduct' => $row['imgProduct'],
-//                             'spcProduct' => $row['spcProduct'],
-//                             'isActive' => $row['isActive'],
-//                             'keyWords' => $row['keyWords']
-//                         ];
-                        
-//                         array_push($values,$value);
-                        
-//                 }
-//                 $row=$query->fetch_assoc();
-//                 //echo json_encode($students) ;
-//                echo json_encode(['products'=>$values]);
-//echo "hola";
-               
-           
-
-}else {
-            echo 'Error: Autenticación fallida';
-             //echo json_encode($response1);
-        }
-    } else {
-        echo 'Error: Encabezados faltantes';
-    }
+}
 });
 
 
