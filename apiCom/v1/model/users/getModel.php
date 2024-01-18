@@ -288,7 +288,7 @@ if ($numRows > 0) {
                         $response="true";
                         $message="Consulta exitosa";
                         $status="202";
-                        $apiMessage="¡Catálogos seleccionados con éxito, catálogos seleccionados ($numRows)!";
+                        $apiMessage="¡Catálogos seleccionados ($numRows)!";
                         $values=[];
 
                         while ($row = $query->fetch_assoc()) {
@@ -462,7 +462,7 @@ if ($numRows > 0) {
             $response="true";
             $message="Consulta exitosa";
             $status="202";
-            $apiMessage="¡Tiendas seleccionadas con éxito, tiendas seleccionadas ($numRows)!";
+            $apiMessage="¡Tiendas seleccionadas ($numRows)!";
             $values=[];
 
             while ($row = $query->fetch_assoc()) {
@@ -556,7 +556,157 @@ if ($numRows > 0) {
         
 }
 
+           
+
+public static function getCategories($dta) {
             
+                
+
+
+    // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+    
+        // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+        $conectar = conn();
+
+        // Verifica si la conexión se realizó correctamente
+        if (!$conectar) {
+            return "Error de conexión a la base de datos";
+        }
+
+        
+            
+
+        // Escapa los valores para prevenir inyección SQL
+        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+        $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+        $param = mysqli_real_escape_string($conectar, $dta['param']);
+        $value = mysqli_real_escape_string($conectar, $dta['value']);
+       
+     
+if($filter=="all"){
+
+          
+           
+    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
+   
+
+
+}
+
+if($filter=="browser"){
+
+          
+    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE ('%$value%')");
+
+}
+if($filter=="filter"){
+          
+    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and $param='$value'");
+
+}
+
+        if($query){
+            $numRows = mysqli_num_rows($query);
+
+if ($numRows > 0) {
+            $response="true";
+            $message="Consulta exitosa";
+            $status="202";
+            $apiMessage="¡Categorías seleccionadas ($numRows)!";
+            $values=[];
+
+            while ($row = $query->fetch_assoc()) {
+                $value = [
+                    'categoryId' => $row['catId'],
+                    'categoryName' => $row['catName'],
+                    'comments' => $row['comments'],
+                    'isActive' => $row['isActive'],
+                    'categoryType' => $row['catType'],
+                    'clientId' => $row['clientId'],
+                    'parentId' => $row['parentId'],
+                    'keyWords' => $row['keyWords'],
+                    'parentName' => $_SESSION['catName']
+                ];
+                
+                array_push($values,$value);
+            }
+            
+            $row = $query->fetch_assoc();
+           // return json_encode(['products'=>$values]);
+            
+            // Crear un array separado para el objeto 'response'
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'categories' => $values
+            ];
+            
+            echo json_encode($responseData);
+        }else {
+            // La consulta no arrojó resultados
+            $response="false";
+            $message="Error en la consulta";
+            $status="204";
+            $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
+            $values=[];
+
+            $value = [
+                                            
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'categories' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+        }
+
+        //  return "true";
+        //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+        }else{
+            $response="false";
+            $message="Error en la consulta: " . mysqli_error($conectar);
+            $status="404";
+            $apiMessage="¡Categorías no selleccionados con éxito!";
+            $values=[];
+
+            $value = [
+                                            
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'categories' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+                            }
+
+                            
+        
+}
     }
 
 
