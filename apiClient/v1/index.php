@@ -316,11 +316,62 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
 
                 if ($response11 == 'true' ) {
 
-              return modelGet::getProducts($dta);  //DATA MODAL
+           //   return modelGet::getProducts($dta);  //DATA MODAL
 
             //JSON DECODE RESPPNSE
                 
                 //JSON DECODE**
+                $conectar = conn();
+                if($filter=="all"){
+
+                
+                
+                    $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId'");
+            }
+            
+            if($filter=="browser"){
+
+            
+            
+                $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and keyWords LIKE ('%$value%')");
+            
+            
+            }
+    if($filter=="filter"){
+
+            
+            
+        $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and $param='$value'");
+
+
+    } 
+             //   $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and $param='$value'");
+             $values=[];
+                
+             while ($row = $query->fetch_assoc()) {
+                 $value = [
+                     'productId' => $row['productId'],
+                     'clientId' => $row['clientId'],
+                     'productName' => $row['productName'],
+                     'description' => $row['description'],
+                     'ean1' => $row['ean1'],
+                     'ean2' => $row['ean2'],
+                     'sku' => $row['sku'],
+                     'productType' => $row['productType'],
+                     'inPrice' => $row['inPrice'],
+                     'providerId' => $row['providerId'],
+                     'imgProduct' => $row['imgProduct'],
+                     'spcProduct' => $row['spcProduct'],
+                     'isActive' => $row['isActive'],
+                     'keyWords' => $row['keyWords']
+                 ];
+             
+                 array_push($values, $value);
+             }
+             
+             $row = $query->fetch_assoc();
+             return json_encode(['catalogs'=>$values]);
+             
 
                 } else {
                     $responseSQL="false";
