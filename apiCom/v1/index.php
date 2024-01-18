@@ -451,7 +451,14 @@ Flight::route('GET /getCategories/@clientId/@filter/@param/@value', function ($c
         $xApiKey = $headers['x-api-Key'];
 
         $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
-
+        $dta = array(
+        
+            'clientId' =>$clientId,
+            
+            'filter' => $filter,
+            'param' => $param,
+            'value' => $value
+        );
         if ($response1 == 'true' ) {
            
             $dta = array(
