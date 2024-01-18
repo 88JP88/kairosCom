@@ -398,110 +398,41 @@ Flight::route('GET /getStores/@clientId/@filter/@param/@value', function ($clien
         // Acceder a los encabezados
         $apiKey = $headers['Api-Key'];
         $xApiKey = $headers['x-api-Key'];
-        
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
-      
-        $data = array(
-          'apiKey' =>$apiKey, 
-          'xApiKey' => $xApiKey
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response1 = curl_exec($curl);
 
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
+        $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
 
         if ($response1 == 'true' ) {
            
-
-
-
-           
-            $conectar=conn();
-            
+            $dta = array(
         
-         
-     
-if($filter=="all"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId'");
-
-
-}
-
-if($filter=="browser"){
-
-          
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and keyWords LIKE ('%$value%')");
-
-}
-
-if($filter=="filter"){
-
-          
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and $param='$value'");
-
-}
-
-if ($query) {
-
-                $values=[];
-          
-                while($row = $query->fetch_assoc())
-                {
-                   
-                        $value=[
-                            'storeId' => $row['storeId'],
-                            'storeName' => $row['storeName'],
-                            'comments' => $row['comments'],
-                            'isActive' => $row['isActive'],
-                            'storeType' => $row['storeType'],
-                            'clientId' => $row['clientId'],
-                            'keyWords' => $row['keyWords']
-                        ];
-                        
-                        array_push($values,$value);
-                        
-                }
-                $row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-                echo json_encode(['stores'=>$values]);
-          
-               
+                'clientId' =>$clientId,
                 
-                } else {
-                    // Si hay un error, imprime el mensaje de error
-                    echo "false|" . mysqli_error($conectar);
-                }
+                'filter' => $filter,
+                'param' => $param,
+                'value' => $value
+            );
 
-        } else {
-            echo 'Error: Autenticación fallida';
-             //echo json_encode($response1);
-        }
-    } else {
-        echo 'Error: Encabezados faltantes';
-    }
+echo modelGet::getStores($dta);
+           
+
+}else { 
+    
+    $responseSQL="false";
+    $apiMessageSQL="¡Autenticación fallida!";
+    $apiStatusSQL="401";
+    $messageSQL="¡Autenticación fallida!";
+    echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
+}
+} else {
+
+$responseSQL="false";
+$apiMessageSQL="¡Encabezados faltantes!";
+$apiStatusSQL="403";
+$messageSQL="¡Encabezados faltantes!";
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
+}
 });
 
 
