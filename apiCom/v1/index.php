@@ -388,8 +388,8 @@ if($filter=="filter"){
                 }
                 $row=$query->fetch_assoc();
                 //echo json_encode($students) ;
-              //  echo json_encode(['products'=>$values]);
-          echo "hola";
+               echo json_encode(['products'=>$values]);
+          //echo "hola";
                
            
 
