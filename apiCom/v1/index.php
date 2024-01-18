@@ -1,458 +1,285 @@
 <?php
 
 require 'flight/Flight.php';
-
 require_once 'database/db_users.php';
+require_once 'model/users/postModel.php';
+require_once 'model/users/getModel.php';
+require_once 'model/users/responses.php';
+require 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
+require_once 'kronos/postLog.php';
 
 
 
 Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
   
-    header("Access-Control-Allow-Origin: *");
-    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
-
-
-
-
         
 
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
-
-        if ($response11 == 'true' ) {
-
-
-
-            $clientId= Flight::request()->data->clientId;
-            $trackId= Flight::request()->data->trackId;
-            $productName= Flight::request()->data->productName;
-            $description= Flight::request()->data->description;
-            $ean1= Flight::request()->data->ean1;
-            $ean2= Flight::request()->data->ean2;
-            $sku= Flight::request()->data->sku;
-            $productType= Flight::request()->data->productType;
-            $inPrice= Flight::request()->data->inPrice;
-            $providerId= Flight::request()->data->providerId;
-            $imgUrl= Flight::request()->data->imgUrl;
-            $techSpef= Flight::request()->data->techSpef;
-            $dta = array(
+            header("Access-Control-Allow-Origin: *");
+            // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+            if (!empty($apk) && !empty($xapk)) {    
             
-                'clientId' =>$clientId,
-                'productName' => $productName,
-                'description' => $description,
-                'ean1' => $ean1,
-                'ean2' => $ean2,
-                'sku' => $sku,
-                'productType' => $productType,
-                'inPrice' => $inPrice,
-                'providerId' => $providerId,
-                'imgUrl' => $imgUrl,
-                'techSpef' => $techSpef
-            );
-            $dt=json_encode($dta);
-            require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
-           
-   
-
-            $gen_uuid = new generateUuid();
-            $myuuid = $gen_uuid->guidv4();
-         
-
-            $productId = substr($myuuid, 0, 8);
-
-         
-            $conectar=conn();
-$keywords=$productName."-".$description."-".$sku."-".$productType."-".$techSpef;
-           
-            $query = mysqli_query($conectar, "INSERT INTO generalProducts (productId, clientId, productName, description, ean1, ean2, sku, productType, inPrice, providerId, imgProduct, spcProduct,keyWords) VALUES ('$productId', '$clientId', '$productName', '$description', '$ean1', '$ean2', '$sku', '$productType', '$inPrice', '$providerId', '$imgUrl', '$techSpef','$keywords')");
-
-            if ($query) {
 
 
-                $response12="true|¡Producto creado con éxito!";
+                $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
-                //inicio de log
-                require_once 'kronos/postLog.php';
-           
-                $backtrace = debug_backtrace();
-                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-               $justFileName = basename($currentFile);
-               $rutaCompleta = __DIR__;
-               $status = http_response_code();
-               $cid=Flight::request()->data->clientId;
-               
-               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-               $array = explode("|", $response12);
-               $response12=$array[0];
-               $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true',$trackId);
-               //final de log
-                echo "true|¡Producto creado con éxito!";
 
+        //DATA EXTRACTION ARRAY - JSON CONVERT
+        $dta = array(
+        
+            'clientId' =>Flight::request()->data->clientId,
+            
+            'productName' => Flight::request()->data->productName,
+            'description' => Flight::request()->data->description,
+            'ean1' => Flight::request()->data->ean1,
+            'ean2' => Flight::request()->data->ean2,
+            'sku' => Flight::request()->data->sku,
+            'productType' => Flight::request()->data->productType,
+            'inPrice' => Flight::request()->data->inPrice,
+            'providerId' => Flight::request()->data->provderId,
+            'imgUrl' => Flight::request()->data->imgUrl,
+            'techSpef' => Flight::request()->data->techSpef
+        );
+        $dt=json_encode($dta);
+        //DATA EXTRACTION**
+
+
+                if ($response11 == 'true' ) {
+
+                $query= modelPost::postProduct($dta);  //DATA MODAL
+
+            //JSON DECODE RESPPNSE
+                $data = json_decode($query, true);
+                $responseSQL=$data['response'][0]['response'];
+                $messageSQL=$data['response'][0]['message'];
+                $apiMessageSQL=$data['response'][0]['apiMessage'];
+                $apiStatusSQL=$data['response'][0]['status'];
+                //JSON DECODE**
+
+                } else {
+                    $responseSQL="false";
+                    $apiMessageSQL="¡Autenticación fallida!";
+                    $apiStatusSQL="401";
+                    $messageSQL="¡Autenticación fallida!";
+
+                }
             } else {
-                // Si hay un error, imprime el mensaje de error
-                echo "false|" . mysqli_error($conectar);
-            }
-            
-           
-     
 
-       
+                $responseSQL="false";
+                $apiMessageSQL="¡Encabezados faltantes!";
+                $apiStatusSQL="403";
+                $messageSQL="¡Encabezados faltantes!";
+            }
+
         
-           // echo json_encode($response1);
-        } else {
-            echo 'false|¡Autenticación fallida!'.$response11;
-           // echo json_encode($data);
-        }
-    } else {
-        echo 'false|¡Encabezados faltantes!';
-    }
+                kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+        
+        echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 
 Flight::route('POST /postCatalog/@apk/@xapk', function ($apk,$xapk) {
   
-    header("Access-Control-Allow-Origin: *");
-    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
-
-
-
-
-        
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
           
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
-
-        if ($response11 == 'true' ) {
-
-
-
-            $clientId= Flight::request()->data->clientId;
-            $productId= Flight::request()->data->productId;
-            $categoryId= Flight::request()->data->categoryId;
-            $stock= Flight::request()->data->stock;
-            $secStock= Flight::request()->data->secStock;
-            $minQty= Flight::request()->data->minQty;
-            $maxQty= Flight::request()->data->maxQty;
-            $storeId= Flight::request()->data->storeId;
-            $outPrice= Flight::request()->data->outPrice;
-            $promoId= Flight::request()->data->promoId;
-            $discount= Flight::request()->data->discount;
-          
-            $unit= Flight::request()->data->unit;
-            $readUnit= Flight::request()->data->readUnit;
-            $unitQty= Flight::request()->data->unitQty;
-            $unitUnit= Flight::request()->data->unitUnit;
-
-
-            require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
-           
-   
-
-            $gen_uuid = new generateUuid();
-            $myuuid = $gen_uuid->guidv4();
-         
-
-            $catalogId = substr($myuuid, 0, 8);
-
-         
-            $conectar=conn();
-
-           
-            $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',$unitQty,'$unitUnit')");
-
-            if ($query) {
-                echo "true|¡Catalogo creado con éxito!";
-            } else {
-                // Si hay un error, imprime el mensaje de error
-                echo "false|" . mysqli_error($conectar);
-            }
+                
+                
+            header("Access-Control-Allow-Origin: *");
+            // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+            if (!empty($apk) && !empty($xapk)) {    
             
-           
-     
 
-       
+
+                $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
+
+
+        //DATA EXTRACTION ARRAY - JSON CONVERT
+        $dta = array(
         
-           // echo json_encode($response1);
-        } else {
-            echo 'false|¡Autenticación fallida!'.$response11;
-           // echo json_encode($data);
-        }
-    } else {
-        echo 'false|¡Encabezados faltantes!';
-    }
+            'clientId' =>Flight::request()->data->clientId,
+            
+            'productId' => Flight::request()->data->productId,
+            'categoryId' => Flight::request()->data->categoryId,
+            'stock' => Flight::request()->data->stock,
+            'secStock' => Flight::request()->data->secStock,
+            'minQty' => Flight::request()->data->minQty,
+            'maxQty' => Flight::request()->data->maxQty,
+            'storeId' => Flight::request()->data->storeId,
+            'outPrice' => Flight::request()->data->outPrice,
+            'promoId' => Flight::request()->data->promoId,
+            'discount' => Flight::request()->data->discount,
+            'unit' => Flight::request()->data->unit,
+            'readUnit' => Flight::request()->data->readUnit,
+            'unitQty' => Flight::request()->data->unitQty,
+            'unitUnit' => Flight::request()->data->unitUnit
+        );
+        $dt=json_encode($dta);
+        //DATA EXTRACTION**
+
+
+                if ($response11 == 'true' ) {
+
+                $query= modelPost::postCatalog($dta);  //DATA MODAL
+
+            //JSON DECODE RESPPNSE
+                $data = json_decode($query, true);
+                $responseSQL=$data['response'][0]['response'];
+                $messageSQL=$data['response'][0]['message'];
+                $apiMessageSQL=$data['response'][0]['apiMessage'];
+                $apiStatusSQL=$data['response'][0]['status'];
+                //JSON DECODE**
+
+                } else {
+                    $responseSQL="false";
+                    $apiMessageSQL="¡Autenticación fallida!";
+                    $apiStatusSQL="401";
+                    $messageSQL="¡Autenticación fallida!";
+
+                }
+            } else {
+
+                $responseSQL="false";
+                $apiMessageSQL="¡Encabezados faltantes!";
+                $apiStatusSQL="403";
+                $messageSQL="¡Encabezados faltantes!";
+            }
+
+        
+                kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+        
+        echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 
 Flight::route('POST /postStore/@apk/@xapk', function ($apk,$xapk) {
   
-    header("Access-Control-Allow-Origin: *");
-    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
-
-
-
-
-        
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
-
-        if ($response11 == 'true' ) {
-
-
-
-            $clientId= Flight::request()->data->clientId;
-            $storeName= Flight::request()->data->storeName;
-            $comments= Flight::request()->data->comments;
-            $storeType= Flight::request()->data->storeType;
-
-
-            require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
-           
-   
-
-            $gen_uuid = new generateUuid();
-            $myuuid = $gen_uuid->guidv4();
          
-
-            $storeId = substr($myuuid, 0, 8);
-
-         
-            $conectar=conn();
-
-            $keywords=$storeName." ".$comments." ".$storeType;
-            $query = mysqli_query($conectar, "INSERT INTO generalStores (storeId, storeName, clientId, comments, storeType,keyWords) VALUES ('$storeId', '$storeName', '$clientId', '$comments', '$storeType','$keywords')");
-
-            if ($query) {
-                echo "true|¡Tienda creada con éxito!";
-            } else {
-                // Si hay un error, imprime el mensaje de error
-                echo "false|" . mysqli_error($conectar);
-            }
+                    
+            header("Access-Control-Allow-Origin: *");
+            // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+            if (!empty($apk) && !empty($xapk)) {    
             
-           
-     
 
-       
+
+                $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
+
+
+        //DATA EXTRACTION ARRAY - JSON CONVERT
+        $dta = array(
         
-           // echo json_encode($response1);
-        } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
-        }
-    } else {
-        echo 'false|¡Encabezados faltantes!';
-    }
-});
+            'clientId' =>Flight::request()->data->clientId,
+            
+            'storeName' => Flight::request()->data->storeName,
+            'comments' => Flight::request()->data->comments,
+            'storeType' => Flight::request()->data->storeType
+        );
+        $dt=json_encode($dta);
+        //DATA EXTRACTION**
 
+
+                if ($response11 == 'true' ) {
+
+                $query= modelPost::postSrore($dta);  //DATA MODAL
+
+            //JSON DECODE RESPPNSE
+                $data = json_decode($query, true);
+                $responseSQL=$data['response'][0]['response'];
+                $messageSQL=$data['response'][0]['message'];
+                $apiMessageSQL=$data['response'][0]['apiMessage'];
+                $apiStatusSQL=$data['response'][0]['status'];
+                //JSON DECODE**
+
+                } else {
+                    $responseSQL="false";
+                    $apiMessageSQL="¡Autenticación fallida!";
+                    $apiStatusSQL="401";
+                    $messageSQL="¡Autenticación fallida!";
+
+                }
+            } else {
+
+                $responseSQL="false";
+                $apiMessageSQL="¡Encabezados faltantes!";
+                $apiStatusSQL="403";
+                $messageSQL="¡Encabezados faltantes!";
+            }
+
+        
+                kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+        
+        echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
+});
 
 
 Flight::route('POST /postCategorie/@apk/@xapk', function ($apk,$xapk) {
   
-    header("Access-Control-Allow-Origin: *");
-    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
-
-
-
-
-        
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
-
-        if ($response11 == 'true' ) {
-
-
-
-            $clientId= Flight::request()->data->clientId;
-            $categoryName= Flight::request()->data->categoryName;
-            $comments= Flight::request()->data->comments;
-            $parentId= Flight::request()->data->parentId;
-            $categoryType= Flight::request()->data->categoryType;
-
-
-            require_once '../../apiCom/v1/model/modelSecurity/uuid/uuidd.php';
            
-   
 
-            $gen_uuid = new generateUuid();
-            $myuuid = $gen_uuid->guidv4();
-         
+                    $clientId= Flight::request()->data->clientId;
+                    $categoryName= Flight::request()->data->categoryName;
+                    $comments= Flight::request()->data->comments;
+                    $parentId= Flight::request()->data->parentId;
+                    $categoryType= Flight::request()->data->categoryType;
 
-            $categoryId = substr($myuuid, 0, 8);
 
-         
-            $conectar=conn();
-
-            $keywords=$categoryName." ".$comments." ".$categoryType;
-
-            if($categoryType=="main"){
-$parentId=$categoryId;
-            }
+            header("Access-Control-Allow-Origin: *");
+            // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+            if (!empty($apk) && !empty($xapk)) {    
             
-            $query = mysqli_query($conectar, "INSERT INTO generalCategories (catId, clientId, catName, comments, parentId,catType,keyWords) VALUES ('$categoryId', '$clientId', '$categoryName', '$comments', '$parentId','$categoryType','$keywords')");
 
-            if ($query) {
-                echo "true|¡Categoria creada con éxito!";
+
+                $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
+
+
+        //DATA EXTRACTION ARRAY - JSON CONVERT
+        $dta = array(
+        
+            'clientId' =>Flight::request()->data->clientId,
+            
+            'categoryName' => Flight::request()->data->categoryName,
+            'comments' => Flight::request()->data->comments,
+            'parentId' => Flight::request()->data->parentId,
+            'categoryType' => Flight::request()->data->categoryType
+        );
+        $dt=json_encode($dta);
+        //DATA EXTRACTION**
+
+
+                if ($response11 == 'true' ) {
+
+                $query= modelPost::postCategorie($dta);  //DATA MODAL
+
+            //JSON DECODE RESPPNSE
+                $data = json_decode($query, true);
+                $responseSQL=$data['response'][0]['response'];
+                $messageSQL=$data['response'][0]['message'];
+                $apiMessageSQL=$data['response'][0]['apiMessage'];
+                $apiStatusSQL=$data['response'][0]['status'];
+                //JSON DECODE**
+
+                } else {
+                    $responseSQL="false";
+                    $apiMessageSQL="¡Autenticación fallida!";
+                    $apiStatusSQL="401";
+                    $messageSQL="¡Autenticación fallida!";
+
+                }
             } else {
-                // Si hay un error, imprime el mensaje de error
-                echo "false|" . mysqli_error($conectar);
+
+                $responseSQL="false";
+                $apiMessageSQL="¡Encabezados faltantes!";
+                $apiStatusSQL="403";
+                $messageSQL="¡Encabezados faltantes!";
             }
-            
-           
-     
 
-       
         
-           // echo json_encode($response1);
-        } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
-        }
-    } else {
-        echo 'false|¡Encabezados faltantes!';
-    }
+                kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+        
+        echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
-
-
 
 
 
