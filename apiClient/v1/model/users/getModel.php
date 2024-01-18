@@ -92,7 +92,7 @@ class modelGet {
                                             'products' => $values
                                         ];
                                         
-                                        return json_encode($responseData);
+                                        echo json_encode($responseData);
 
 
                                     //  return "true";
