@@ -51,11 +51,13 @@ class modelGet {
                 
                         }       
                                     if($query){
-                                       
+                                        $numRows = mysqli_num_rows($query);
+
+    if ($numRows > 0) {
                                         $response="true";
                                         $message="Consulta exitosa";
                                         $status="202";
-                                        $apiMessage="¡Productos seleccionados con éxito!";
+                                        $apiMessage="¡Productos seleccionados con éxito, productos seleccionados ($numRows)!";
                                         $values=[];
                 
                                         while ($row = $query->fetch_assoc()) {
@@ -95,12 +97,33 @@ class modelGet {
                                         ];
                                         
                                         echo json_encode($responseData);
+                                    }else {
+                                        // La consulta no arrojó resultados
+                                        $response="false";
+                                        $message="Error en la consulta";
+                                        $status="204";
+                                        $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
+                                        $values=[];
 
+                                        $value=[
+                                            'response' => $response,
+                                            'message' => $message,
+                                            'apiMessage' => $apiMessage,
+                                            'status' => $status
+                                            
+                                        ];
+                                        
+                                        array_push($values,$value);
+                                        
+                            
+                                //echo json_encode($students) ;
+                                return json_encode(['response'=>$values]);
+                                    }
 
                                     //  return "true";
                                     //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
                                     }else{
-                                        $response="true";
+                                        $response="false";
                                         $message="Error en la consulta: " . mysqli_error($conectar);
                                         $status="404";
                                         $apiMessage="¡Productos no selleccionados con éxito!";
