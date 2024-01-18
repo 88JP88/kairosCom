@@ -116,7 +116,7 @@ class modelGet {
                                         
                             
                                 //echo json_encode($students) ;
-                                return json_encode(['response'=>$values]);
+                                return json_encode(['responses'=>$values]);
                                                         }
 
                                                         
