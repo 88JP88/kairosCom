@@ -586,7 +586,7 @@ public static function getCategoriesC($dta) {
 
                         
                         
-//                     $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
+                     $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
                 
 
 
@@ -608,45 +608,45 @@ public static function getCategoriesC($dta) {
 //             $numRows = mysqli_num_rows($query);
 
 // if ($numRows > 0) {
-//             $response="true";
-//             $message="Consulta exitosa";
-//             $status="202";
-//             $apiMessage="¡Categorías seleccionadas ($numRows)!";
-//             $values=[];
+            $response="true";
+            $message="Consulta exitosa";
+             $status="202";
+           $apiMessage="¡Categorías seleccionadas";
+            $values=[];
 
-//             while ($row = $query->fetch_assoc()) {
-//                 $value = [
-//                     'categoryId' => $row['catId'],
-//                     'categoryName' => $row['catName'],
-//                     'comments' => $row['comments'],
-//                     'isActive' => $row['isActive'],
-//                     'categoryType' => $row['catType'],
-//                     'clientId' => $row['clientId'],
-//                     'parentId' => $row['parentId'],
-//                     'keyWords' => $row['keyWords'],
-//                     'parentName' => $_SESSION['catName']
-//                 ];
+            while ($row = $query->fetch_assoc()) {
+                $value = [
+                    'categoryId' => $row['catId'],
+                    'categoryName' => $row['catName'],
+                    'comments' => $row['comments'],
+                    'isActive' => $row['isActive'],
+                    'categoryType' => $row['catType'],
+                    'clientId' => $row['clientId'],
+                    'parentId' => $row['parentId'],
+                    'keyWords' => $row['keyWords'],
+                    'parentName' => $_SESSION['catName']
+                ];
                 
-//                 array_push($values,$value);
-//             }
+                array_push($values,$value);
+            }
             
-//             $row = $query->fetch_assoc();
-//            // return json_encode(['products'=>$values]);
+            $row = $query->fetch_assoc();
+           // return json_encode(['products'=>$values]);
             
-//             // Crear un array separado para el objeto 'response'
-//             $responseData = [
-//                 'response' => [
-//                     'response' => $response,
-//                     'message' => $message,
-//                     'apiMessage' => $apiMessage,
-//                     'status' => $status,
-//                     'sentData'=>$dta
-//                 ],
-//                 'categories' => $values
-//             ];
+            // Crear un array separado para el objeto 'response'
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'categories' => $values
+            ];
             
-//           //  return json_encode($responseData);
-//           return "hello";
+           return json_encode($responseData);
+          //return "hello";
 //         }else {
 //             // La consulta no arrojó resultados
 //             $response="false";
@@ -704,7 +704,7 @@ public static function getCategoriesC($dta) {
 //     return json_encode($responseData);
 //                             }
 
-                    return json_encode($dta);        
+                 //   return json_encode($dta);        
         
 }
     }
