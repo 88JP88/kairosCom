@@ -3,6 +3,7 @@
 require 'flight/Flight.php';
 require_once 'database/db_users.php';
 require_once 'model/users/postModel.php';
+require_once 'model/users/getModel.php';
 require_once 'model/users/responses.php';
 require 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
@@ -328,72 +329,79 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
 
         if ($response1 == 'true' ) {
            
+            $dta = array(
+        
+                'clientId' =>$clientId,
+                
+                'filter' => $filter,
+                'param' => $param,
+                'value' => $value
+            );
 
-
-
+echo modelGet::getProducts($dta);
            
-            $conectar=conn();
+//             $conectar=conn();
             
-          if($filter=="all"){
+//           if($filter=="all"){
 
           
            
-                $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId'");
-        }
+//                 $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId'");
+//         }
          
-        if($filter=="browser"){
+//         if($filter=="browser"){
 
           
            
-            $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and keyWords LIKE ('%$value%')");
+//             $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and keyWords LIKE ('%$value%')");
         
         
-        }
-if($filter=="filter"){
+//         }
+// if($filter=="filter"){
 
           
            
-    $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and $param='$value'");
+//     $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and $param='$value'");
 
 
-}
+// }
 
 
 
-                $values=[];
+//                 $values=[];
           
-                while($row = $query->fetch_assoc())
-                {
+//                 while($row = $query->fetch_assoc())
+//                 {
                    
-                        $value=[
-                            'productId' => $row['productId'],
-                            'clientId' => $row['clientId'],
-                            'productName' => $row['productName'],
-                            'description' => $row['description'],
-                            'ean1' => $row['ean1'],
-                            'ean2' => $row['ean2'],
-                            'sku' => $row['sku'],
+//                         $value=[
+//                             'productId' => $row['productId'],
+//                             'clientId' => $row['clientId'],
+//                             'productName' => $row['productName'],
+//                             'description' => $row['description'],
+//                             'ean1' => $row['ean1'],
+//                             'ean2' => $row['ean2'],
+//                             'sku' => $row['sku'],
                             
-                            'productType' => $row['productType'],
-                            'inPrice' => $row['inPrice'],
-                            'providerId' => $row['providerId'],
-                            'imgProduct' => $row['imgProduct'],
-                            'spcProduct' => $row['spcProduct'],
-                            'isActive' => $row['isActive'],
-                            'keyWords' => $row['keyWords']
-                        ];
+//                             'productType' => $row['productType'],
+//                             'inPrice' => $row['inPrice'],
+//                             'providerId' => $row['providerId'],
+//                             'imgProduct' => $row['imgProduct'],
+//                             'spcProduct' => $row['spcProduct'],
+//                             'isActive' => $row['isActive'],
+//                             'keyWords' => $row['keyWords']
+//                         ];
                         
-                        array_push($values,$value);
+//                         array_push($values,$value);
                         
-                }
-                $row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-               echo json_encode(['products'=>$values]);
-          //echo "hola";
+//                 }
+//                 $row=$query->fetch_assoc();
+//                 //echo json_encode($students) ;
+//                echo json_encode(['products'=>$values]);
+//           //echo "hola";
                
            
 
-        } else {
+}else {
             echo 'Error: Autenticación fallida';
              //echo json_encode($response1);
         }

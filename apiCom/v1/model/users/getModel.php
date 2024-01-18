@@ -80,7 +80,7 @@ class modelGet {
                                         }
                                         
                                         $row = $query->fetch_assoc();
-                                        return json_encode(['catalogs'=>$values]);
+                                        return json_encode(['products'=>$values]);
                                         
                                         // Crear un array separado para el objeto 'response'
                                         // $responseData = [
