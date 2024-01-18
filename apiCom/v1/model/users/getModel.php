@@ -105,20 +105,7 @@ class modelGet {
                                         $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
                                         $values=[];
                                         $value = [
-                                            'productId' => '',
-                                            'clientId' => '',
-                                            'productName' => '',
-                                            'description' => '',
-                                            'ean1' => '',
-                                            'ean2' => '',
-                                            'sku' => '',
-                                            'productType' => '',
-                                            'inPrice' => '',
-                                            'providerId' => '',
-                                            'imgProduct' => '',
-                                            'spcProduct' => '',
-                                            'isActive' => '',
-                                            'keyWords' => ''
+                                            
                                         ];
                                         $responseData = [
                                             'response' => [
