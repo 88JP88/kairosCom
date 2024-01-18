@@ -133,19 +133,24 @@ class modelGet {
                                         $apiMessage="¡Productos no selleccionados con éxito!";
                                         $values=[];
 
-                                        $value=[
-                                            'response' => $response,
-                                            'message' => $message,
-                                            'apiMessage' => $apiMessage,
-                                            'status' => $status
+                                        $value = [
                                             
                                         ];
-                                        
+                                        $responseData = [
+                                            'response' => [
+                                                'response' => $response,
+                                                'message' => $message,
+                                                'apiMessage' => $apiMessage,
+                                                'status' => $status,
+                                                'sentData'=>$dta
+                                            ],
+                                            'products' => $values
+                                        ];
                                         array_push($values,$value);
                                         
                             
                                 //echo json_encode($students) ;
-                                return json_encode(['response'=>$values]);
+                                return json_encode($responseData);
                                                         }
 
                                                         
@@ -349,20 +354,24 @@ if ($numRows > 0) {
                         $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
                         $values=[];
 
-                        $value=[
-                            'response' => $response,
-                            'message' => $message,
-                            'apiMessage' => $apiMessage,
-                            'status' => $status,
-                            'sentData'=>$dta
-                            
+                        $value = [
+                                            
                         ];
-                        
+                        $responseData = [
+                            'response' => [
+                                'response' => $response,
+                                'message' => $message,
+                                'apiMessage' => $apiMessage,
+                                'status' => $status,
+                                'sentData'=>$dta
+                            ],
+                            'catalogs' => $values
+                        ];
                         array_push($values,$value);
                         
             
                 //echo json_encode($students) ;
-                return json_encode(['response'=>$values]);
+                return json_encode($responseData);
                     }
 
                     //  return "true";
@@ -374,19 +383,24 @@ if ($numRows > 0) {
                         $apiMessage="¡Catálogos no selleccionados con éxito!";
                         $values=[];
 
-                        $value=[
-                            'response' => $response,
-                            'message' => $message,
-                            'apiMessage' => $apiMessage,
-                            'status' => $status
-                            
+                        $value = [
+                                            
                         ];
-                        
+                        $responseData = [
+                            'response' => [
+                                'response' => $response,
+                                'message' => $message,
+                                'apiMessage' => $apiMessage,
+                                'status' => $status,
+                                'sentData'=>$dta
+                            ],
+                            'catalogs' => $values
+                        ];
                         array_push($values,$value);
                         
             
                 //echo json_encode($students) ;
-                return json_encode(['response'=>$values]);
+                return json_encode($responseData);
                                         }
 
                                         
@@ -489,20 +503,24 @@ if ($numRows > 0) {
             $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
             $values=[];
 
-            $value=[
-                'response' => $response,
-                'message' => $message,
-                'apiMessage' => $apiMessage,
-                'status' => $status,
-                'sentData'=>$dta
-                
+            $value = [
+                                            
             ];
-            
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'stores' => $values
+            ];
             array_push($values,$value);
             
 
     //echo json_encode($students) ;
-    return json_encode(['response'=>$values]);
+    return json_encode($responseData);
         }
 
         //  return "true";
@@ -514,19 +532,24 @@ if ($numRows > 0) {
             $apiMessage="¡Tiendas no selleccionados con éxito!";
             $values=[];
 
-            $value=[
-                'response' => $response,
-                'message' => $message,
-                'apiMessage' => $apiMessage,
-                'status' => $status
-                
+            $value = [
+                                            
             ];
-            
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'stores' => $values
+            ];
             array_push($values,$value);
             
 
     //echo json_encode($students) ;
-    return json_encode(['response'=>$values]);
+    return json_encode($responseData);
                             }
 
                             
