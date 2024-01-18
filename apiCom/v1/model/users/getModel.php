@@ -88,7 +88,8 @@ class modelGet {
                                                 'response' => $response,
                                                 'message' => $message,
                                                 'apiMessage' => $apiMessage,
-                                                'status' => $status
+                                                'status' => $status,
+                                                'sentData'=>$dta
                                             ],
                                             'products' => $values
                                         ];
