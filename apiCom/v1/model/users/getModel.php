@@ -558,7 +558,7 @@ if ($numRows > 0) {
 
            
 
-public static function getCategories($dta) {
+public static function getCategoriesC($dta) {
             
                 
 
@@ -581,29 +581,29 @@ public static function getCategories($dta) {
         $filter = mysqli_real_escape_string($conectar, $dta['filter']);
         $param = mysqli_real_escape_string($conectar, $dta['param']);
         $value = mysqli_real_escape_string($conectar, $dta['value']);
-       
-     
-if($filter=="all"){
+                    
+                    
+                if($filter=="all"){
 
-          
-           
-    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
-   
+                        
+                        
+                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
+                
 
 
-}
+                }
 
-if($filter=="browser"){
+                if($filter=="browser"){
 
-          
-    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE ('%$value%')");
+                        
+                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE ('%$value%')");
 
-}
-if($filter=="filter"){
-          
-    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and $param='$value'");
+                }
+                if($filter=="filter"){
+                        
+                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and $param='$value'");
 
-}
+                }
 
         if($query){
             $numRows = mysqli_num_rows($query);
