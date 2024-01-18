@@ -464,7 +464,7 @@ Flight::route('GET /getCategories/@clientId/@filter/@param/@value', function ($c
             );
 
 //echo modelGet::getCategories($dta);
-  echo "$dta";         
+  echo json_encode($dta);         
 
 }else { 
     
