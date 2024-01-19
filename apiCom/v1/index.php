@@ -625,7 +625,7 @@ $dta = array(
     'clientId' =>Flight::request()->data->clientId,
     'param' => Flight::request()->data->param,
     'value' => Flight::request()->data->value,
-    'categoryId' => Flight::request()->data->categoryId
+    'storeId' => Flight::request()->data->storeId
 );
 $dt=json_encode($dta);
 //DATA EXTRACTION**
