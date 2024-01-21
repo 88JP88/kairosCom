@@ -746,6 +746,71 @@ class modelPut{
                             return json_encode(['response'=>$values]);
         
                     }
+
+                    public static function putOrderPaymentStatus($dta) {
+            
+                        // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+                    
+                        // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+                        $conectar = conn();
+                
+                        // Verifica si la conexión se realizó correctamente
+                        if (!$conectar) {
+                            return "Error de conexión a la base de datos";
+                        }
+                
+                        
+                
+                        // Escapa los valores para prevenir inyección SQL
+                        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+                        $orderId = mysqli_real_escape_string($conectar, $dta['orderId']);
+                        $reference = mysqli_real_escape_string($conectar, $dta['reference']);
+                    
+                        //$dato_encriptado = $keyword;
+                        
+                        $query = mysqli_query($conectar, "UPDATE generalOrders SET transactionStatus='DONE',paymentReference='$reference',orderProgress='DONE' where clientId='$clientId' and orderId='$orderId'");
+
+                        if($query){
+                            $filasAfectadas = mysqli_affected_rows($conectar);
+                            if ($filasAfectadas > 0) {
+                                // Éxito: La actualización se realizó correctamente
+                            $response="true";
+                            $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
+                            $apiMessage="¡Pago actualizado con éxito!";
+                                $status="201";
+                            } else {
+                                $response="false";
+                            $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
+                                $status="500";
+                                $apiMessage="¡Pago no actualizado con éxito!";
+                            }
+                        //  return "true";
+                        //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+                        }else{
+                            $response="true";
+                            $message="Error en la actualización: " . mysqli_error($conectar);
+                            $status="404";
+                            $apiMessage="¡Pago no actualizado con éxito!";
+                        
+                                            }
+                
+                                            $values=[];
+                
+                                            $value=[
+                                                'response' => $response,
+                                                'message' => $message,
+                                                'apiMessage' => $apiMessage,
+                                                'status' => $status
+                                                
+                                            ];
+                                            
+                                            array_push($values,$value);
+                                            
+                                
+                                    //echo json_encode($students) ;
+                                    return json_encode(['response'=>$values]);
+                
+                            }
    
     }
     
