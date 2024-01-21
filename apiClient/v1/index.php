@@ -44,413 +44,413 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             if ($response11 == 'true' ) {
 
 
-$query= modelPost::postOrder($dta);
+//$query= modelPost::postOrder($dta);
                                
                             
 
 //DATA EXTRACTION ARRAY - JSON CONVERT
 
 
-            //                     require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
+                                require_once '../../apiClient/v1/model/modelSecurity/uuid/uuidd.php';
                             
                             
-            //                     $gen_uuid = new generateUuid();
-            //                     $myuuid = $gen_uuid->guidv4();
-            //                     $myuuid1 = $gen_uuid->guidv4();
+                                $gen_uuid = new generateUuid();
+                                $myuuid = $gen_uuid->guidv4();
+                                $myuuid1 = $gen_uuid->guidv4();
                             
 
-            //                     $cartId = substr($myuuid, 0, 8);
-            //                     $orderId = substr($myuuid1, 0, 8);
+                                $cartId = substr($myuuid, 0, 8);
+                                $orderId = substr($myuuid1, 0, 8);
 
-            //                     $conectar=conn();
+                                $conectar=conn();
                             
-            //                     date_default_timezone_set('America/Bogota');
-            //         $hora_actual_bogota = date('H:i:s');
-            //         $fechaActual = gmdate('Y-m-d'); // Esto devuelve la fecha actual en formato 'YYYY-MM-DD'
+                                date_default_timezone_set('America/Bogota');
+                    $hora_actual_bogota = date('H:i:s');
+                    $fechaActual = gmdate('Y-m-d'); // Esto devuelve la fecha actual en formato 'YYYY-MM-DD'
 
-            //         // Crea un objeto DateTime con la fecha actual en UTC
-            //         $dateTimeUtc = new DateTime($fechaActual, new DateTimeZone('UTC'));
+                    // Crea un objeto DateTime con la fecha actual en UTC
+                    $dateTimeUtc = new DateTime($fechaActual, new DateTimeZone('UTC'));
 
-            //         // Establece la zona horaria a Bogotá
-            //         $dateTimeUtc->setTimezone(new DateTimeZone('America/Bogota'));
+                    // Establece la zona horaria a Bogotá
+                    $dateTimeUtc->setTimezone(new DateTimeZone('America/Bogota'));
 
-            //         // Obtiene la fecha en la zona horaria de Bogotá
-            //         $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual en Bogotá
+                    // Obtiene la fecha en la zona horaria de Bogotá
+                    $fechaBogota = $dateTimeUtc->format('Y-m-d'); // Esto devuelve la fecha actual en Bogotá
 
 
 
-            //         $decodedData = urldecode($cart);
-            //         $arrayData = json_decode($decodedData, true);
-            //         $_SESSION['fTotal']=0;
-            //         $_SESSION['fsTotal']=0;
-            //         $_SESSION['fSaver']=0;
-            //         $_SESSION['nProducts']=0;
-            //         $_SESSION['nPacks']=0;
-            //         $np=0;
-            //         foreach ($arrayData as $item) {
-            //             if (isset($item['item'])) {
-            //                 $uniqueId= $item['item']['uniqueId'];
-            //                 $productId= $item['item']['productId'];
-            //                 $catalogId= $item['item']['catalogId'];
-            //                 $outPrice= $item['item']['outPrice'];
-            //                 $productQty= $item['item']['productQty'];
-            //                 $discount= $item['item']['discount'];
-            //                 $promotion= $item['item']['promoId'];
-            //                 $salePrice= $item['item']['productPrice'];
-            //                 $storeId= $item['item']['storeId'];
-            //                 $categoryId= $item['item']['categoryId'];
-            //                 $storeName= $item['item']['storeName'];
-            //                 $categoryName= $item['item']['categoryName'];
-            //                 $saver= $item['item']['subTotalShopping']-$item['item']['totalShopping'];
-            //                 // Resto de tus variables aquí...
+                    $decodedData = urldecode($cart);
+                    $arrayData = json_decode($decodedData, true);
+                    $_SESSION['fTotal']=0;
+                    $_SESSION['fsTotal']=0;
+                    $_SESSION['fSaver']=0;
+                    $_SESSION['nProducts']=0;
+                    $_SESSION['nPacks']=0;
+                    $np=0;
+                    foreach ($arrayData as $item) {
+                        if (isset($item['item'])) {
+                            $uniqueId= $item['item']['uniqueId'];
+                            $productId= $item['item']['productId'];
+                            $catalogId= $item['item']['catalogId'];
+                            $outPrice= $item['item']['outPrice'];
+                            $productQty= $item['item']['productQty'];
+                            $discount= $item['item']['discount'];
+                            $promotion= $item['item']['promoId'];
+                            $salePrice= $item['item']['productPrice'];
+                            $storeId= $item['item']['storeId'];
+                            $categoryId= $item['item']['categoryId'];
+                            $storeName= $item['item']['storeName'];
+                            $categoryName= $item['item']['categoryName'];
+                            $saver= $item['item']['subTotalShopping']-$item['item']['totalShopping'];
+                            // Resto de tus variables aquí...
 
-            //                 // Tu consulta SQL aquí...
-            //             // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
-            //                 $query = mysqli_query($conectar, "UPDATE generalCatalogs SET stock= (SELECT stock FROM generalCatalogs where catalogId='$catalogId' and stock>=$productQty)-$productQty WHERE catalogId='$catalogId' and clientId='$clientId'");
+                            // Tu consulta SQL aquí...
+                        // $query = mysqli_query($conectar, "INSERT INTO posCar (carId, clientId, uniqueId, productId, catalogId, outPrice, productQty, discount, promotion, salePrice, inDate, inTime, storeId, categoryId, storeName, categoryName, saver, userId, fromStore, fromIp, fromBrowser) VALUES ('$cartId', '$clientId', '$uniqueId', '$productId', '$catalogId', $salePrice, $productQty, $discount, '$promotion', $outPrice, '$fechaBogota', '$hora_actual_bogota', '$storeId', '$categoryId', '$storeName', '$categoryName', $saver, '$userId', '$storeName', '$fromIp', '$fromBrowser')");
+                            $query = mysqli_query($conectar, "UPDATE generalCatalogs SET stock= (SELECT stock FROM generalCatalogs where catalogId='$catalogId' and stock>=$productQty)-$productQty WHERE catalogId='$catalogId' and clientId='$clientId'");
                             
-            //                 $_SESSION['fTotal']=$_SESSION['fTotal']+$item['item']['totalShopping'];
-            //         $_SESSION['fsTotal']=$_SESSION['fsTotal']+$item['item']['subTotalShopping'];
-            //         $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
-            //         $_SESSION['nPacks']=$_SESSION['nPacks']+1;
-            //         $_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
-            //                 // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
-            //                 if (!$query) {
-            //                     echo "Error al insertar datos: " . mysqli_error($conectar);
-            //                 }
-            //             } else {
-            //                 if ($query) {
-            //         $ar=json_encode($arrayData,true);
-            //                 $fTotal=  $_SESSION['fTotal'];
-            //                     $fsTotal=$_SESSION['fsTotal'];
-            //                     $fSaver=$_SESSION['fSaver'];
-            //                     $npro=$_SESSION['nProducts'];
-            //                     $npa=$_SESSION['nPacks'];
-            //                     $query3 = mysqli_query($conectar, "SELECT MAX(incId) as coId from generalOrders");
+                            $_SESSION['fTotal']=$_SESSION['fTotal']+$item['item']['totalShopping'];
+                    $_SESSION['fsTotal']=$_SESSION['fsTotal']+$item['item']['subTotalShopping'];
+                    $_SESSION['fSaver']=$_SESSION['fSaver']+$saver;
+                    $_SESSION['nPacks']=$_SESSION['nPacks']+1;
+                    $_SESSION['nProducts']=$_SESSION['nProducts']+$productQty;
+                            // Verifica si la consulta se ejecutó correctamente y maneja los errores si es necesario
+                            if (!$query) {
+                                echo "Error al insertar datos: " . mysqli_error($conectar);
+                            }
+                        } else {
+                            if ($query) {
+                    $ar=json_encode($arrayData,true);
+                            $fTotal=  $_SESSION['fTotal'];
+                                $fsTotal=$_SESSION['fsTotal'];
+                                $fSaver=$_SESSION['fSaver'];
+                                $npro=$_SESSION['nProducts'];
+                                $npa=$_SESSION['nPacks'];
+                                $query3 = mysqli_query($conectar, "SELECT MAX(incId) as coId from generalOrders");
 
-            //                     // Verificar si la consulta fue exitosa
+                                // Verificar si la consulta fue exitosa
                                 
-            //                         // Obtener la primera fila como un arreglo asociativo
-            //                         $fila = $query3->fetch_assoc();
+                                    // Obtener la primera fila como un arreglo asociativo
+                                    $fila = $query3->fetch_assoc();
                                 
-            //                         // Verificar si la fila tiene datos
-            //                         if ($fila) {
-            //                             // Obtener el valor de la columna 'coId'
-            //                             $valor = $fila['coId']+1;
-            //                         // echo "El valor máximo de incId es: " . $valor;
-            //                         } else {
-            //                         //  echo "No se encontraron datos.";
-            //                         }
+                                    // Verificar si la fila tiene datos
+                                    if ($fila) {
+                                        // Obtener el valor de la columna 'coId'
+                                        $valor = $fila['coId']+1;
+                                    // echo "El valor máximo de incId es: " . $valor;
+                                    } else {
+                                    //  echo "No se encontraron datos.";
+                                    }
                                 
                                 
                             
-            //                     // Mostrar o utilizar el valor
-            //                     $query4 = mysqli_query($conectar, "SELECT customerPoints,customerStars from generalCustomers WHERE customerId='$customerId' AND clientId='$clientId'");
+                                // Mostrar o utilizar el valor
+                                $query4 = mysqli_query($conectar, "SELECT customerPoints,customerStars from generalCustomers WHERE customerId='$customerId' AND clientId='$clientId'");
 
-            //                     // Verificar si la consulta fue exitosa
+                                // Verificar si la consulta fue exitosa
                                 
-            //                         // Obtener la primera fila como un arreglo asociativo
-            //                         $fila4 = $query4->fetch_assoc();
+                                    // Obtener la primera fila como un arreglo asociativo
+                                    $fila4 = $query4->fetch_assoc();
                                 
-            //                         // Verificar si la fila tiene datos
-            //                         if ($fila4) {
-            //                             // Obtener el valor de la columna 'coId'
-            //                             $cPoints = $fila4['customerPoints'];
-            //                             $cStars = $fila4['customerStars'];
-            //                         // echo "El valor máximo de incId es: " . $valor;
-            //                         } else {
-            //                         //  echo "No se encontraron datos.";
-            //                         }
+                                    // Verificar si la fila tiene datos
+                                    if ($fila4) {
+                                        // Obtener el valor de la columna 'coId'
+                                        $cPoints = $fila4['customerPoints'];
+                                        $cStars = $fila4['customerStars'];
+                                    // echo "El valor máximo de incId es: " . $valor;
+                                    } else {
+                                    //  echo "No se encontraron datos.";
+                                    }
 
-            //                         function calcularPuntos($montoCompra,$clientId) {
-            //                             $conectar=conn();
-            //                             // Definir el valor de puntos por cada 50.000 en compras
-            //                             $query8 = mysqli_query($conectar, "SELECT pointsEq from generalRules WHERE clientId='$clientId'");
+                                    function calcularPuntos($montoCompra,$clientId) {
+                                        $conectar=conn();
+                                        // Definir el valor de puntos por cada 50.000 en compras
+                                        $query8 = mysqli_query($conectar, "SELECT pointsEq from generalRules WHERE clientId='$clientId'");
 
-            //                     // Verificar si la consulta fue exitosa
+                                // Verificar si la consulta fue exitosa
                                 
-            //                         // Obtener la primera fila como un arreglo asociativo
-            //                         $fila8 = $query8->fetch_assoc();
+                                    // Obtener la primera fila como un arreglo asociativo
+                                    $fila8 = $query8->fetch_assoc();
                                 
-            //                         // Verificar si la fila tiene datos
-            //                         if ($fila8) {
-            //                             // Obtener el valor de la columna 'coId'
-            //                             $cParam = $fila8['pointsEq'];
-            //                         // echo "El valor máximo de incId es: " . $valor;
-            //                         } else {
-            //                         //  echo "No se encontraron datos.";
-            //                         }
-            //                             $puntosPorCadaCincuentaMil = 1;
+                                    // Verificar si la fila tiene datos
+                                    if ($fila8) {
+                                        // Obtener el valor de la columna 'coId'
+                                        $cParam = $fila8['pointsEq'];
+                                    // echo "El valor máximo de incId es: " . $valor;
+                                    } else {
+                                    //  echo "No se encontraron datos.";
+                                    }
+                                        $puntosPorCadaCincuentaMil = 1;
                                     
-            //                             // Calcular la cantidad de puntos
-            //                             if ($montoCompra >= $cParam) {
-            //                                 $puntos = ($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
-            //                             } else {
-            //                                 // Calcular la cantidad de puntos en función del monto
-            //                                 // Por ejemplo, si el monto es 30.000, se le dará 0.6 puntos (30.000 / 50.000 * 1)
-            //                                 $puntos = ($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
-            //                             }
+                                        // Calcular la cantidad de puntos
+                                        if ($montoCompra >= $cParam) {
+                                            $puntos = ($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
+                                        } else {
+                                            // Calcular la cantidad de puntos en función del monto
+                                            // Por ejemplo, si el monto es 30.000, se le dará 0.6 puntos (30.000 / 50.000 * 1)
+                                            $puntos = ($montoCompra / $cParam) * $puntosPorCadaCincuentaMil;
+                                        }
                                     
-            //                             return $puntos;
-            //                         }
+                                        return $puntos;
+                                    }
                                     
-            //                         // Uso de la función para calcular puntos
-            //                     // $monto = 75000; // Por ejemplo, monto de la compra
-            //                         $puntosObtenidos = round(calcularPuntos($fTotal,$clientId)+$cPoints,2);
-            //                         $puntosObtenidos2 = round(calcularPuntos($fTotal,$clientId),2);
+                                    // Uso de la función para calcular puntos
+                                // $monto = 75000; // Por ejemplo, monto de la compra
+                                    $puntosObtenidos = round(calcularPuntos($fTotal,$clientId)+$cPoints,2);
+                                    $puntosObtenidos2 = round(calcularPuntos($fTotal,$clientId),2);
 
-            //                         $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
-            //             //VALIDA EL TIPO DE PAGO TRANSACCIONAL
-            //         if($paymentType=="transfer" || $paymentType=="card"){
-            //                                 //VALIDA EL MÉTODO DE PAGO
-            //                                             if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc"){
-            //                                                 if($paymentMethod=="app"){
-            //                                                     $parameter="isApp";
-            //                                                 }
-            //                                                 if($paymentMethod=="dc"){
-            //                                                     $parameter="isDebit";
-            //                                                 }
-            //                                                 if($paymentMethod=="cc"){
-            //                                                     $parameter="isCredit";
-            //                                                 }
-            //                                         $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,$parameter,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2',1,'$bankEntity')");
-            //                             $respuesta="true_method";
-            //                                     }else{
-            //                                         $respuesta="false";
-            //                                     }
+                                    $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
+                        //VALIDA EL TIPO DE PAGO TRANSACCIONAL
+                    if($paymentType=="transfer" || $paymentType=="card"){
+                                            //VALIDA EL MÉTODO DE PAGO
+                                                        if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc"){
+                                                            if($paymentMethod=="app"){
+                                                                $parameter="isApp";
+                                                            }
+                                                            if($paymentMethod=="dc"){
+                                                                $parameter="isDebit";
+                                                            }
+                                                            if($paymentMethod=="cc"){
+                                                                $parameter="isCredit";
+                                                            }
+                                                    $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,$parameter,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'PENDING',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$paymentMethod',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2',1,'$bankEntity')");
+                                        $respuesta="true_method";
+                                                }else{
+                                                    $respuesta="false";
+                                                }
                         
-            //             }
-            //         //VALIDA TIPO DE PAGO EN EFECTIVO
-            //             else if($paymentType=="cash"){
-            //                 $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','cash',$payWith-$fTotal,'DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','cash',1,'$payWith',1)");
-            //                 $respuesta="true_cash";
-            //             }
+                        }
+                    //VALIDA TIPO DE PAGO EN EFECTIVO
+                        else if($paymentType=="cash"){
+                            $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','cash',$payWith-$fTotal,'DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','cash',1,'$payWith',1)");
+                            $respuesta="true_cash";
+                        }
 
-            //             //VALIDA TIPO DE PAGO EN PUNTOS
-            //         else if($paymentType=="points"){
+                        //VALIDA TIPO DE PAGO EN PUNTOS
+                    else if($paymentType=="points"){
 
-            //                 $query9 = mysqli_query($conectar, "SELECT gc.customerPoints,gr.pointsEq,gr.pointsValue,gr.minPoints from generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId WHERE gc.customerId='$customerId'");
+                            $query9 = mysqli_query($conectar, "SELECT gc.customerPoints,gr.pointsEq,gr.pointsValue,gr.minPoints from generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId WHERE gc.customerId='$customerId'");
 
-            //                             // Verificar si la consulta fue exitosa
+                                        // Verificar si la consulta fue exitosa
                                         
-            //                                 // Obtener la primera fila como un arreglo asociativo
-            //                                 $fila9 = $query9->fetch_assoc();
+                                            // Obtener la primera fila como un arreglo asociativo
+                                            $fila9 = $query9->fetch_assoc();
                                         
-            //                                 // Verificar si la fila tiene datos
-            //                                 if ($fila9) {
-            //                                     // Obtener el valor de la columna 'coId'
-            //                                     $cParam = $fila9['pointsEq'];
-            //                                     $cPoint = $fila9['customerPoints'];
-            //                                     $cPointValue = $fila9['pointsValue'];
-            //                                     $cMinPoints = $fila9['minPoints'];
+                                            // Verificar si la fila tiene datos
+                                            if ($fila9) {
+                                                // Obtener el valor de la columna 'coId'
+                                                $cParam = $fila9['pointsEq'];
+                                                $cPoint = $fila9['customerPoints'];
+                                                $cPointValue = $fila9['pointsValue'];
+                                                $cMinPoints = $fila9['minPoints'];
 
-            //                                     $cTotal=$cPointValue*$cPoints; 
+                                                $cTotal=$cPointValue*$cPoints; 
 
-            //                                 // echo "El valor máximo de incId es: " . $valor;
-            //                                 } else {
-            //                                 //  echo "No se encontraron datos.";
-            //                                 }
-            //                                 if($cPoints>=$cMinPoints){
-            //                         if($fTotal>$cTotal){
-            //                             if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc" || $paymentMethod=="cash"){
-            //                                 if($paymentMethod=="app"){
-            //                                     $parameter="isApp";
-            //                                     $pm="points_isApp_".$bankEntity;
-            //                                     $puntosObtenidos=0;
-            //                                     $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
+                                            // echo "El valor máximo de incId es: " . $valor;
+                                            } else {
+                                            //  echo "No se encontraron datos.";
+                                            }
+                                            if($cPoints>=$cMinPoints){
+                                    if($fTotal>$cTotal){
+                                        if($paymentMethod=="app" || $paymentMethod=="dc" || $paymentMethod=="cc" || $paymentMethod=="cash"){
+                                            if($paymentMethod=="app"){
+                                                $parameter="isApp";
+                                                $pm="points_isApp_".$bankEntity;
+                                                $puntosObtenidos=0;
+                                                $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
 
-            //                                     $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isApp,payWith,isPayed,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity')");
-            //                                     $respuesta="true_point_bank";
-            //                                 }
-            //                                 if($paymentMethod=="dc"){
-            //                                     $parameter="isDebit";
-            //                                     $pm="points_isDebit_".$bankEntity;
-            //                                     $puntosObtenidos=0;
-            //                                     $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
+                                                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isApp,payWith,isPayed,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity')");
+                                                $respuesta="true_point_bank";
+                                            }
+                                            if($paymentMethod=="dc"){
+                                                $parameter="isDebit";
+                                                $pm="points_isDebit_".$bankEntity;
+                                                $puntosObtenidos=0;
+                                                $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
 
-            //                                     $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isDebit,payWith,isPayed,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity')");
-            //                                     $respuesta="true_point_bank";
-            //                                 }
-            //                                 if($paymentMethod=="cc"){
-            //                                     $parameter="isCredit";
-            //                                     $pm="points_isCredit_".$bankEntity;
-            //                                     $puntosObtenidos=0;
-            //                                     $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
+                                                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isDebit,payWith,isPayed,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity')");
+                                                $respuesta="true_point_bank";
+                                            }
+                                            if($paymentMethod=="cc"){
+                                                $parameter="isCredit";
+                                                $pm="points_isCredit_".$bankEntity;
+                                                $puntosObtenidos=0;
+                                                $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0,backupPoints='$cPoints' WHERE customerId='$customerId'");
 
-            //                                     $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCredit,payWith,isPayed,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity')");
-            //                                     $respuesta="true_point_bank";
-            //                                 }
-            //                                 if($paymentMethod=="cash"){
-            //                                     $parameter="isCash";
-            //                                     $pm="points_isCash_".$bankEntity;
-            //                                     $validationPay=$payWith+$cTotal;
-            //                                     if($validationPay>=$fTotal){
-            //                                         $puntosObtenidos=0;
-            //                                         //valor en pesos de puntos
+                                                $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCredit,payWith,isPayed,bankEntity) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'WAITING_PAYMENT',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',0,'PENDING',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,0,1,'$bankEntity')");
+                                                $respuesta="true_point_bank";
+                                            }
+                                            if($paymentMethod=="cash"){
+                                                $parameter="isCash";
+                                                $pm="points_isCash_".$bankEntity;
+                                                $validationPay=$payWith+$cTotal;
+                                                if($validationPay>=$fTotal){
+                                                    $puntosObtenidos=0;
+                                                    //valor en pesos de puntos
                                                 
-            //                                         $validarResultado=$fTotal-$cTotal;
-            //                                         $returnedCash=($payWith-$validarResultado);
+                                                    $validarResultado=$fTotal-$cTotal;
+                                                    $returnedCash=($payWith-$validarResultado);
                                                     
                                                 
-            //                                         $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0 WHERE customerId='$customerId'");
+                                                    $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints=0 WHERE customerId='$customerId'");
 
-            //                                         $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',$returnedCash,'DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,'$payWith',1)");
-            //                                         $respuesta="true";
-            //                                     }else{
-            //                                         $respuesta="false_point";
-            //                                     }
-            //                                 }
-            //                             }
+                                                    $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','$pm',$returnedCash,'DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS_$parameter',1,'$payWith',1)");
+                                                    $respuesta="true";
+                                                }else{
+                                                    $respuesta="false_point";
+                                                }
+                                            }
+                                        }
 
-            //                         }else{
+                                    }else{
 
-            //                             $validationPay=$fTotal/$cPointValue;
-            //                             $puntosObtenidos=$puntosObtenidos-$validationPay;
-            //                             $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
+                                        $validationPay=$fTotal/$cPointValue;
+                                        $puntosObtenidos=$puntosObtenidos-$validationPay;
+                                        $query10 = mysqli_query($conectar, "UPDATE generalCustomers SET customerPoints='$puntosObtenidos' WHERE customerId='$customerId'");
 
-            //                             $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','POINTS','0','DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS',1,'$payWith',1)");
-            //                             $respuesta="true";
+                                        $query1 = mysqli_query($conectar, "INSERT INTO generalOrders (orderId,carId, clientId, userId, shopperId, storeType, storeId, totalAmount, subtotalAmount, orderProgress, saver, fromIp, fromStore, fromBrowser, orderPayload, paymentMethod, returnCash, transactionStatus,numberProducts,numberPacks,inDate,inTime,incId,customerPoints,paymentReference,isCash,payWith,isPayed) VALUES ('$orderId','$cartId','$clientId','$userId','$customerId','POS','$storeId',$fTotal,$fsTotal,'DONE',$fSaver,'$fromIp','$storeId','$fromBrowser','$ar','POINTS','0','DONE',$npro,$npa,'$fechaBogota','$hora_actual_bogota',$valor,'$puntosObtenidos2','POINTS',1,'$payWith',1)");
+                                        $respuesta="true";
 
-            //                         }
-            //                     }else{
-            //                         $respuesta="false_point_lack";
-            //                     }
+                                    }
+                                }else{
+                                    $respuesta="false_point_lack";
+                                }
                                         
                                     
-            //         }
+                    }
                             
 
 
-            //             //valida respuesta para api de salida
-            //         if($respuesta=="true_cash"){
-            //                             if($query1){
+                        //valida respuesta para api de salida
+                    if($respuesta=="true_cash"){
+                                        if($query1){
 
-            //                             echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
-            //                         } else {
-            //                             // Si hay un error, imprime el mensaje de error
+                                        echo "true|¡Orden creada con éxito!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|cash";
+                                    } else {
+                                        // Si hay un error, imprime el mensaje de error
                                         
-            //             $response12="false|" . mysqli_error($conectar);
+                        $response12="false|" . mysqli_error($conectar);
 
-            //             //inicio de log
-            //             require_once 'kronos/postLog.php';
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
                    
-            //             $backtrace = debug_backtrace();
-            //             $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-            //             $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-            //            $justFileName = basename($currentFile);
-            //            $rutaCompleta = __DIR__;
-            //            $status = http_response_code();
-            //            $cid=Flight::request()->data->clientId;
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
                        
-            //            //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-            //            $array = explode("|", $response12);
-            //            $response12=$array[0];
-            //            $message=$array[1];
-            //            kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-            //            //final de log
-            //                             echo "false|" . mysqli_error($conectar);
-            //                         }
-            //         }
-            //         if($respuesta=="true_method"){
-            //             if($query1){
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+                       //final de log
+                                        echo "false|" . mysqli_error($conectar);
+                                    }
+                    }
+                    if($respuesta=="true_method"){
+                        if($query1){
 
-            //             echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
-            //         } else {
-            //             // Si hay un error, imprime el mensaje de error
+                        echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+                    } else {
+                        // Si hay un error, imprime el mensaje de error
                         
-            //             $response12="false|" . mysqli_error($conectar);
+                        $response12="false|" . mysqli_error($conectar);
 
-            //             //inicio de log
-            //             require_once 'kronos/postLog.php';
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
                    
-            //             $backtrace = debug_backtrace();
-            //             $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-            //             $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-            //            $justFileName = basename($currentFile);
-            //            $rutaCompleta = __DIR__;
-            //            $status = http_response_code();
-            //            $cid=Flight::request()->data->clientId;
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
                        
-            //            //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-            //            $array = explode("|", $response12);
-            //            $response12=$array[0];
-            //            $message=$array[1];
-            //            kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-            //            //final de log
-            //             echo "false|" . mysqli_error($conectar);
-            //         }
-            // }
-            //         if($respuesta=="true_point_bank"){
-            //             if($query1){
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+                       //final de log
+                        echo "false|" . mysqli_error($conectar);
+                    }
+            }
+                    if($respuesta=="true_point_bank"){
+                        if($query1){
 
-            //             echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
-            //         } else {
-            //             // Si hay un error, imprime el mensaje de error
+                        echo "true|¡Orden creada con éxito, VALIDE CÓDIGO DE TRANSACCIÓN PARA SEGUIMIENTO INTERNO!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$pm;
+                    } else {
+                        // Si hay un error, imprime el mensaje de error
                         
-            //             $response12="false|" . mysqli_error($conectar);
+                        $response12="false|" . mysqli_error($conectar);
 
-            //             //inicio de log
-            //             require_once 'kronos/postLog.php';
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
                    
-            //             $backtrace = debug_backtrace();
-            //             $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-            //             $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-            //            $justFileName = basename($currentFile);
-            //            $rutaCompleta = __DIR__;
-            //            $status = http_response_code();
-            //            $cid=Flight::request()->data->clientId;
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
                        
-            //            //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-            //            $array = explode("|", $response12);
-            //            $response12=$array[0];
-            //            $message=$array[1];
-            //            kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-            //            //final de log
-            //             echo "false|" . mysqli_error($conectar);
-            //         }
-            // }
-            //         if($respuesta=="false"){
-            //             echo "false|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+                       //final de log
+                        echo "false|" . mysqli_error($conectar);
+                    }
+            }
+                    if($respuesta=="false"){
+                        echo "false|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
                     
-            //         }
-            //         if($respuesta=="false_point"){
-            //             echo "false|¡Orden no se pudo crear puntos, efectivo, credito insuficientes!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+                    }
+                    if($respuesta=="false_point"){
+                        echo "false|¡Orden no se pudo crear puntos, efectivo, credito insuficientes!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
                     
-            //         }
-            //         if($respuesta=="false_point_lack"){
-            //             echo "false|¡Orden no se pudo crear puntos insuficientes, minimo de puntos acumulados deben ser ".$cMinPoints."!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+                    }
+                    if($respuesta=="false_point_lack"){
+                        echo "false|¡Orden no se pudo crear puntos insuficientes, minimo de puntos acumulados deben ser ".$cMinPoints."!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
                     
-            //         }
-            //         else{
-            //                     echo "false|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
+                    }
+                    else{
+                                echo "false|¡Orden no se pudo crear metodo y tipo de pago no concuerdan!|".$valor."|".$orderId."|".$fTotal."|".$fsTotal."|".$fSaver."|".$paymentMethod."|".$paymentType;
                     
-            //         }
+                    }
                             
-            //                 } else {
-            //                     // Si hay un error, imprime el mensaje de error
+                            } else {
+                                // Si hay un error, imprime el mensaje de error
                                 
-            //             $response12="false|" . mysqli_error($conectar);
+                        $response12="false|" . mysqli_error($conectar);
 
-            //             //inicio de log
-            //             require_once 'kronos/postLog.php';
+                        //inicio de log
+                        require_once 'kronos/postLog.php';
                    
-            //             $backtrace = debug_backtrace();
-            //             $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-            //             $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-            //            $justFileName = basename($currentFile);
-            //            $rutaCompleta = __DIR__;
-            //            $status = http_response_code();
-            //            $cid=Flight::request()->data->clientId;
+                        $backtrace = debug_backtrace();
+                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+                       $justFileName = basename($currentFile);
+                       $rutaCompleta = __DIR__;
+                       $status = http_response_code();
+                       $cid=Flight::request()->data->clientId;
                        
-            //            //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-            //            $array = explode("|", $response12);
-            //            $response12=$array[0];
-            //            $message=$array[1];
-            //            kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-            //            //final de log
-            //                     echo "false|" . mysqli_error($conectar);
-            //                 }
-            //             }
-            //         }
+                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+                       $array = explode("|", $response12);
+                       $response12=$array[0];
+                       $message=$array[1];
+                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
+                       //final de log
+                                echo "false|" . mysqli_error($conectar);
+                            }
+                        }
+                    }
 
                             
                             
