@@ -1,6 +1,7 @@
 <?php
     require_once 'database/db_users.php';
     require_once 'model/modelSecurity/uuid/uuidd.php';
+    require_once 'model/users/sendMail.php';
 class modelPost {
           
         public static function postOrder($dta) {
@@ -811,7 +812,199 @@ class modelPut{
                                     return json_encode(['response'=>$values]);
                 
                             }
-   
+                            public static function putOrderStatus($dta) {
+            
+                                // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+                            
+                                // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+                                $conectar = conn();
+                        
+                                // Verifica si la conexión se realizó correctamente
+                                if (!$conectar) {
+                                    return "Error de conexión a la base de datos";
+                                }
+                        
+                                
+                        
+                                // Escapa los valores para prevenir inyección SQL
+                                $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+                                $orderId = mysqli_real_escape_string($conectar, $dta['orderId']);
+                                $param = mysqli_real_escape_string($conectar, $dta['param']);
+                                $value = mysqli_real_escape_string($conectar, $dta['value']);
+                            
+                                //$dato_encriptado = $keyword;
+                                
+                                                                
+                                        if($param==="deliveryStatus"){
+
+                                            $query = mysqli_query($conectar, "UPDATE generalOrders SET deliveryStatus='assigned' where clientId='$clientId' and orderId='$orderId'");
+
+                                        }
+                                        if($param==="deliveryPerson"){
+
+                                            $query = mysqli_query($conectar, "UPDATE generalOrders SET $param='$value',deliveryStatus='undefined' where clientId='$clientId' and orderId='$orderId'");
+
+                                        }
+                                if($query){
+                                    $filasAfectadas = mysqli_affected_rows($conectar);
+                                    if ($filasAfectadas > 0) {
+
+                                    $query9 = mysqli_query($conectar, "SELECT gor.incId,gc.customerMail,gs.storeName,gor.deliveryAdd,gor.deliveryMethod,gc.customerName,gc.customerLastName from generalOrders gor JOIN generalCustomers gc ON gc.customerId=gor.shopperId JOIN generalStores gs ON gs.storeId=gor.storeId WHERE gor.orderId='$orderId' AND gor.clientId='$clientId'");
+
+                                    // Verificar si la consulta fue exitosa
+                                    
+                                        // Obtener la primera fila como un arreglo asociativo
+                                        $fila9 = $query9->fetch_assoc();
+                                    
+                                        // Verificar si la fila tiene datos
+                                        if ($fila9) {
+                                            // Obtener el valor de la columna 'coId'
+                                            $orNumber = $fila9['incId'];
+                                            $cusMail = $fila9['customerMail'];
+                                            $stName = $fila9['storeName'];
+                                            $delMeth = $fila9['deliveryMethod'];
+                                            $delAdd = $fila9['deliveryAdd'];
+                                            $cusname = $fila9['customerName'];
+                                            $cuslname = $fila9['customerLastName'];
+                                            $data = json_decode($delAdd, true);
+                                            foreach ($data as $item) {
+                                                $deliveryAdd = $item['deliveryAdd'];
+                                            
+                                                $startStreet = $deliveryAdd['startStreet'];
+                                                $startAvenue = $deliveryAdd['startAvenue'];
+                                                $context = $deliveryAdd['context'];
+                                                $paramOne = $deliveryAdd['paramOne'];
+                                                $paramSecond = $deliveryAdd['paramSecond'];
+                                                $paramOneBis = $deliveryAdd['paramOneBis'];
+                                                $paramSecondBis = $deliveryAdd['paramSecondBis'];
+                                                $paramOneLet = $deliveryAdd['paramOneLet'];
+                                                $paramSecondLet = $deliveryAdd['paramSecondLet'];
+                                                $paramDescription = $deliveryAdd['paramDescription'];
+                                            
+                                               $delAdd= $paramOne. " ". $startStreet."".$paramOneLet. " ".$paramOneBis."<br>".$paramSecond." # ".$startAvenue."".$paramSecondLet." ".$paramSecondBis."<br>Casa ".$context;
+                                              
+                                            
+                                                // ... y así sucesivamente con los demás valores
+                                            }
+                                           
+                        
+                                        // echo "El valor máximo de incId es: " . $valor;
+                                        } else {
+                                        //  echo "No se encontraron datos.";
+                                        }
+                                                                if($value=="in_progress"){
+                                                                            $stateorder="EN PROGRESO";
+                                                                            $colorstate="orange";
+                                                                }
+                                                                if($value=="packing"){
+                                                                    $stateorder="SELECCIONANDO PRODUCTOS";
+                                                                    $colorstate="DarkSalmon";
+                                                        }
+                                                        if($value=="ready"){
+                                                            $stateorder="LISTA";
+                                                            $colorstate="green";
+                                                        }
+                                                        if($value=="on_way"){
+                                                            $stateorder="EN CAMINO";
+                                                            $colorstate="blue";
+                                                        }
+                                                        if($value=="delivered"){
+                                                            $stateorder="ENTREGADA";
+                                                            $colorstate="#a3e4d7";
+                                                        }
+                                                        if($value=="done"){
+                                                            $stateorder="FINALIZADA";
+                                                            $colorstate="#d4e6f1";
+                                                        }
+                                                        if($value=="canceled"){
+                                                            $stateorder="CANCELADA";
+                                                            $colorstate="#cd6155";
+                                                        }
+                                                        
+                        
+                                   
+                        
+                                     if($param=="deliveryStatus"){
+                        
+                        
+                                          $query99 = mysqli_query($conectar, "SELECT deliveryName,deliveryLastName,deliveryMail,deliveryContact FROM generalDelivery WHERE clientId='$clientId' and deliveryId='$value'");
+                        
+                                    // Verificar si la consulta fue exitosa
+                                    
+                                        // Obtener la primera fila como un arreglo asociativo
+                                        $fila99 = $query99->fetch_assoc();
+                                    
+                                        // Verificar si la fila tiene datos
+                                        if ($fila99) {
+                                            // Obtener el valor de la columna 'coId'
+                                            $delname = $fila99['deliveryName'];
+                                            $dellname = $fila99['deliveryLastName'];
+                                            $delmail = $fila99['deliveryMail'];
+                                            $delcontact = $fila99['deliveryContact'];
+                        
+                                           
+                        
+                                        // echo "El valor máximo de incId es: " . $valor;
+                                        } else {
+                                        //  echo "No se encontraron datos.";
+                                        }
+                                        $finishedMsg = "Validación de estado de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: green;'>ASIGNADA A DOMICILIARIO $delname $dellname</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
+                                        
+                                        sendMail::sendConfirmationOrderMail("confirmation@lugma.tech",$cusMail,"Confirmación de orden #",$finishedMsg,$orderId);
+                        
+                                        $finishedMsg = "Asignación de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: green;'>ASIGNADA para el cliente $cusname $cuslname</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
+                                        
+                                        sendMail::sendConfirmationOrderMail("confirmation@lugma.tech",$cusMail,"Confirmación de orden #",$finishedMsg,$orderId);
+                                     }
+                        
+                        
+                                     if($param=="orderProgress"){
+                                        $finishedMsg = "Validación de estado de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: $colorstate;'>$stateorder</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
+                                        
+                                        sendMail::sendConfirmationOrderMail("confirmation@lugma.tech",$cusMail,"Confirmación de orden #",$finishedMsg,$orderId);
+                               
+                                     }
+
+
+                                   
+                                        // Éxito: La actualización se realizó correctamente
+                                    $response="true";
+                                    $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
+                                    $apiMessage="¡Estado de orden actualizado con éxito!";
+                                        $status="201";
+                                    } else {
+                                        $response="false";
+                                    $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
+                                        $status="500";
+                                        $apiMessage="¡Estado de orden no actualizado con éxito!";
+                                    }
+                                //  return "true";
+                                //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+                                }else{
+                                    $response="true";
+                                    $message="Error en la actualización: " . mysqli_error($conectar);
+                                    $status="404";
+                                    $apiMessage="¡Estado de orden no actualizado con éxito!";
+                                
+                                                    }
+                        
+                                                    $values=[];
+                        
+                                                    $value=[
+                                                        'response' => $response,
+                                                        'message' => $message,
+                                                        'apiMessage' => $apiMessage,
+                                                        'status' => $status
+                                                        
+                                                    ];
+                                                    
+                                                    array_push($values,$value);
+                                                    
+                                        
+                                            //echo json_encode($students) ;
+                                            return json_encode(['response'=>$values]);
+                        
+                                    }
     }
     
 ?>

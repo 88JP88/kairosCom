@@ -7,6 +7,7 @@ require_once 'model/users/getModel.php';
 require_once 'model/users/responses.php';
 require 'model/modelSecurity/authModule.php';
 require_once 'env/domain.php';
+
 require_once 'kronos/postLog.php';
 
 
@@ -583,291 +584,61 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
         
+   
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
     
 
 
+        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
 
+//DATA EXTRACTION ARRAY - JSON CONVERT
+$dta = array(
         
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+    'clientId' =>Flight::request()->data->clientId,
+    'orderId' => Flight::request()->data->orderId,
+    'param' => Flight::request()->data->param,
+    'value' => Flight::request()->data->value
     
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-        
-        );
-    $curl = curl_init();
-    
-    // Configurar las opciones de la sesión cURL
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    
-    // Ejecutar la solicitud y obtener la respuesta
-    $response11 = curl_exec($curl);
-
-    
-
-
-    curl_close($curl);
-
-    
-
-        // Realizar acciones basadas en los valores de los encabezados
+);
+$dt=json_encode($dta);
+//DATA EXTRACTION**
 
 
         if ($response11 == 'true' ) {
 
+        $query= modelPut::putOrderStatus($dta);  //DATA MODAL
 
+    //JSON DECODE RESPPNSE
+        $data = json_decode($query, true);
+        $responseSQL=$data['response'][0]['response'];
+        $messageSQL=$data['response'][0]['message'];
+        $apiMessageSQL=$data['response'][0]['apiMessage'];
+        $apiStatusSQL=$data['response'][0]['status'];
+        //JSON DECODE**
 
-            $clientId= Flight::request()->data->clientId;
-            $orderId= Flight::request()->data->orderId;
-            $param= Flight::request()->data->param;
-            $value= Flight::request()->data->value;
-        
-        
-            $conectar=conn();
-
-      
-
-
-
-if($param==="deliveryStatus"){
-
-    $query = mysqli_query($conectar, "UPDATE generalOrders SET deliveryStatus='assigned' where clientId='$clientId' and orderId='$orderId'");
-
-}
-if($param==="deliveryPerson"){
-
-    $query = mysqli_query($conectar, "UPDATE generalOrders SET $param='$value',deliveryStatus='undefined' where clientId='$clientId' and orderId='$orderId'");
-
-}
-
-
-            $query9 = mysqli_query($conectar, "SELECT gor.incId,gc.customerMail,gs.storeName,gor.deliveryAdd,gor.deliveryMethod,gc.customerName,gc.customerLastName from generalOrders gor JOIN generalCustomers gc ON gc.customerId=gor.shopperId JOIN generalStores gs ON gs.storeId=gor.storeId WHERE gor.orderId='$orderId' AND gor.clientId='$clientId'");
-
-            // Verificar si la consulta fue exitosa
-            
-                // Obtener la primera fila como un arreglo asociativo
-                $fila9 = $query9->fetch_assoc();
-            
-                // Verificar si la fila tiene datos
-                if ($fila9) {
-                    // Obtener el valor de la columna 'coId'
-                    $orNumber = $fila9['incId'];
-                    $cusMail = $fila9['customerMail'];
-                    $stName = $fila9['storeName'];
-                    $delMeth = $fila9['deliveryMethod'];
-                    $delAdd = $fila9['deliveryAdd'];
-                    $cusname = $fila9['customerName'];
-                    $cuslname = $fila9['customerLastName'];
-                    $data = json_decode($delAdd, true);
-                    foreach ($data as $item) {
-                        $deliveryAdd = $item['deliveryAdd'];
-                    
-                        $startStreet = $deliveryAdd['startStreet'];
-                        $startAvenue = $deliveryAdd['startAvenue'];
-                        $context = $deliveryAdd['context'];
-                        $paramOne = $deliveryAdd['paramOne'];
-                        $paramSecond = $deliveryAdd['paramSecond'];
-                        $paramOneBis = $deliveryAdd['paramOneBis'];
-                        $paramSecondBis = $deliveryAdd['paramSecondBis'];
-                        $paramOneLet = $deliveryAdd['paramOneLet'];
-                        $paramSecondLet = $deliveryAdd['paramSecondLet'];
-                        $paramDescription = $deliveryAdd['paramDescription'];
-                    
-                       $delAdd= $paramOne. " ". $startStreet."".$paramOneLet. " ".$paramOneBis."<br>".$paramSecond." # ".$startAvenue."".$paramSecondLet." ".$paramSecondBis."<br>Casa ".$context;
-                      
-                    
-                        // ... y así sucesivamente con los demás valores
-                    }
-                   
-
-                // echo "El valor máximo de incId es: " . $valor;
-                } else {
-                //  echo "No se encontraron datos.";
-                }
-                                        if($value=="in_progress"){
-                                                    $stateorder="EN PROGRESO";
-                                                    $colorstate="orange";
-                                        }
-                                        if($value=="packing"){
-                                            $stateorder="SELECCIONANDO PRODUCTOS";
-                                            $colorstate="DarkSalmon";
-                                }
-                                if($value=="ready"){
-                                    $stateorder="LISTA";
-                                    $colorstate="green";
-                                }
-                                if($value=="on_way"){
-                                    $stateorder="EN CAMINO";
-                                    $colorstate="blue";
-                                }
-                                if($value=="delivered"){
-                                    $stateorder="ENTREGADA";
-                                    $colorstate="#a3e4d7";
-                                }
-                                if($value=="done"){
-                                    $stateorder="FINALIZADA";
-                                    $colorstate="#d4e6f1";
-                                }
-                                if($value=="canceled"){
-                                    $stateorder="CANCELADA";
-                                    $colorstate="#cd6155";
-                                }
-                                
-
-            function sendingMail($customermMail,$fmsg,$orId) {
- 
-               
-               // $finishedMsg = "Validación de estado de orden con ID <strong>$orId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: $orcolor;'>$orstate</h3><br/>Tienda: $storeName <br>Método de entrega: $delmeth <br>Dirección de entrega: $deladd";
-                 $from = "confirmation@lugma.tech";
-                 $to = $customermMail;
-                 $subject = "Confirmación de estado de orden #" . $orId;
-             
-                 $headers = "MIME-Version: 1.0" . "\r\n";
-                 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-                 $headers .= "From: " . $from;
-             
-                 mail($to, $subject, $fmsg, $headers);
-             }
-
-
-             if($param=="deliveryStatus"){
-
-
-                  $query99 = mysqli_query($conectar, "SELECT deliveryName,deliveryLastName,deliveryMail,deliveryContact FROM generalDelivery WHERE clientId='$clientId' and deliveryId='$value'");
-
-            // Verificar si la consulta fue exitosa
-            
-                // Obtener la primera fila como un arreglo asociativo
-                $fila99 = $query99->fetch_assoc();
-            
-                // Verificar si la fila tiene datos
-                if ($fila99) {
-                    // Obtener el valor de la columna 'coId'
-                    $delname = $fila99['deliveryName'];
-                    $dellname = $fila99['deliveryLastName'];
-                    $delmail = $fila99['deliveryMail'];
-                    $delcontact = $fila99['deliveryContact'];
-
-                   
-
-                // echo "El valor máximo de incId es: " . $valor;
-                } else {
-                //  echo "No se encontraron datos.";
-                }
-                $finishedMsg = "Validación de estado de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: green;'>ASIGNADA A DOMICILIARIO $delname $dellname</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
-                
-                sendingMail($cusMail,$finishedMsg,$orderId);
-
-                $finishedMsg = "Asignación de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: green;'>ASIGNADA para el cliente $cusname $cuslname</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
-                
-                sendingMail($delmail,$finishedMsg,$orderId);
-             }
-
-
-             if($param=="orderProgress"){
-                $finishedMsg = "Validación de estado de orden con ID <strong>$orderId</strong> con número consecutivo <strong>$orNumber</strong>. <br/><br>Estado de orden: <h3 style='color: $colorstate;'>$stateorder</h3><br/>Tienda: $stName <br>Método de entrega: $delMeth <br>Dirección de entrega: $delAdd";
-                
-                sendingMail($cusMail,$finishedMsg,$orderId);
-       
-             }
-        
-            if ($query) {
-                echo "true|¡Estado de orden actualizado con éxito!";
-            } else {
-                // Si hay un error, imprime el mensaje de error
-                
-                $response12="false|" . mysqli_error($conectar);
-
-                //inicio de log
-                require_once 'kronos/postLog.php';
-           
-                $backtrace = debug_backtrace();
-                $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-                $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-               $justFileName = basename($currentFile);
-               $rutaCompleta = __DIR__;
-               $status = http_response_code();
-               $cid=Flight::request()->data->clientId;
-               
-               //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-               $array = explode("|", $response12);
-               $response12=$array[0];
-               $message=$array[1];
-               kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-
-               //final de log
-                echo "false|" . mysqli_error($conectar);
-            }
-            
-        
-    
-
-    
-        
-        // echo json_encode($response1);
         } else {
-            $response12='false|¡Autenticación fallida!'.$response11;
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
 
-            //inicio de log
-            require_once 'kronos/postLog.php';
-       
-            $backtrace = debug_backtrace();
-            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-           $justFileName = basename($currentFile);
-           $rutaCompleta = __DIR__;
-           $status = http_response_code();
-           $cid=Flight::request()->data->clientId;
-           
-           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-           $array = explode("|", $response12);
-           $response12=$array[0];
-           $message=$array[1];
-           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-
-           //final de log
-            echo 'false|¡Autenticación fallida!'.$response11;
-        // echo json_encode($data);
         }
     } else {
 
-        $response12='false|¡Encabezados faltantes!';
-
-        //inicio de log
-        require_once 'kronos/postLog.php';
-   
-        $backtrace = debug_backtrace();
-        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-       $justFileName = basename($currentFile);
-       $rutaCompleta = __DIR__;
-       $status = http_response_code();
-       $cid=Flight::request()->data->clientId;
-       
-       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-       $array = explode("|", $response12);
-       $response12=$array[0];
-       $message=$array[1];
-       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-
-       //final de log
-        echo 'false|¡Encabezados faltantes!';
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
+
+
+       // kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 Flight::route('POST /postCatalogBulk/@apk/@xapk', function ($apk,$xapk) {
