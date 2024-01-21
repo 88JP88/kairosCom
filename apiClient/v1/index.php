@@ -46,6 +46,14 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
 $cart= Flight::request()->data->cart;
 
 $clientId= Flight::request()->data->clientId;
+$customerId= Flight::request()->data->customerId;
+$paymentMethod= Flight::request()->data->paymentMethod;
+$paymentType= Flight::request()->data->paymentType;
+$payWith= Flight::request()->data->payWith;
+$bankEntity= Flight::request()->data->bankEntity;
+$fromBrowser= Flight::request()->data->fromBrowser;
+$fromIp= Flight::request()->data->fromIp;
+$userId= Flight::request()->data->userId;
 //$query= modelPost::postOrder($dta);
                                
                             
