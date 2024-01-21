@@ -44,6 +44,8 @@ Flight::route('POST /postClientOrder/@apk/@xapk', function ($apk,$xapk) {
                             if ($response11 == 'true' ) {
 
 $cart= Flight::request()->data->cart;
+
+$clientId= Flight::request()->data->clientId;
 //$query= modelPost::postOrder($dta);
                                
                             
