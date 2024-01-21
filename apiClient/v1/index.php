@@ -2525,18 +2525,18 @@ Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-         //inicio de log
-         require_once 'kronos/postLog.php';
-         $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        //  //inicio de log
+        //  require_once 'kronos/postLog.php';
+        //  $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
      
-         $backtrace = debug_backtrace();
-         $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-         $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-        $justFileName = basename($currentFile);
-        $rutaCompleta = __DIR__;
-        $status = http_response_code();
-        $cid=Flight::request()->data->clientId;
-        $rutaActual = Flight::request()->url;
+        //  $backtrace = debug_backtrace();
+        //  $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
+        //  $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
+        // $justFileName = basename($currentFile);
+        // $rutaCompleta = __DIR__;
+        // $status = http_response_code();
+        // $cid=Flight::request()->data->clientId;
+        // $rutaActual = Flight::request()->url;
                 
 
 
@@ -2582,10 +2582,10 @@ Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
                 'customerId' => $customerId
             );
             $dt=json_encode($dta);
-            $responseApi="true";
-            $messageApi="receivedFrom-".$urlreferer;
+            // $responseApi="true";
+            // $messageApi="receivedFrom-".$urlreferer;
             
-            kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',$trackId,$urlreferer);
+         //   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',$trackId,$urlreferer);
     
                 // Realizar acciones basadas en los valores de los encabezados
 
@@ -2645,7 +2645,7 @@ Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
            
            //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
           
-           kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',$trackId,$urlreferer);
+         //  kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',$trackId,$urlreferer);
            //final de log
         
         
