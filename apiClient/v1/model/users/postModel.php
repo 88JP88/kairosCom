@@ -668,6 +668,73 @@ class modelPut{
                     return json_encode(['response'=>$values]);
 
             }
+            public static function putCustomer($dta) {
+            
+                // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+            
+                // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+                $conectar = conn();
+        
+                // Verifica si la conexión se realizó correctamente
+                if (!$conectar) {
+                    return "Error de conexión a la base de datos";
+                }
+        
+                
+        
+                // Escapa los valores para prevenir inyección SQL
+                $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+                $param = mysqli_real_escape_string($conectar, $dta['param']);
+                $value = mysqli_real_escape_string($conectar, $dta['value']);
+                $customerId = mysqli_real_escape_string($conectar, $dta['customerId']);
+            
+                //$dato_encriptado = $keyword;
+                
+        
+                $query = mysqli_query($conectar, "UPDATE generalCustomers SET $param='$value' where clientId='$clientId' and customerId='$customerId'");
+
+                
+                if($query){
+                    $filasAfectadas = mysqli_affected_rows($conectar);
+                    if ($filasAfectadas > 0) {
+                        // Éxito: La actualización se realizó correctamente
+                    $response="true";
+                    $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
+                    $apiMessage="¡Cliente actualizado con éxito!";
+                        $status="201";
+                    } else {
+                        $response="false";
+                    $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
+                        $status="500";
+                        $apiMessage="¡Cliente no actualizado con éxito!";
+                    }
+                //  return "true";
+                //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+                }else{
+                    $response="true";
+                    $message="Error en la actualización: " . mysqli_error($conectar);
+                    $status="404";
+                    $apiMessage="¡Cliente67yhb no actualizado con éxito!";
+                
+                                    }
+        
+                                    $values=[];
+        
+                                    $value=[
+                                        'response' => $response,
+                                        'message' => $message,
+                                        'apiMessage' => $apiMessage,
+                                        'status' => $status
+                                        
+                                    ];
+                                    
+                                    array_push($values,$value);
+                                    
+                        
+                            //echo json_encode($students) ;
+                            return json_encode(['response'=>$values]);
+        
+                    }
             public static function putProduct($dta) {
             
                 // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos

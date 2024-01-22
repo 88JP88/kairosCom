@@ -2516,155 +2516,60 @@ Flight::route('GET /getCustomers/@clientId/@filter/@param/@value', function ($cl
 
 Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
         
-            header("Access-Control-Allow-Origin: *");
-            // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-            if (!empty($apk) && !empty($xapk)) {    
-                // Leer los datos de la solicitud
-            
-
-
-
-
-        //  //inicio de log
-        //  require_once 'kronos/postLog.php';
-        //  $urlreferer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-     
-        //  $backtrace = debug_backtrace();
-        //  $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-        //  $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-        // $justFileName = basename($currentFile);
-        // $rutaCompleta = __DIR__;
-        // $status = http_response_code();
-        // $cid=Flight::request()->data->clientId;
-        // $rutaActual = Flight::request()->url;
-                
-
-
-
-
-                $sub_domaincon=new model_domain();
-                $sub_domain=$sub_domaincon->domKairos();
-                $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-            
-                $data = array(
-                    'apiKey' =>$apk, 
-                    'xApiKey' => $xapk
-                
-                );
-            $curl = curl_init();
-            
-            // Configurar las opciones de la sesión cURL
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-            
-            // Ejecutar la solicitud y obtener la respuesta
-            $response11 = curl_exec($curl);
-
-            
-
-
-            curl_close($curl);
-
-            $clientId= Flight::request()->data->clientId;
-            $trackId= Flight::request()->data->trackId;
-            $param= Flight::request()->data->param;
-            $value= Flight::request()->data->value;
-            $customerId= Flight::request()->data->customerId;
-            $dta = array(
-        
-                'clientId' =>$clientId,
-                'trackId' =>$trackId,
-                'param' => $param,
-                'value' => $value,
-                'customerId' => $customerId
-            );
-            $dt=json_encode($dta);
-            // $responseApi="true";
-            // $messageApi="receivedFrom-".$urlreferer;
-            
-         //   kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$status,'send',$trackId,$urlreferer);
-    
-                // Realizar acciones basadas en los valores de los encabezados
-
-
-                if ($response11 == 'true' ) {
-
-
-
-                   
-                
-                
-                    $conectar=conn();
-
-                
-                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET $param='$value' where clientId='$clientId' and customerId='$customerId'");
-
-                
-                
-                    if ($query) {
-                       // echo "true|¡Cliente actualizado con éxito!";
-                        $responseApi="true";
-                        $messageApi="¡Cliente actualizado con éxito!";
-                        $statusApi="200";
-                       // $response12="true|¡Repartidor actualizado con éxito!";
-                        
-                        
-                       // echo "true|¡Repartidor actualizado con éxito!";
-                    } else {
-                        // Si hay un error, imprime el mensaje de error
-                        $responseApi="false";
-                        $messageApi=mysqli_error($conectar);
-                        $statusApi="500";
-        
-        
-                    }
-                    
-                
-            
-        
-            
-                
-                // echo json_encode($response1);
-                } else {
-                    $responseApi="false";
-                    $messageApi="¡Autenticación fallida!";
-                    $statusApi="401";
-                }
-            } else {
-        
-                $responseApi="false";
-                $messageApi="¡Encabezados faltantes!";
-                $statusApi="403";
-            }
-        
-        
-        
-           
-           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
           
-         //  kronos($responseApi,$messageApi,$messageApi, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$rutaActual,$statusApi,'received',$trackId,$urlreferer);
-           //final de log
-        
-        
-           $values=[];
-        
+           header("Access-Control-Allow-Origin: *");
+           // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+           if (!empty($apk) && !empty($xapk)) {    
            
-           
-                   $value=[
-                       'response' => $responseApi,
-                       'message' => $messageApi,
-                       'status' => $statusApi
-                       
-                   ];
-                   
-                   array_push($values,$value);
-                   
-        
-           //echo json_encode($students) ;
-           echo json_encode(['response'=>$values]);
+
+
+               $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
+
+
+       //DATA EXTRACTION ARRAY - JSON CONVERT
+       $dta = array(
+               
+           'clientId' =>Flight::request()->data->clientId,
+           'param' => Flight::request()->data->param,
+           'value' => Flight::request()->data->value,
+           'customerId' => Flight::request()->data->customerId
+       );
+       $dt=json_encode($dta);
+       //DATA EXTRACTION**
+
+
+               if ($response11 == 'true' ) {
+
+               $query= modelPut::putCustomer($dta);  //DATA MODAL
+
+           //JSON DECODE RESPPNSE
+               $data = json_decode($query, true);
+               $responseSQL=$data['response'][0]['response'];
+               $messageSQL=$data['response'][0]['message'];
+               $apiMessageSQL=$data['response'][0]['apiMessage'];
+               $apiStatusSQL=$data['response'][0]['status'];
+               //JSON DECODE**
+
+               } else {
+                   $responseSQL="false";
+                   $apiMessageSQL="¡Autenticación fallida!";
+                   $apiStatusSQL="401";
+                   $messageSQL="¡Autenticación fallida!";
+
+               }
+           } else {
+
+               $responseSQL="false";
+               $apiMessageSQL="¡Encabezados faltantes!";
+               $apiStatusSQL="403";
+               $messageSQL="¡Encabezados faltantes!";
+           }
+
+       
+               kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+       
+       echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 
