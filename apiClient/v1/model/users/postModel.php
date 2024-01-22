@@ -359,7 +359,7 @@ class modelPost {
                                     
             }
             
-        public static function postCatalog($dta) {
+        public static function postCustomer($dta) {
             
                 
                 // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
@@ -376,28 +376,22 @@ class modelPost {
                         
                     $gen_uuid = new generateUuid();
                     $myuuid = $gen_uuid->guidv4();
-                    $catalogId = substr($myuuid, 0, 8);
+                    $customerId = substr($myuuid, 0, 8);
 
                     // Escapa los valores para prevenir inyección SQL
                     $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-                    $productId = mysqli_real_escape_string($conectar, $dta['productId']);
-                    $categoryId = mysqli_real_escape_string($conectar, $dta['categoryId']);
-                    $stock = mysqli_real_escape_string($conectar, $dta['stock']);
-                    $secStock = mysqli_real_escape_string($conectar, $dta['secStock']);
-                    $minQty = mysqli_real_escape_string($conectar, $dta['minQty']);
-                    $maxQty = mysqli_real_escape_string($conectar, $dta['maxQty']);
-                    $storeId = mysqli_real_escape_string($conectar, $dta['storeId']);
-                    $outPrice = mysqli_real_escape_string($conectar, $dta['outPrice']);
-                    $promoId = mysqli_real_escape_string($conectar, $dta['promoId']);
-                    $discount = mysqli_real_escape_string($conectar, $dta['discount']);
-                    $unit = mysqli_real_escape_string($conectar, $dta['unit']);
-                    $readUnit = mysqli_real_escape_string($conectar, $dta['readUnit']);
-                    $unitQty = mysqli_real_escape_string($conectar, $dta['unitQty']);
-                    $unitUnit = mysqli_real_escape_string($conectar, $dta['unitUnit']);
+                    $customerName = mysqli_real_escape_string($conectar, $dta['customerName']);
+                    $customerLastName = mysqli_real_escape_string($conectar, $dta['customerLastName']);
+                    $customerMail = mysqli_real_escape_string($conectar, $dta['customerMail']);
+                    $customerPhone = mysqli_real_escape_string($conectar, $dta['customerPhone']);
+                    $customerType = mysqli_real_escape_string($conectar, $dta['customerType']);
                     //$dato_encriptado = $keyword;
                     
             
-                    $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',$unitQty,'$unitUnit')");
+                    $query = mysqli_query($conectar, "INSERT INTO generalCustomers 
+                    (customerId, clientId, customerName, customerLastName,customerMail,customerPhone,customerType) 
+                    VALUES
+                    ('$customerId', '$clientId', '$customerName', '$customerLastName', '$customerMail','$customerPhone','$customerType')");
 
                     if($query){
                                 $filasAfectadas = mysqli_affected_rows($conectar);
@@ -406,14 +400,14 @@ class modelPost {
                                             // Éxito: La actualización se realizó correctamente
                                             $response="true";
                                             $message="Creación exitosa. Filas afectadas: $filasAfectadas";
-                                            $apiMessage="¡Catálogo creado con éxito!";
+                                            $apiMessage="¡Cliente creado con éxito!";
                                             $status="201";
                                         } 
                                         else {
                                             $response="false";
                                             $message="Creación no exitosa. Filas afectadas: $filasAfectadas";
                                             $status="500";
-                                            $apiMessage="¡Catálogo no credo con éxito!";
+                                            $apiMessage="¡Cliente no credo con éxito!";
                                             }
                             //  return "true";
                             //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -422,7 +416,7 @@ class modelPost {
                             $response="true";
                             $message="Error en la actualización: " . mysqli_error($conectar);
                             $status="404";
-                            $apiMessage="¡Catálogo no creado con éxito!";
+                            $apiMessage="¡Cliente no creado con éxito!";
                         
                         }
 
@@ -445,7 +439,7 @@ class modelPost {
             }
 
 
-        public static function postSrore($dta) {
+        public static function postDelivery($dta) {
     
            
 
@@ -464,18 +458,20 @@ class modelPost {
             
         $gen_uuid = new generateUuid();
         $myuuid = $gen_uuid->guidv4();
-        $storeId = substr($myuuid, 0, 8);
+        $deliveryId = substr($myuuid, 0, 8);
 
         // Escapa los valores para prevenir inyección SQL
         $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-        $storeName = mysqli_real_escape_string($conectar, $dta['storeName']);
-        $comments = mysqli_real_escape_string($conectar, $dta['comments']);
-        $storeType = mysqli_real_escape_string($conectar, $dta['storeType']);
-        //$dato_encriptado = $keyword;
+        $deliveryName = mysqli_real_escape_string($conectar, $dta['deliveryName']);
+        $deliveryLastName = mysqli_real_escape_string($conectar, $dta['deliveryLastName']);
+        $deliveryMail = mysqli_real_escape_string($conectar, $dta['deliveryMail']);
+        $deliveryContact = mysqli_real_escape_string($conectar, $dta['deliveryContact']);
         
 
-        $keywords=$storeName." ".$comments." ".$storeType;
-        $query = mysqli_query($conectar, "INSERT INTO generalStores (storeId, storeName, clientId, comments, storeType,keyWords) VALUES ('$storeId', '$storeName', '$clientId', '$comments', '$storeType','$keywords')");
+        $query = mysqli_query($conectar, "INSERT INTO generalDelivery 
+        (deliveryId, clientId, deliveryName, deliveryLastName,deliveryMail,deliveryContact) 
+        VALUES
+        ('$deliveryId', '$clientId', '$deliveryName', '$deliveryLastName', '$deliveryMail','$deliveryContact')");
 
         if($query){
             $filasAfectadas = mysqli_affected_rows($conectar);
@@ -483,13 +479,13 @@ class modelPost {
                 // Éxito: La actualización se realizó correctamente
             $response="true";
             $message="Creación exitosa. Filas afectadas: $filasAfectadas";
-            $apiMessage="¡Tienda creada con éxito!";
+            $apiMessage="¡Repartidor creado con éxito!";
                 $status="201";
             } else {
                 $response="false";
             $message="Creación no exitosa. Filas afectadas: $filasAfectadas";
                 $status="500";
-                $apiMessage="¡Tienda no creda con éxito!";
+                $apiMessage="¡Repartidor no credo con éxito!";
             }
         //  return "true";
         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -497,7 +493,7 @@ class modelPost {
             $response="true";
             $message="Error en la actualización: " . mysqli_error($conectar);
             $status="404";
-            $apiMessage="¡Tienda no creada con éxito!";
+            $apiMessage="¡Repartidor no creado con éxito!";
         
                             }
 
