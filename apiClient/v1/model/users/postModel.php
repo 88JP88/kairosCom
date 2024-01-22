@@ -645,6 +645,7 @@ public static function postDelivery($dta) {
 
                                         $query = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=0 where clientId='$clientId' and customerMail='$customerMail'");
                    
+                                        sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Genera un nuevo código, exediste el número máximo de intentos.');
 
                                         $response="false";
                                         $message="Envío exitoso.";
@@ -665,12 +666,17 @@ public static function postDelivery($dta) {
                             $fila = $query3->fetch_assoc();
                             $attemps=$fila['codeAttemps'];
                             if($attemps>=3){
+
                                 $query = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=0 where clientId='$clientId' and customerMail='$customerMail'");
+                                sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Genera un nuevo código, exediste el número máximo de intentos.');
+
                                 $response="false";
                                 $message="Envío no exitoso.";
                                 $status="501";
                                 $apiMessage="¡Exediste el número de intentos máximos!|codeAttemps";
                             }else{
+                                sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Código incorrecto.');
+
                                     $response="false";
                                     $message="Envío no exitoso.";
                                     $status="501";
