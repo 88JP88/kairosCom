@@ -116,7 +116,7 @@ if ($numRows > 0) {
                 $response="false";
                 $message="Error en la consulta: " . mysqli_error($conectar);
                 $status="404";
-                $apiMessage="¡Repartidores no selleccionados con éxito!";
+                $apiMessage="¡Repartidores no seleccionados con éxito!";
                 $values=[];
 
                 $value = [
@@ -143,7 +143,152 @@ if ($numRows > 0) {
             
 }
 
+public static function getCustomers($dta) {
             
+                
+
+
+    // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+    
+        // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+        $conectar = conn();
+
+        // Verifica si la conexión se realizó correctamente
+        if (!$conectar) {
+            return "Error de conexión a la base de datos";
+        }
+
+        
+            
+
+        // Escapa los valores para prevenir inyección SQL
+        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+        $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+        $param = mysqli_real_escape_string($conectar, $dta['param']);
+        $value = mysqli_real_escape_string($conectar, $dta['value']);
+       
+
+        if($filter=="all"){
+
+                
+                
+            $query= mysqli_query($conectar,"SELECT gc.customerId,gc.clientId,gc.customerName,gc.customerLastName,gc.customerMail,gc.customerPoints,gc.customerPhone,gc.customerStars,gc.customerType,gc.isActive,gr.pointsEq,gr.pointsValue FROM generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId where gc.clientId='$clientId'");
+        }
+        
+    
+if($filter=="filter"){
+
+        
+        
+    $query= mysqli_query($conectar,"SELECT gc.customerId,gc.clientId,gc.customerName,gc.customerLastName,gc.customerMail,gc.customerPoints,gc.customerPhone,gc.customerStars,gc.customerType,gc.isActive,gr.pointsEq,gr.pointsValue FROM generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId where gc.clientId='$clientId' and gc.$param='$value'");
+
+
+}
+        if($query){
+            $numRows = mysqli_num_rows($query);
+
+if ($numRows > 0) {
+            $response="true";
+            $message="Consulta exitosa";
+            $status="202";
+            $apiMessage="¡Clientes seleccionados ($numRows)!";
+            $values=[];
+
+            while ($row = $query->fetch_assoc()) {
+                $value=[
+                    'customerId' => $row['customerId'],
+                    'clientId' => $row['clientId'],
+                    'customerName' => $row['customerName'],
+                    'customerLastName' => $row['customerLastName'],
+                    'customerMail' => $row['customerMail'],
+                    'customerPoints' => $row['customerPoints'],
+                    'customerPhone' => $row['customerPhone'],
+                    
+                    'customerStars' => $row['customerStars'],
+                    'customerType' => $row['customerType'],
+                    'isActive' => $row['isActive'],
+                    'pointsEq' => $row['pointsEq'],
+                    'pointsValue' => $row['pointsValue']
+                ];
+                
+                array_push($values,$value);
+            }
+            
+            $row = $query->fetch_assoc();
+           // return json_encode(['products'=>$values]);
+            
+            // Crear un array separado para el objeto 'response'
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'customers' => $values
+            ];
+            
+            return json_encode($responseData);
+        }else {
+            // La consulta no arrojó resultados
+            $response="false";
+            $message="Error en la consulta";
+            $status="204";
+            $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
+            $values=[];
+            $value = [
+                
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'customers' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+        }
+
+        //  return "true";
+        //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+        }else{
+            $response="false";
+            $message="Error en la consulta: " . mysqli_error($conectar);
+            $status="404";
+            $apiMessage="¡Clientes no seleccionados con éxito!";
+            $values=[];
+
+            $value = [
+                
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'customers' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+                            }
+
+                            
+        
+} 
     public static function getOrders($dta) {
             
                 

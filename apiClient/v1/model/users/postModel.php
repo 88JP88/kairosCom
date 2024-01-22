@@ -635,7 +635,8 @@ class modelPut{
                 // Éxito: La actualización se realizó correctamente
             $response="true";
             $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
-          
+            $apiMessage="¡Repartidor actualizado con éxito!";
+     
                 $status="201";
             } else {
                 $response="false";
