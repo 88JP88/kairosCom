@@ -622,7 +622,7 @@ class modelPut{
         if($param=="del"){
             $query = mysqli_query($conectar, "DELETE FROM generalDelivery where clientId='$clientId' and deliveryId='$deliveryId'");
             $apiMessage="¡Repartidor removido con éxito!";
-        }  if($param!="del"){
+        }  else{
             $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
             $apiMessage="¡Repartidor actualizado con éxito!";
         }
