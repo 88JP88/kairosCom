@@ -257,9 +257,9 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
                 'param' => $param,
                 'value' => $value
             );
-            $getVariables = Flight::request()->query->filter;
-//echo modelGet::getProducts($dta);
-           echo json_encode($getVariables);
+           
+echo modelGet::getProducts($dta);
+          
 
 }else { 
     
