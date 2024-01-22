@@ -25,28 +25,15 @@ Flight::route('POST /postProduct/@apk/@xapk', function ($apk,$xapk) {
 
 
         //DATA EXTRACTION ARRAY - JSON CONVERT
-        $dta = array(
-        
-            'clientId' =>Flight::request()->data->clientId,
-            
-            'productName' => Flight::request()->data->productName,
-            'description' => Flight::request()->data->description,
-            'ean1' => Flight::request()->data->ean1,
-            'ean2' => Flight::request()->data->ean2,
-            'sku' => Flight::request()->data->sku,
-            'productType' => Flight::request()->data->productType,
-            'inPrice' => Flight::request()->data->inPrice,
-            'providerId' => Flight::request()->data->provderId,
-            'imgUrl' => Flight::request()->data->imgUrl,
-            'techSpef' => Flight::request()->data->techSpef
-        );
-        $dt=json_encode($dta);
+      
+        $postData = Flight::request()->data->getData();
+        $dt=json_encode($postData);
         //DATA EXTRACTION**
 
 
                 if ($response11 == 'true' ) {
-
-                $query= modelPost::postProduct($dta);  //DATA MODAL
+                   
+                $query= modelPost::postProduct($postData);  //DATA MODAL
 
             //JSON DECODE RESPPNSE
                 $data = json_decode($query, true);
