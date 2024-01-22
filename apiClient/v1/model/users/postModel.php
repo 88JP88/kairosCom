@@ -619,7 +619,13 @@ class modelPut{
         $deliveryId = mysqli_real_escape_string($conectar, $dta['deliveryId']);
     
         //$dato_encriptado = $keyword;
-        
+        if($param=="del"){
+            $query = mysqli_query($conectar, "DELETE FROM generalDelivery where clientId='$clientId' and deliveryId='$deliveryId'");
+            $apiMessage="¡Repartidor removido con éxito!";
+        }  if($param!="del"){
+            $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
+            $apiMessage="¡Repartidor actualizado con éxito!";
+        }
 
         $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
     
@@ -629,7 +635,7 @@ class modelPut{
                 // Éxito: La actualización se realizó correctamente
             $response="true";
             $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
-            $apiMessage="¡Repartidor actualizado con éxito!";
+          
                 $status="201";
             } else {
                 $response="false";
