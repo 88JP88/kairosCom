@@ -439,7 +439,7 @@ class modelPost {
             }
 
 
-        public static function postDelivery($dta) {
+public static function postDelivery($dta) {
     
            
 
@@ -515,83 +515,83 @@ class modelPost {
         
     }
 
-    public static function postCategorie($dta) {
-    
-           
-
-
-        // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
-    
-        // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
-        $conectar = conn();
-
-        // Verifica si la conexión se realizó correctamente
-        if (!$conectar) {
-            return "Error de conexión a la base de datos";
-        }
-
-        
+    public static function sendValidationEcmCode($dta) {
             
-        $gen_uuid = new generateUuid();
-        $myuuid = $gen_uuid->guidv4();
-        $categoryId = substr($myuuid, 0, 8);
-
-        // Escapa los valores para prevenir inyección SQL
-        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-        $categoryName = mysqli_real_escape_string($conectar, $dta['categoryName']);
-        $comments = mysqli_real_escape_string($conectar, $dta['comments']);
-        $parentId = mysqli_real_escape_string($conectar, $dta['parentId']);
-        $categoryType = mysqli_real_escape_string($conectar, $dta['categoryType']);
-        //$dato_encriptado = $keyword;
-        
-        $keywords=$categoryName." ".$comments." ".$categoryType;
-
-        if($categoryType=="main"){
-$parentId=$categoryId;
-        }
-        
-        $query = mysqli_query($conectar, "INSERT INTO generalCategories (catId, clientId, catName, comments, parentId,catType,keyWords) VALUES ('$categoryId', '$clientId', '$categoryName', '$comments', '$parentId','$categoryType','$keywords')");
-
-        if($query){
-            $filasAfectadas = mysqli_affected_rows($conectar);
-            if ($filasAfectadas > 0) {
-                // Éxito: La actualización se realizó correctamente
-            $response="true";
-            $message="Creación exitosa. Filas afectadas: $filasAfectadas";
-            $apiMessage="¡Categoría creada con éxito!";
-                $status="201";
-            } else {
-                $response="false";
-            $message="Creación no exitosa. Filas afectadas: $filasAfectadas";
-                $status="500";
-                $apiMessage="¡Categoría no creda con éxito!";
-            }
-        //  return "true";
-        //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
-        }else{
-            $response="true";
-            $message="Error en la actualización: " . mysqli_error($conectar);
-            $status="404";
-            $apiMessage="¡Categoría no creada con éxito!";
-        
-                            }
-
-                            $values=[];
-
-                            $value=[
-                                'response' => $response,
-                                'message' => $message,
-                                'apiMessage' => $apiMessage,
-                                'status' => $status
-                                
-                            ];
-                            
-                            array_push($values,$value);
-                            
                 
-                    //echo json_encode($students) ;
-                    return json_encode(['response'=>$values]);
+        // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
         
+            // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+            $conectar = conn();
+    
+            // Verifica si la conexión se realizó correctamente
+            if (!$conectar) {
+                return "Error de conexión a la base de datos";
+            }
+    
+            
+                
+            $gen_uuid = new generateUuid();
+            $myuuid = $gen_uuid->guidv4();
+          
+
+            // Escapa los valores para prevenir inyección SQL
+            $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+            $customerMail = mysqli_real_escape_string($conectar, $dta['customerMail']);
+           //$dato_encriptado = $keyword;
+            
+    
+         $query = mysqli_query($conectar, "SELECT customerId FROM generalCustomers WHERE customerMail='$customerMail' and clientId='$clientId'");
+
+            $num_rows = mysqli_num_rows($query);
+            if($query){
+                      //  $filasAfectadas = mysqli_affected_rows($conectar);
+                            if ($num_rows > 0) 
+                                {
+
+                                    $valCode = substr($myuuid, 0, 8);
+                                    sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Tu Código de confirmación es: ' . $valCode);
+                                    // Éxito: La actualización se realizó correctamente
+                                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' WHERE clientId='$clientId' AND customerMail='$customerMail'");
+
+                                   
+                                    $response="true";
+                                    $message="Envío exitoso.";
+                                    $apiMessage="¡Código enviado con éxito al correo $customerMail!|validMail";
+                                    $status="201";
+                                } 
+                                else {
+                                    $response="false";
+                                    $message="Envío no exitoso.";
+                                    $status="500";
+                                    $apiMessage="¡Debes registrarte como cliente!|invalidMail";
+                                    }
+                    //  return "true";
+                    //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+            }
+            else{
+                    $response="true";
+                    $message="Error en la actualización: " . mysqli_error($conectar);
+                    $status="404";
+                    $apiMessage="¡Envío no exitoso!";
+                
+                }
+
+                $values=[];
+
+                $value=[
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status
+                    
+                ];
+                
+                array_push($values,$value);
+                                    
+                        
+                            //echo json_encode($students) ;
+                            return json_encode(['response'=>$values]);
+            
     }
     }
 
