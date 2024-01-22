@@ -1050,192 +1050,59 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         
+   
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
     
-
-
-
-
-        
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-    
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-        
-        );
-    $curl = curl_init();
-    
-    // Configurar las opciones de la sesión cURL
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    
-    // Ejecutar la solicitud y obtener la respuesta
-    $response11 = curl_exec($curl);
-
-    
-
-
-    curl_close($curl);
-
-    
-
-        // Realizar acciones basadas en los valores de los encabezados
-
-
+ 
+ 
+        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
+ 
+ 
+ //DATA EXTRACTION ARRAY - JSON CONVERT
+ $dta = array(
+ 
+ 'clientId' =>Flight::request()->data->clientId,
+ 'customerMail' => Flight::request()->data->customerMail,
+ 'valCode' => Flight::request()->data->valCode
+ );
+ $dt=json_encode($dta);
+ //DATA EXTRACTION**
+ 
+ 
         if ($response11 == 'true' ) {
-
-
-
-            $clientId= Flight::request()->data->clientId;
-            $customerMail= Flight::request()->data->customerMail;
-            $valCode= Flight::request()->data->valCode;
-               
-
-          
-
-        
-        
-            $conectar=conn();
-            $query3 = mysqli_query($conectar, "SELECT customerId,codeAttemps from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId' and ecmCode='$valCode'");
-            
-            // Verificar si la consulta fue exitosa
-            $fila = $query3->fetch_assoc();
-
-                // Obtener la primera fila como un arreglo asociativo
-                $num_rows = mysqli_num_rows($query3);
-
-                if ($num_rows > 0) {
-$attemps=$fila['codeAttemps'];
-if($attemps<=3){
-                    // Obtener el valor de la columna 'coId'
-                    //mensaje al correo del clientr
-ini_set( 'display_errors', 1 );
-error_reporting( E_ALL );
-$from = "confirmation@lugma.tech";
-$to = $customerMail;
-$subject = "Código de confirmación para compra";
-
-$message = 'Tu compra ha sido validada.';
-
-
-$headers = "From:" . $from;
-mail($to,$subject,$message, $headers);
-                    $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='0',codeAttemps=0 where clientId='$clientId' and customerId IN (SELECT customerId WHERE customerMail='$customerMail' and clientId='$clientId')");
-                    if ($query) {
-                        echo "true|¡Código validado con éxito al mail!|validatedMail";
-                    } else {
-                        // Si hay un error, imprime el mensaje de error
-                        
-                        $response12="false|" . mysqli_error($conectar);
-
-                        //inicio de log
-                        require_once 'kronos/postLog.php';
-                   
-                        $backtrace = debug_backtrace();
-                        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-                        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-                       $justFileName = basename($currentFile);
-                       $rutaCompleta = __DIR__;
-                       $status = http_response_code();
-                       $cid=Flight::request()->data->clientId;
-                       
-                       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-                       $array = explode("|", $response12);
-                       $response12=$array[0];
-                       $message=$array[1];
-                       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-                       //final de log
-                        echo "false|" . mysqli_error($conectar)."|invalidDb";
-                    }
-
-                }else{
-                    $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=0 where clientId='$clientId' and customerMail='$customerMail'");
-                   
-                    echo "false|¡Exediste el número de intentos máximos!|codeAttemps";
-                }
-
-
-
-                }else{
-                    $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=(SELECT codeAttemps FROM generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId')+1 where clientId='$clientId' and customerMail='$customerMail'");
-                    $query3 = mysqli_query($conectar, "SELECT customerId,codeAttemps from generalCustomers WHERE customerMail='$customerMail' AND clientId='$clientId'");
-            
-            // Verificar si la consulta fue exitosa
-            $fila = $query3->fetch_assoc();
-            $attemps=$fila['codeAttemps'];
-            if($attemps>=3){
-                $query5 = mysqli_query($conectar, "UPDATE generalCustomers SET codeAttemps=0 where clientId='$clientId' and customerMail='$customerMail'");
-                   
-                echo "false|¡Exediste el número de intentos máximos!|codeAttemps";
-            }else{
-                    echo "false|¡Código o correo incorrecto!|invalidMailCode";
-            }
-                }
-            
-        
-          
-    
-        
-        // echo json_encode($response1);
+ 
+        $query= modelPost::validationEcmCode($dta);  //DATA MODAL
+ 
+    //JSON DECODE RESPPNSE
+        $data = json_decode($query, true);
+        $responseSQL=$data['response'][0]['response'];
+        $messageSQL=$data['response'][0]['message'];
+        $apiMessageSQL=$data['response'][0]['apiMessage'];
+        $apiStatusSQL=$data['response'][0]['status'];
+        //JSON DECODE**
+ 
         } else {
-            $response12='false|¡Autenticación fallida!'.$response11;
-
-            //inicio de log
-            require_once 'kronos/postLog.php';
-       
-            $backtrace = debug_backtrace();
-            $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-            $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-           $justFileName = basename($currentFile);
-           $rutaCompleta = __DIR__;
-           $status = http_response_code();
-           $cid=Flight::request()->data->clientId;
-           
-           //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-           $array = explode("|", $response12);
-           $response12=$array[0];
-           $message=$array[1];
-           kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-           //final de log
-            echo 'false|¡Autenticación fallida!'.$response11;
-        // echo json_encode($data);
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
+ 
         }
     } else {
-
-        $response12='false|¡Encabezados faltantes!';
-
-        //inicio de log
-        require_once 'kronos/postLog.php';
-   
-        $backtrace = debug_backtrace();
-        $info['Función'] = $backtrace[1]['function']; // 1 para obtener la función actual, 2 para la anterior, etc.
-        $currentFile = __FILE__; // Obtiene la ruta completa y el nombre del archivo actual
-       $justFileName = basename($currentFile);
-       $rutaCompleta = __DIR__;
-       $status = http_response_code();
-       $cid=Flight::request()->data->clientId;
-       
-       //$response1 = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-       $array = explode("|", $response12);
-       $response12=$array[0];
-       $message=$array[1];
-       kronos($response12,$message,$message, $info['Función'],$justFileName,$rutaCompleta,$cid,$dt,$url,$status,'true');
-       //final de log
-        echo 'false|¡Encabezados faltantes!';
+ 
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
+ 
+ 
+        kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+ 
+ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+ 
 });
 
 
