@@ -81,32 +81,14 @@ Flight::route('POST /postCatalog/@apk/@xapk', function ($apk,$xapk) {
 
 
         //DATA EXTRACTION ARRAY - JSON CONVERT
-        $dta = array(
-        
-            'clientId' =>Flight::request()->data->clientId,
-            
-            'productId' => Flight::request()->data->productId,
-            'categoryId' => Flight::request()->data->categoryId,
-            'stock' => Flight::request()->data->stock,
-            'secStock' => Flight::request()->data->secStock,
-            'minQty' => Flight::request()->data->minQty,
-            'maxQty' => Flight::request()->data->maxQty,
-            'storeId' => Flight::request()->data->storeId,
-            'outPrice' => Flight::request()->data->outPrice,
-            'promoId' => Flight::request()->data->promoId,
-            'discount' => Flight::request()->data->discount,
-            'unit' => Flight::request()->data->unit,
-            'readUnit' => Flight::request()->data->readUnit,
-            'unitQty' => Flight::request()->data->unitQty,
-            'unitUnit' => Flight::request()->data->unitUnit
-        );
-        $dt=json_encode($dta);
+        $postData = Flight::request()->data->getData();
+        $dt=json_encode($postData);
         //DATA EXTRACTION**
 
 
                 if ($response11 == 'true' ) {
 
-                $query= modelPost::postCatalog($dta);  //DATA MODAL
+                $query= modelPost::postCatalog($postData);  //DATA MODAL
 
             //JSON DECODE RESPPNSE
                 $data = json_decode($query, true);
@@ -153,21 +135,14 @@ Flight::route('POST /postStore/@apk/@xapk', function ($apk,$xapk) {
 
 
         //DATA EXTRACTION ARRAY - JSON CONVERT
-        $dta = array(
-        
-            'clientId' =>Flight::request()->data->clientId,
-            
-            'storeName' => Flight::request()->data->storeName,
-            'comments' => Flight::request()->data->comments,
-            'storeType' => Flight::request()->data->storeType
-        );
-        $dt=json_encode($dta);
+        $postData = Flight::request()->data->getData();
+        $dt=json_encode($postData);
         //DATA EXTRACTION**
 
 
                 if ($response11 == 'true' ) {
 
-                $query= modelPost::postSrore($dta);  //DATA MODAL
+                $query= modelPost::postSrore($postData);  //DATA MODAL
 
             //JSON DECODE RESPPNSE
                 $data = json_decode($query, true);
@@ -204,12 +179,7 @@ Flight::route('POST /postCategorie/@apk/@xapk', function ($apk,$xapk) {
   
            
 
-                    $clientId= Flight::request()->data->clientId;
-                    $categoryName= Flight::request()->data->categoryName;
-                    $comments= Flight::request()->data->comments;
-                    $parentId= Flight::request()->data->parentId;
-                    $categoryType= Flight::request()->data->categoryType;
-
+                 
 
             header("Access-Control-Allow-Origin: *");
             // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
@@ -221,22 +191,14 @@ Flight::route('POST /postCategorie/@apk/@xapk', function ($apk,$xapk) {
 
 
         //DATA EXTRACTION ARRAY - JSON CONVERT
-        $dta = array(
-        
-            'clientId' =>Flight::request()->data->clientId,
-            
-            'categoryName' => Flight::request()->data->categoryName,
-            'comments' => Flight::request()->data->comments,
-            'parentId' => Flight::request()->data->parentId,
-            'categoryType' => Flight::request()->data->categoryType
-        );
-        $dt=json_encode($dta);
+        $postData = Flight::request()->data->getData();
+        $dt=json_encode($postData);
         //DATA EXTRACTION**
 
 
                 if ($response11 == 'true' ) {
 
-                $query= modelPost::postCategorie($dta);  //DATA MODAL
+                $query= modelPost::postCategorie($postData);  //DATA MODAL
 
             //JSON DECODE RESPPNSE
                 $data = json_decode($query, true);
@@ -295,9 +257,9 @@ Flight::route('GET /getProducts/@clientId/@filter/@param/@value', function ($cli
                 'param' => $param,
                 'value' => $value
             );
-
-echo modelGet::getProducts($dta);
-           
+            $getVariables = Flight::request()->query->getData();
+//echo modelGet::getProducts($dta);
+           echo $getVariables;
 
 }else { 
     
