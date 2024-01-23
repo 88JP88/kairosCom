@@ -601,13 +601,13 @@ class modelPut{
                                                 // Éxito: La actualización se realizó correctamente
                                             $response="true";
                                             $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
-                                            $apiMessage="¡Tienda actualizada con éxito!";
+                                            $apiMessage="¡Catálogo actualizado con éxito!";
                                                 $status="201";
                                             } else {
                                                 $response="false";
                                             $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
                                                 $status="500";
-                                                $apiMessage="¡Tienda no actualizado con éxito!";
+                                                $apiMessage="¡Catálogo no actualizado con éxito!";
                                             }
                                         //  return "true";
                                         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -615,7 +615,7 @@ class modelPut{
                                             $response="true";
                                             $message="Error en la actualización: " . mysqli_error($conectar);
                                             $status="404";
-                                            $apiMessage="¡Tienda no actualizado con éxito!";
+                                            $apiMessage="¡Catálogo no actualizado con éxito!";
                                         
                                                             }
                                 
