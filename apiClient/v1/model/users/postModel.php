@@ -767,7 +767,7 @@ class modelPut{
         //  return "true";
         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
         }else{
-            $response="true";
+            $response="false";
             $message="Error en la actualización: " . mysqli_error($conectar);
             $status="404";
             $apiMessage="¡Repartidor no actualizado con éxito!";
