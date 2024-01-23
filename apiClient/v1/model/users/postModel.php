@@ -742,12 +742,12 @@ class modelPut{
         if($param=="del"){
             $query = mysqli_query($conectar, "DELETE FROM generalDelivery where clientId='$clientId' and deliveryId='$deliveryId'");
             $apiMessage="¡Repartidor removido con éxito!";
-        }  else{
+        }  if($param!="del"){
             $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
             $apiMessage="¡Repartidor actualizado con éxito!";
         }
 
-        $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
+       // $query = mysqli_query($conectar, "UPDATE generalDelivery SET $param='$value' where clientId='$clientId' and deliveryId='$deliveryId'");
     
         if($query){
             $filasAfectadas = mysqli_affected_rows($conectar);
