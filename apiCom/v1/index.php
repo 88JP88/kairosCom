@@ -276,12 +276,12 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 
 
-Flight::route('GET /getCatalogs/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+Flight::route('GET /getCatalogs/@apiData', function ($apiData) {
    
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
-    
+    $postData = json_decode($apiData, true);
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
@@ -294,16 +294,9 @@ Flight::route('GET /getCatalogs/@clientId/@filter/@param/@value', function ($cli
 
         if ($response1 == 'true' ) {
            
-            $dta = array(
-        
-                'clientId' =>$clientId,
-                
-                'filter' => $filter,
-                'param' => $param,
-                'value' => $value
-            );
+           
 
-echo modelGet::getCatalogs($dta);
+echo modelGet::getCatalogs($postData);
            
 
 }else { 
@@ -328,11 +321,11 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 
 
-Flight::route('GET /getStores/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+Flight::route('GET /getStores/@apiData', function ($apiData) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
-    
+    $postData = json_decode($apiData, true);
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
@@ -345,16 +338,8 @@ Flight::route('GET /getStores/@clientId/@filter/@param/@value', function ($clien
 
         if ($response1 == 'true' ) {
            
-            $dta = array(
-        
-                'clientId' =>$clientId,
-                
-                'filter' => $filter,
-                'param' => $param,
-                'value' => $value
-            );
-
-echo modelGet::getStores($dta);
+          
+echo modelGet::getStores($postData);
            
 
 }else { 
@@ -379,11 +364,11 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 
 
-Flight::route('GET /getCategories/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+Flight::route('GET /getCategories/@apiData', function ($apiData) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
-    
+    $postData = json_decode($apiData, true);
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
@@ -393,26 +378,13 @@ Flight::route('GET /getCategories/@clientId/@filter/@param/@value', function ($c
         $xApiKey = $headers['x-api-Key'];
 
         $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
-        $dta = array(
+      
         
-            'clientId' =>$clientId,
-            
-            'filter' => $filter,
-            'param' => $param,
-            'value' => $value
-        );
         if ($response1 == 'true' ) {
            
-            $dta = array(
-        
-                'clientId' =>$clientId,
-                
-                'filter' => $filter,
-                'param' => $param,
-                'value' => $value
-            );
+          
 
-echo modelGet::getCategories($dta);
+echo modelGet::getCategories($postData);
 //  echo json_encode($dta);         
 
 }else { 
