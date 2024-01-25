@@ -931,9 +931,11 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-Flight::route('GET /getClientOrders/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
+    $decodedData = urldecode($apiData);
+    $postData = json_decode($decodedData, true);
     $headers = getallheaders();
     
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
@@ -948,16 +950,8 @@ Flight::route('GET /getClientOrders/@clientId/@filter/@param/@value', function (
 
         if ($response1 == 'true' ) {
            
-            $dta = array(
-        
-                'clientId' =>$clientId,
-                
-                'filter' => $filter,
-                'param' => $param,
-                'value' => $value
-            );
-
-echo modelGet::getOrders($dta);
+           
+echo modelGet::getOrders($postData);
            
 
 }else { 
