@@ -317,8 +317,9 @@ if ($numRows > 0) {
             if($filter=="all"){
 
         
-        
-                $query= mysqli_query($conectar,"SELECT gc.customerId,gc.clientId,gc.customerName,gc.customerLastName,gc.customerMail,gc.customerPoints,gc.customerPhone,gc.customerStars,gc.customerType,gc.isActive,gr.pointsEq,gr.pointsValue FROM generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId where gc.clientId='$clientId'");
+                $query= mysqli_query($conectar,"SELECT gor.orderId,gor.carId,gor.clientId,gor.userId,gor.shopperId,gor.storeId,gor.totalAmount,gor.subTotalAmount,gor.orderProgress,gor.saver,gor.paymentMethod,gor.returnCash,gor.transactionStatus,gor.numberProducts,gor.numberPacks,gor.inDate,gor.inTime,gor.incId,gor.paymentReference,gor.payWith,gor.bankEntity,gc.customerName,gc.customerLastName,gs.storeName,gor.orderPayload,gor.deliveryMethod,gor.deliveryAdd,gor.deliveryPerson,gdel.deliveryName,gdel.deliveryLastName,gdel.distanceRules,gor.deliveryStatus FROM generalOrders gor JOIN generalCustomers gc ON gor.shopperId=gc.customerId JOIN generalStores gs ON gor.storeId=gs.storeId JOIN generalDelivery gdel ON gdel.deliveryId=gor.deliveryPerson where gor.clientId='$clientId' ORDER BY gor.incId DESC LIMIT 50");
+
+               // $query= mysqli_query($conectar,"SELECT gc.customerId,gc.clientId,gc.customerName,gc.customerLastName,gc.customerMail,gc.customerPoints,gc.customerPhone,gc.customerStars,gc.customerType,gc.isActive,gr.pointsEq,gr.pointsValue FROM generalCustomers gc JOIN generalRules gr ON gr.clientId=gc.clientId where gc.clientId='$clientId'");
             }
             
         
