@@ -765,11 +765,12 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 });
 
 
-Flight::route('GET /getCustomers/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+Flight::route('GET /getCustomers/@apiData', function ($apiData) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
     
+    $postData = json_decode($apiData, true);
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
@@ -782,16 +783,9 @@ Flight::route('GET /getCustomers/@clientId/@filter/@param/@value', function ($cl
 
         if ($response1 == 'true' ) {
            
-            $dta = array(
-        
-                'clientId' =>$clientId,
-                
-                'filter' => $filter,
-                'param' => $param,
-                'value' => $value
-            );
+          
 
-echo modelGet::getCustomers($dta);
+echo modelGet::getCustomers($postData);
            
 
 }else { 
