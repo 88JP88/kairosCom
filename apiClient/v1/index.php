@@ -1826,7 +1826,7 @@ if($respuesta=="false_point_lack"){
 
 
 
-Flight::route('GET /getDelivery/@clientId/@filter/@param/@value', function ($clientId,$filter,$param,$value) {
+Flight::route('GET /getDelivery/@apiData', function ($apiData) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1843,16 +1843,9 @@ Flight::route('GET /getDelivery/@clientId/@filter/@param/@value', function ($cli
 
         if ($response1 == 'true' ) {
            
-            $dta = array(
-        
-                'clientId' =>$clientId,
-                
-                'filter' => $filter,
-                'param' => $param,
-                'value' => $value
-            );
+         
 
-echo modelGet::getDelivery($dta);
+echo modelGet::getDelivery($apiData);
            
 
 }else { 
