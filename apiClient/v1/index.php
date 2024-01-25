@@ -770,7 +770,7 @@ Flight::route('GET /getCustomers/@apiData', function ($apiData) {
     // Leer los encabezados
     $headers = getallheaders();
     $erlDecode= urldecode($apiData);
-    $postData = json_decode($erlDecode, true);
+    $postData = json_decode($apiData, true);
 
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (isset($headers['Api-Key']) ) {
@@ -785,8 +785,8 @@ Flight::route('GET /getCustomers/@apiData', function ($apiData) {
         if ($response1 == 'true' ) {
            
           
-
-echo modelGet::getCustomers($postData);
+echo $apiData;
+//echo modelGet::getCustomers($postData);
            
 
 }else { 
