@@ -1030,12 +1030,12 @@ class modelPut{
                                 //$dato_encriptado = $keyword;
                                 
                                                                 
-                                        if($param==="deliveryStatus"){
+                                        if($param=="deliveryStatus"){
 
                                             $query = mysqli_query($conectar, "UPDATE generalOrders SET deliveryStatus='assigned' where clientId='$clientId' and orderId='$orderId'");
 
                                         }
-                                        if($param==="deliveryPerson"){
+                                        if($param=="deliveryPerson"){
 
                                             $query = mysqli_query($conectar, "UPDATE generalOrders SET $param='$value',deliveryStatus='undefined' where clientId='$clientId' and orderId='$orderId'");
 
