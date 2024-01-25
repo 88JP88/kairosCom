@@ -638,7 +638,8 @@ public static function postDelivery($dta) {
                                         sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Tu compra ha sido validada.');
                                         $response="true";
                                         $message="Envío exitoso.";
-                                        $apiMessage="¡Código validado con éxito|validatedMail";
+                                        $apiMessage="¡Código validado con éxito!";
+                                        $statusCode="validatedMail";
                                         $status="202";
                                     
                                     }else{
@@ -649,7 +650,8 @@ public static function postDelivery($dta) {
 
                                         $response="false";
                                         $message="Envío exitoso.";
-                                        $apiMessage="¡Exediste el número de intentos máximos!|codeAttemps";
+                                        $apiMessage="¡Exediste el número de intentos máximos!";
+                                        $statusCode="codeAttemps";
                                         $status="501";
                                     }
 
@@ -673,14 +675,16 @@ public static function postDelivery($dta) {
                                 $response="false";
                                 $message="Envío no exitoso.";
                                 $status="501";
-                                $apiMessage="¡Exediste el número de intentos máximos!|codeAttemps";
+                                $apiMessage="¡Exediste el número de intentos máximos!";
+                                $statusCode="codeAttemps";
                             }else{
                                 sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Código incorrecto.');
 
                                     $response="false";
                                     $message="Envío no exitoso.";
                                     $status="501";
-                                    $apiMessage="¡Código o correo incorrecto!|invalidMailCode";
+                                    $apiMessage="¡Código o correo incorrecto!";
+                                    $statusCode="invalidMailCode";
                             }
 
                                     
@@ -702,7 +706,8 @@ public static function postDelivery($dta) {
                     'response' => $response,
                     'message' => $message,
                     'apiMessage' => $apiMessage,
-                    'status' => $status
+                    'status' => $status,
+                    'statusCode'=>$statusCode
                     
                 ];
                 
