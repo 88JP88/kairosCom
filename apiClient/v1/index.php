@@ -953,8 +953,8 @@ Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
         if ($response1 == 'true' ) {
            
            
-//echo modelGet::getOrders($postData);
-     echo $postData;      
+echo modelGet::getOrders($postData);
+     //echo $postData;      
 
 }else { 
     
