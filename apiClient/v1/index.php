@@ -953,7 +953,7 @@ Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
            
            
 //echo modelGet::getOrders($postData);
-     echo json_encode($decodedData1);      
+     echo json_encode($postData);      
 
 }else { 
     
