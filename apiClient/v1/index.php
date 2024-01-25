@@ -934,7 +934,7 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
-   // $decodedData = urldecode($apiData);
+    $decodedData = urldecode($apiData);
     
     $postData = json_decode($apiData, true);
     
@@ -954,7 +954,7 @@ Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
            
            
 //echo modelGet::getOrders($postData);
-    echo $apiData;      
+    echo $decodedData;      
 
 }else { 
     
