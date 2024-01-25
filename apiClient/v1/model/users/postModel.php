@@ -1040,6 +1040,11 @@ class modelPut{
                                             $query = mysqli_query($conectar, "UPDATE generalOrders SET $param='$value',deliveryStatus='undefined' where clientId='$clientId' and orderId='$orderId'");
 
                                         }
+                                        if($param=="orderProgress"){
+
+                                            $query = mysqli_query($conectar, "UPDATE generalOrders SET $param='$value',deliveryStatus='undefined' where clientId='$clientId' and orderId='$orderId'");
+
+                                        }
                                 if($query){
                                     $filasAfectadas = mysqli_affected_rows($conectar);
                                     if ($filasAfectadas > 0) {
