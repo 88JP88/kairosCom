@@ -785,7 +785,7 @@ Flight::route('GET /getCustomers/@apiData', function ($apiData) {
         if ($response1 == 'true' ) {
            
           
-echo $postData;
+echo $apiData;
 //echo modelGet::getCustomers($postData);
            
 
