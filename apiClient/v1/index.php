@@ -785,8 +785,8 @@ Flight::route('GET /getCustomers/@apiData', function ($apiData) {
         if ($response1 == 'true' ) {
            
           
-//echo $apiData;
-echo modelGet::getCustomers($postData);
+echo $postData;
+//echo modelGet::getCustomers($postData);
            
 
 }else { 
@@ -937,7 +937,7 @@ Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
    // $decodedData = urldecode($apiData);
     
     $postData = json_decode($apiData, true);
-    $postData=json_decode($postData);
+    
     $headers = getallheaders();
     
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
@@ -953,8 +953,8 @@ Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
         if ($response1 == 'true' ) {
            
            
-echo modelGet::getOrders($postData);
-     //echo $postData;      
+//echo modelGet::getOrders($postData);
+     echo $postData;      
 
 }else { 
     
