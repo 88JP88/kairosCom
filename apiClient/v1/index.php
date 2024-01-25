@@ -937,6 +937,7 @@ Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
    // $decodedData = urldecode($apiData);
     
     $postData = json_decode($apiData, true);
+    $postData=json_decode($postData);
     $headers = getallheaders();
     
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
