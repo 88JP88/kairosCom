@@ -1070,6 +1070,7 @@ Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         $messageSQL=$data['response'][0]['message'];
         $apiMessageSQL=$data['response'][0]['apiMessage'];
         $apiStatusSQL=$data['response'][0]['status'];
+        $apiStatusCode=$data['response'][0]['statusCode'];
         //JSON DECODE**
  
         } else {
@@ -1077,7 +1078,7 @@ Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
             $apiMessageSQL="¡Autenticación fallida!";
             $apiStatusSQL="401";
             $messageSQL="¡Autenticación fallida!";
- 
+            $apiStatusCode="undefined";
         }
     } else {
  
@@ -1085,12 +1086,13 @@ Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
         $apiMessageSQL="¡Encabezados faltantes!";
         $apiStatusSQL="403";
         $messageSQL="¡Encabezados faltantes!";
+        $apiStatusCode="undefined";
     }
  
  
         kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
  
- echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+ echo modelResponse::responsePostCode($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL,$apiStatusCode);//RESPONSE FUNCTION
  
 });
 
