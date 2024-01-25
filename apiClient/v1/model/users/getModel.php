@@ -305,7 +305,7 @@ if ($numRows > 0) {
             }
     
             
-                
+                $dta=json_decode($dta);
 
             // Escapa los valores para prevenir inyección SQL
             $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
