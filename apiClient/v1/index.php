@@ -935,6 +935,7 @@ Flight::route('GET /getClientOrders/@apiData', function ($apiData) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $decodedData = urldecode($apiData);
+    $decodedData = urldecode($decodedData);
     $postData = json_decode($decodedData, true);
     $headers = getallheaders();
     
