@@ -549,7 +549,7 @@ public static function postDelivery($dta) {
                                 {
 
                                     $valCode = substr($myuuid, 0, 8);
-                                    sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Tu Código de confirmación es: ' . $valCode);
+                                    sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Tu Código de confirmación es: <strong>' . $valCode.'</strong>');
                                     // Éxito: La actualización se realizó correctamente
                                     $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='$valCode' WHERE clientId='$clientId' AND customerMail='$customerMail'");
 
@@ -635,7 +635,7 @@ public static function postDelivery($dta) {
                                         $query = mysqli_query($conectar, "UPDATE generalCustomers SET ecmCode='0',codeAttemps=0 where clientId='$clientId' and customerId IN (SELECT customerId WHERE customerMail='$customerMail' and clientId='$clientId')");
 
                                        
-                                        sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','Tu compra ha sido validada.');
+                                        sendMail::sendConfirmationOrderCodeMail('confirmation@lugma.tech',$customerMail,'Código de confirmación para compra','<strong>Tu compra ha sido validada.</strong>');
                                         $response="true";
                                         $message="Envío exitoso.";
                                         $apiMessage="¡Código validado con éxito!";

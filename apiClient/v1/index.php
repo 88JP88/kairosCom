@@ -533,21 +533,14 @@ Flight::route('POST /putClientOrderPaymentStatus/@apk/@xapk', function ($apk,$xa
                                         $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
 
-                                //DATA EXTRACTION ARRAY - JSON CONVERT
-                                $dta = array(
-                                        
-                                    'clientId' =>Flight::request()->data->clientId,
-                                    'orderId' => Flight::request()->data->orderId,
-                                    'reference' => Flight::request()->data->reference
-                                    
-                                );
-                                $dt=json_encode($dta);
+                             
                                 //DATA EXTRACTION**
-
+                                $postData = Flight::request()->data->getData();
+                                $dt=json_encode($postData);
 
                                         if ($response11 == 'true' ) {
 
-                                        $query= modelPut::putOrderPaymentStatus($dta);  //DATA MODAL
+                                        $query= modelPut::putOrderPaymentStatus($postData);  //DATA MODAL
 
                                     //JSON DECODE RESPPNSE
                                         $data = json_decode($query, true);
@@ -595,21 +588,14 @@ Flight::route('POST /putClientOrderStatus/@apk/@xapk', function ($apk,$xapk) {
 
 
 //DATA EXTRACTION ARRAY - JSON CONVERT
-$dta = array(
-        
-    'clientId' =>Flight::request()->data->clientId,
-    'orderId' => Flight::request()->data->orderId,
-    'param' => Flight::request()->data->param,
-    'value' => Flight::request()->data->value
-    
-);
-$dt=json_encode($dta);
+$postData = Flight::request()->data->getData();
+$dt=json_encode($postData);
 //DATA EXTRACTION**
 
 
         if ($response11 == 'true' ) {
 
-        $query= modelPut::putOrderStatus($dta);  //DATA MODAL
+        $query= modelPut::putOrderStatus($postData);  //DATA MODAL
 
     //JSON DECODE RESPPNSE
         $data = json_decode($query, true);
@@ -654,24 +640,13 @@ Flight::route('POST /postCustomer/@apk/@xapk', function ($apk,$xapk) {
 
                $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
-
-       //DATA EXTRACTION ARRAY - JSON CONVERT
-       $dta = array(
-        
-        'clientId' =>Flight::request()->data->clientId,
-        'customerName' => Flight::request()->data->customerName,
-        'customerLastName' => Flight::request()->data->customerLastName,
-        'customerMail' => Flight::request()->data->customerMail,
-        'customerPhone' => Flight::request()->data->customerPhone,
-        'customerType' => Flight::request()->data->customerType
-    );
-    $dt=json_encode($dta);
-       //DATA EXTRACTION**
+               $postData = Flight::request()->data->getData();
+               $dt=json_encode($postData);
 
 
                if ($response11 == 'true' ) {
 
-               $query= modelPost::postCustomer($dta);  //DATA MODAL
+               $query= modelPost::postCustomer($postData);  //DATA MODAL
 
            //JSON DECODE RESPPNSE
                $data = json_decode($query, true);
@@ -715,24 +690,14 @@ Flight::route('POST /postDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
-
-
-//DATA EXTRACTION ARRAY - JSON CONVERT
-$dta = array(
-
-'clientId' =>Flight::request()->data->clientId,
-'deliveryName' => Flight::request()->data->deliveryName,
-'deliveryLastName' => Flight::request()->data->deliveryLastName,
-'deliveryMail' => Flight::request()->data->deliveryMail,
-'deliveryContact' => Flight::request()->data->deliveryContact
-);
-$dt=json_encode($dta);
+       $postData = Flight::request()->data->getData();
+       $dt=json_encode($postData);
 //DATA EXTRACTION**
 
 
        if ($response11 == 'true' ) {
 
-       $query= modelPost::postDelivery($dta);  //DATA MODAL
+       $query= modelPost::postDelivery($postData);  //DATA MODAL
 
    //JSON DECODE RESPPNSE
        $data = json_decode($query, true);
@@ -758,7 +723,7 @@ $dt=json_encode($dta);
    }
 
 
-       kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+     //  kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
 
 echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
@@ -821,22 +786,14 @@ Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
 
                $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
-
-       //DATA EXTRACTION ARRAY - JSON CONVERT
-       $dta = array(
-               
-           'clientId' =>Flight::request()->data->clientId,
-           'param' => Flight::request()->data->param,
-           'value' => Flight::request()->data->value,
-           'customerId' => Flight::request()->data->customerId
-       );
-       $dt=json_encode($dta);
+               $postData = Flight::request()->data->getData();
+               $dt=json_encode($postData);
        //DATA EXTRACTION**
 
 
                if ($response11 == 'true' ) {
 
-               $query= modelPut::putCustomer($dta);  //DATA MODAL
+               $query= modelPut::putCustomer($postData);  //DATA MODAL
 
            //JSON DECODE RESPPNSE
                $data = json_decode($query, true);
@@ -862,7 +819,7 @@ Flight::route('POST /putCustomer/@apk/@xapk', function ($apk,$xapk) {
            }
 
        
-               kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+              // kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
        
        echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
@@ -882,20 +839,13 @@ Flight::route('POST /putDelivery/@apk/@xapk', function ($apk,$xapk) {
 
 
             //DATA EXTRACTION ARRAY - JSON CONVERT
-            $dta = array(
-                    
-                'clientId' =>Flight::request()->data->clientId,
-                'param' => Flight::request()->data->param,
-                'value' => Flight::request()->data->value,
-                'deliveryId' => Flight::request()->data->deliveryId
-            );
-            $dt=json_encode($dta);
-            //DATA EXTRACTION**
+            $postData = Flight::request()->data->getData();
+            $dt=json_encode($postData);
 
 
                     if ($response11 == 'true' ) {
 
-                    $query= modelPut::putDelivery($dta);  //DATA MODAL
+                    $query= modelPut::putDelivery($postData);  //DATA MODAL
 
                 //JSON DECODE RESPPNSE
                     $data = json_decode($query, true);
@@ -992,20 +942,13 @@ Flight::route('POST /sendEcmValCode/@apk/@xapk', function ($apk,$xapk) {
 
        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
-
-//DATA EXTRACTION ARRAY - JSON CONVERT
-$dta = array(
-
-'clientId' =>Flight::request()->data->clientId,
-'customerMail' => Flight::request()->data->customerMail
-);
-$dt=json_encode($dta);
-//DATA EXTRACTION**
+       $postData = Flight::request()->data->getData();
+       $dt=json_encode($postData);
 
 
        if ($response11 == 'true' ) {
 
-       $query= modelPost::sendValidationEcmCode($dta);  //DATA MODAL
+       $query= modelPost::sendValidationEcmCode($postData);  //DATA MODAL
 
    //JSON DECODE RESPPNSE
        $data = json_decode($query, true);
@@ -1050,21 +993,14 @@ Flight::route('POST /validateEcmValCode/@apk/@xapk', function ($apk,$xapk) {
  
         $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
  
- 
- //DATA EXTRACTION ARRAY - JSON CONVERT
- $dta = array(
- 
- 'clientId' =>Flight::request()->data->clientId,
- 'customerMail' => Flight::request()->data->customerMail,
- 'valCode' => Flight::request()->data->valCode
- );
- $dt=json_encode($dta);
+        $postData = Flight::request()->data->getData();
+        $dt=json_encode($postData);
  //DATA EXTRACTION**
  
  
         if ($response11 == 'true' ) {
  
-        $query= modelPost::validationEcmCode($dta);  //DATA MODAL
+        $query= modelPost::validationEcmCode($postData);  //DATA MODAL
  
     //JSON DECODE RESPPNSE
         $data = json_decode($query, true);
