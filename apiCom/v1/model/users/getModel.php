@@ -604,8 +604,10 @@ public static function getCategories($dta) {
                 }
                 if($filter=="filter"){
                         
-                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and $param='$value'");
-
+                    $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords, gc_parent.catName AS parentCatName
+                    FROM generalCategories gc
+                    LEFT JOIN generalCategories gc_parent ON gc.parentId = gc_parent.catId
+                    WHERE gc.parentId = '$param'");
                 }
 
         if($query){
