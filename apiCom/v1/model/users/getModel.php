@@ -602,14 +602,14 @@ public static function getCategories($dta) {
                     $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords, gc_parent.catName AS parentCatName
                     FROM generalCategories gc
                     LEFT JOIN generalCategories gc_parent ON gc.parentId = gc_parent.catId
-                    WHERE gc.$param LIKE '%$value%'");
+                    WHERE gc.$param LIKE '%$value%' and gc.clientId='$clientId'");
                 }
                 if($filter=="filter"){
                         
                     $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords, gc_parent.catName AS parentCatName
                     FROM generalCategories gc
                     LEFT JOIN generalCategories gc_parent ON gc.parentId = gc_parent.catId
-                    WHERE gc.$param = '$value'");
+                    WHERE gc.$param = '$value' and gc.clientId='$clientId'");
                 }
 
         if($query){
