@@ -38,8 +38,8 @@ class modelGet {
     
             
             
-        $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules,deliveryMail,deliveryContact FROM generalDelivery where clientId='$clientId'");
-    
+        $query= mysqli_query($conectar,"SELECT deliveryId,deliveryName,deliveryLastName,clientId,isActive,distanceRules,deliveryMail,deliveryContact FROM generalDelivery where clientId='$clientId' and $param LIKE '%$value%'");
+              
     
     }
             if($query){
