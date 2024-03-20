@@ -271,6 +271,7 @@ class modelPost {
         $comments = mysqli_real_escape_string($conectar, $dta['comments']);
         $parentId = mysqli_real_escape_string($conectar, $dta['parentId']);
         $categoryType = mysqli_real_escape_string($conectar, $dta['categoryType']);
+        $imgCat = mysqli_real_escape_string($conectar, $dta['imgCat']);
         //$dato_encriptado = $keyword;
         
         $keywords=$categoryName." ".$comments." ".$categoryType;
@@ -279,7 +280,7 @@ class modelPost {
 $parentId=$categoryId;
         }
         
-        $query = mysqli_query($conectar, "INSERT INTO generalCategories (catId, clientId, catName, comments, parentId,catType,keyWords) VALUES ('$categoryId', '$clientId', '$categoryName', '$comments', '$parentId','$categoryType','$keywords')");
+        $query = mysqli_query($conectar, "INSERT INTO generalCategories (catId, clientId, catName, comments, parentId,catType,keyWords,imgCat) VALUES ('$categoryId', '$clientId', '$categoryName', '$comments', '$parentId','$categoryType','$keywords','$imgCat')");
 
         if($query){
             $filasAfectadas = mysqli_affected_rows($conectar);
