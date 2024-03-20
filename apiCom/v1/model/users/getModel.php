@@ -592,7 +592,7 @@ public static function getCategories($dta) {
                         
                     //$query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
                 
-                    $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords, gc_parent.catName AS parentCatName
+                    $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords,gc.imgCat, gc_parent.catName AS parentCatName
                     FROM generalCategories gc
                     LEFT JOIN generalCategories gc_parent ON gc.parentId = gc_parent.catId
                     WHERE gc.clientId = '$clientId'");
@@ -603,14 +603,14 @@ public static function getCategories($dta) {
                 if($filter=="browser"){
 
                         
-                    $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords, gc_parent.catName AS parentCatName
+                    $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords,gc.imgCat, gc_parent.catName AS parentCatName
                     FROM generalCategories gc
                     LEFT JOIN generalCategories gc_parent ON gc.parentId = gc_parent.catId
                     WHERE gc.$param LIKE '%$value%' and gc.clientId='$clientId'");
                 }
                 if($filter=="filter"){
                         
-                    $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords, gc_parent.catName AS parentCatName
+                    $query= mysqli_query($conectar,"SELECT gc.catId, gc.clientId, gc.catName, gc.comments, gc.isActive, gc.parentId, gc.catType, gc.keyWords,gc.imgCat, gc_parent.catName AS parentCatName
                     FROM generalCategories gc
                     LEFT JOIN generalCategories gc_parent ON gc.parentId = gc_parent.catId
                     WHERE gc.$param = '$value' and gc.clientId='$clientId'");
@@ -636,7 +636,8 @@ if ($numRows > 0) {
                     'clientId' => $row['clientId'],
                     'parentId' => $row['parentId'],
                     'keyWords' => $row['keyWords'],
-                    'parentName' => $row['parentCatName']
+                    'parentName' => $row['parentCatName'],
+                    'imgCat' => $row['imgCat']
                 ];
                 
                 array_push($values,$value);
