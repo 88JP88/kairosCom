@@ -196,11 +196,12 @@ class modelPost {
         $storeName = mysqli_real_escape_string($conectar, $dta['storeName']);
         $comments = mysqli_real_escape_string($conectar, $dta['comments']);
         $storeType = mysqli_real_escape_string($conectar, $dta['storeType']);
+        $imgStore = mysqli_real_escape_string($conectar, $dta['imgStore']);
         //$dato_encriptado = $keyword;
         
 
         $keywords=$storeName." ".$comments." ".$storeType;
-        $query = mysqli_query($conectar, "INSERT INTO generalStores (storeId, storeName, clientId, comments, storeType,keyWords) VALUES ('$storeId', '$storeName', '$clientId', '$comments', '$storeType','$keywords')");
+        $query = mysqli_query($conectar, "INSERT INTO generalStores (storeId, storeName, clientId, comments, storeType,keyWords,imgStore) VALUES ('$storeId', '$storeName', '$clientId', '$comments', '$storeType','$keywords','$imgStore')");
 
         if($query){
             $filasAfectadas = mysqli_affected_rows($conectar);

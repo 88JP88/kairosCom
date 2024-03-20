@@ -441,7 +441,7 @@ if($filter=="all"){
 
           
            
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId'");
+    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords,imgStore FROM generalStores where clientId='$clientId'");
 
 
 }
@@ -449,14 +449,14 @@ if($filter=="all"){
 if($filter=="browser"){
 
           
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and $param LIKE '%$value%'");
+    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords,imgStore FROM generalStores where clientId='$clientId' and $param LIKE '%$value%'");
 
 }
 
 if($filter=="filter"){
 
           
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and $param='$value'");
+    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords,imgStore FROM generalStores where clientId='$clientId' and $param='$value'");
 
 }
         if($query){
@@ -477,7 +477,8 @@ if ($numRows > 0) {
                     'isActive' => $row['isActive'],
                     'storeType' => $row['storeType'],
                     'clientId' => $row['clientId'],
-                    'keyWords' => $row['keyWords']
+                    'keyWords' => $row['keyWords'],
+                    'imgStore' => $row['imgStore']
                 ];
                 
                 array_push($values,$value);
